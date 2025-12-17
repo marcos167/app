@@ -16,9 +16,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Receitas Premium",
-  description: "Seu livro de receitas inteligente",
+  title: "Gastrofy",
+  description: "A arte de cozinhar.",
   manifest: "/manifest.json",
+  themeColor: "#0c0a09",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Gastrofy",
+  },
 };
 
 export const viewport: Viewport = {

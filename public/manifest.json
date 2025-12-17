@@ -1,7 +1,8 @@
+```json
 {
-    "name": "Receitas Premium",
-    "short_name": "Receitas",
-    "description": "Seu livro de receitas premium e inteligente.",
+    "name": "Gastrofy",
+    "short_name": "Gastrofy",
+    "description": "Sua cozinha, suas regras. Receitas premium. E inteligente.",
     "start_url": "/feed",
     "display": "standalone",
     "background_color": "#000000",

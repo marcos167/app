@@ -89,7 +89,7 @@ export default function LoginPage() {
                         <ChefHat size={40} className="text-white -rotate-6" />
                     </div>
                     <h1 className="text-5xl font-black text-white tracking-tighter drop-shadow-xl mb-1 flex items-center gap-2">
-                        Cook<span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-secondary)] to-yellow-400">App</span>
+                        Gastro<span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-secondary)] to-yellow-400">fy</span>
                     </h1>
                     <p className="text-stone-300 font-medium tracking-widest text-xs uppercase flex items-center gap-2">
                         <Sparkles size={12} className="text-yellow-400" />
