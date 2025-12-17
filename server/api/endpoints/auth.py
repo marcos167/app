@@ -35,74 +35,81 @@ async def verify_google_token(token_id: str):
 
 @router.post("/auth/google", response_model=Token)
 async def google_login(request: GoogleAuthRequest, session: Session = Depends(get_session)):
-    google_user_data = await verify_google_token(request.id_token)
-    
-    if not google_user_data:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token do Google inválido ou expirado",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    
-    email = google_user_data.get('email')
-    google_id = google_user_data.get('sub')
-    name = google_user_data.get('name')
-    picture = google_user_data.get('picture')
-    
-    if not email:
-        raise HTTPException(status_code=400, detail="Email não encontrado no token Google")
+    try:
+        google_user_data = await verify_google_token(request.id_token)
+        
+        if not google_user_data:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token do Google inválido ou expirado",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
+        email = google_user_data.get('email')
+        google_id = google_user_data.get('sub')
+        name = google_user_data.get('name')
+        picture = google_user_data.get('picture')
+        
+        if not email:
+            raise HTTPException(status_code=400, detail="Email não encontrado no token Google")
 
-    user = session.exec(select(User).where(User.email == email)).first()
-    
-    if not user:
-        user = User(
-            email=email,
-            full_name=name,
-            google_id=google_id,
-            avatar_url=picture,
-            provider=Provider.GOOGLE,
-            role=Role.USER,
-        )
-        session.add(user)
-        session.commit()
-        session.refresh(user)
-    else:
-        if user.provider == Provider.LOCAL and not user.google_id:
-            user.google_id = google_id
-            user.provider = Provider.GOOGLE
-            if not user.avatar_url:
-                user.avatar_url = picture
+        user = session.exec(select(User).where(User.email == email)).first()
+        
+        if not user:
+            user = User(
+                email=email,
+                full_name=name,
+                google_id=google_id,
+                avatar_url=picture,
+                provider=Provider.GOOGLE,
+                role=Role.USER,
+            )
             session.add(user)
             session.commit()
-            
-        if user.disabled:
-             raise HTTPException(status_code=403, detail="Conta desativada")
+            session.refresh(user)
+        else:
+            if user.provider == Provider.LOCAL and not user.google_id:
+                user.google_id = google_id
+                user.provider = Provider.GOOGLE
+                if not user.avatar_url:
+                    user.avatar_url = picture
+                session.add(user)
+                session.commit()
+                
+            if user.disabled:
+                 raise HTTPException(status_code=403, detail="Conta desativada")
 
-    # Generate Access Token
-    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email, "role": user.role},
-        expires_delta=access_token_expires
-    )
-    
-    # Generate Refresh Token (7 Days)
-    refresh_token_str = create_refresh_token()
-    refresh_token_expires = datetime.utcnow() + timedelta(days=7)
-    
-    db_refresh_token = RefreshToken(
-        user_id=user.id,
-        token=refresh_token_str,
-        expires_at=refresh_token_expires
-    )
-    session.add(db_refresh_token)
-    session.commit()
-    
-    return {
-        "access_token": access_token, 
-        "token_type": "bearer", 
-        "refresh_token": refresh_token_str,
-        "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
-    }
+        # Generate Access Token
+        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": user.email, "role": user.role},
+            expires_delta=access_token_expires
+        )
+        
+        # Generate Refresh Token (7 Days)
+        refresh_token_str = create_refresh_token()
+        refresh_token_expires = datetime.utcnow() + timedelta(days=7)
+        
+        db_refresh_token = RefreshToken(
+            user_id=user.id,
+            token=refresh_token_str,
+            expires_at=refresh_token_expires
+        )
+        session.add(db_refresh_token)
+        session.commit()
+        
+        return {
+            "access_token": access_token, 
+            "token_type": "bearer", 
+            "refresh_token": refresh_token_str,
+            "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
+        }
+    except Exception as e:
+        import traceback
+        error_msg = f"Server Error: {str(e)} | {traceback.format_exc()}"
+        print(error_msg)
+        # Return 400 instead of 500 so the frontend alert() can show the message
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/auth/refresh", response_model=Token)
 async def refresh_token(request: RefreshTokenRequest, session: Session = Depends(get_session)):

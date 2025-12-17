@@ -17,11 +17,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# @app.on_event("startup")
-# def on_startup():
-#     # Disabled for Serverless stability (prevent cold boot crashes)
-#     # create_db_and_tables()
-#     pass
+@app.on_event("startup")
+def on_startup():
+    try:
+        create_db_and_tables()
+        print("Startup: DB Tables created/verified.")
+    except Exception as e:
+        print(f"Startup Error (DB): {e}")
+        # We generally don't want to kill the app here, purely so /debug can still work.
+        pass
 
 @app.get("/")
 def read_root():
