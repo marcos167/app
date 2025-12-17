@@ -1,0 +1,7 @@
+name = "redirectmeto"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Opcional: Se você quiser servir o static site (index.html) junto pelo Worker (Assets/Sites), 
+# mas o README diz que é GitHub Pages + Worker. 
+# Se for só o worker rodando na frente:
