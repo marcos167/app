@@ -26,8 +26,9 @@ def read_root():
     return {"message": "API Modularizada e Segura rodando! 🚀"}
 
 # Routers
-app.include_router(auth.router, prefix="/api", tags=["Auth"])
-app.include_router(recipes.router, prefix="/api", tags=["Recipes"])
+app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+app.include_router(recipes.router, tags=["recipes"])
+app.include_router(payment.router, prefix="/api/payment", tags=["payment"])
 
 if __name__ == "__main__":
     import uvicorn

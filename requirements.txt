@@ -14,3 +14,4 @@ pydantic
 pydantic-core
 starlette
 typing_extensions
+stripe

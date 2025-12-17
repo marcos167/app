@@ -34,6 +34,12 @@ class User(SQLModel, table=True):
     
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+    # Stripe Fields
+    stripe_customer_id: Optional[str] = Field(default=None, index=True)
+    stripe_subscription_id: Optional[str] = None
+    plan_status: str = "active" # active, past_due, canceled, incomplete
+    plan_current_period_end: Optional[datetime] = None
+
 class Recipe(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str

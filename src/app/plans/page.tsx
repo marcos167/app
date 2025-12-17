@@ -3,6 +3,7 @@
 import Navbar from "@/components/layout/Navbar";
 import BottomNav from "@/components/layout/BottomNav";
 import { Check, Crown, Sparkles, Star } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function PlansPage() {
     return (
@@ -86,7 +87,19 @@ export default function PlansPage() {
                                 ))}
                             </ul>
 
-                            <button className="w-full py-4 rounded-xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-bold text-lg shadow-lg shadow-purple-900/40 hover:shadow-purple-900/60 hover:scale-[1.02] transition-all active:scale-95">
+                            <button
+                                onClick={async () => {
+                                    try {
+                                        const res = await api.post<{ checkout_url: string }>('/api/payment/create-checkout-session');
+                                        if (res.checkout_url) {
+                                            window.location.href = res.checkout_url;
+                                        }
+                                    } catch (err) {
+                                        alert("Erro ao iniciar pagamento. Verifique se você está logado.");
+                                        console.error(err);
+                                    }
+                                }}
+                                className="w-full py-4 rounded-xl bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-bold text-lg shadow-lg shadow-purple-900/40 hover:shadow-purple-900/60 hover:scale-[1.02] transition-all active:scale-95">
                                 Assinar Agora
                             </button>
 
