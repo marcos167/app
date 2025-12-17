@@ -39,6 +39,7 @@ export default function SocialButtons({ onStart, onError }: SocialButtonsProps) 
             } catch (e: any) {
                 console.error(e);
                 setIsConnecting(null);
+                alert("Erro no Login: " + (e.response?.data?.detail || e.message)); // Visual feedback
                 if (onError) onError(e.message || 'Falha na conexão com o servidor.');
             }
         },

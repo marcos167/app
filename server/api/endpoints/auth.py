@@ -14,17 +14,23 @@ router = APIRouter()
 
 async def verify_google_token(token_id: str):
     try:
-        id_info = id_token.verify_oauth2_token(
-            token_id, 
-            requests.Request(), 
-            settings.GOOGLE_CLIENT_ID,
-            clock_skew_in_seconds=10
-        )
-        if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-            raise ValueError('Token com emissor inválido')
-        return id_info
+    try:
+        # Try as ID Token first (fast, JWT check)
+        try:
+            id_info = id_token.verify_oauth2_token(token_id, requests.Request(), settings.GOOGLE_CLIENT_ID)
+            return id_info
+        except Exception:
+            # Fallback: Try as Access Token (fetch userinfo)
+            import requests as req
+            resp = req.get(
+                "https://www.googleapis.com/oauth2/v3/userinfo", 
+                headers={"Authorization": f"Bearer {token_id}"}
+            )
+            if resp.status_code != 200:
+                return None
+            return resp.json()
     except Exception as e:
-        print(f"Falha na validação de ID Token: {e}")
+        print(f"Falha na validação de Token: {e}")
         return None
 
 @router.post("/auth/google", response_model=Token)
