@@ -42,8 +42,14 @@ def get_recipes(
     return recipes
 
 @router.get("/recipes/{recipe_id}", response_model=Recipe)
-def get_recipe(recipe_id: int, session: Session = Depends(get_session)):
-    recipe = session.get(Recipe, recipe_id)
+def get_recipe(recipe_id: str, session: Session = Depends(get_session)):
+    # Verify if ID is integer (Real DB) or String (Mock)
+    if not recipe_id.isdigit():
+        # If it's a string ID (like from mock data), we return 404
+        # This allows frontend to use its fallback mock data
+        raise HTTPException(status_code=404, detail="Receita (Mock) não encontrada no banco real")
+    
+    recipe = session.get(Recipe, int(recipe_id))
     if not recipe:
         raise HTTPException(status_code=404, detail="Receita não encontrada")
     return recipe

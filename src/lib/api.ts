@@ -5,15 +5,8 @@ export class ApiError extends Error {
     }
 }
 
-// Use dynamic host for LAN access, fallback to localhost
-const getBaseUrl = () => {
-    if (typeof window !== 'undefined') {
-        return `http://${window.location.hostname}:8000`;
-    }
-    return 'http://localhost:8000';
-};
-
-const API_BASE_URL = getBaseUrl();
+// Use relative path - Next.js Rewrites handles the proxy
+const API_BASE_URL = '';
 
 interface RequestOptions extends RequestInit {
     _retry?: boolean;

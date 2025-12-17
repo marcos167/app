@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+sqlmodel
+python-jose[cryptography]
+passlib[bcrypt]
+google-auth
+google-auth-oauthlib
+requests
+psycopg2-binary
+bcrypt
+email-validator
+annotated-types
+pydantic
+pydantic-core
+starlette
+typing_extensions

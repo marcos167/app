@@ -215,10 +215,12 @@ export default function RecipeDetailPage() {
 
             {!isLocked && (
                 <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-10 fade-in duration-700">
-                    <button className="flex items-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white px-8 py-3 rounded-full font-bold shadow-xl shadow-purple-500/30 transition-all active:scale-95">
-                        <ChefHat size={20} />
-                        <span>Começar a Cozinhar</span>
-                    </button>
+                    <Link href={`/recipes/${id}/cook`}>
+                        <button className="flex items-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white px-8 py-3 rounded-full font-bold shadow-xl shadow-purple-500/30 transition-all active:scale-95">
+                            <ChefHat size={20} />
+                            <span>Começar a Cozinhar</span>
+                        </button>
+                    </Link>
                 </div>
             )}
 

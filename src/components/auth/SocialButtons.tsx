@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/auth';
+import { api } from '@/lib/api';
 import { useGoogleLogin } from '@react-oauth/google';
 
 interface SocialButtonsProps {
@@ -20,23 +21,10 @@ export default function SocialButtons({ onStart, onError }: SocialButtonsProps) 
             setStatus('Autenticando...');
 
             try {
-                // 1. Send Access Token to Backend for Verification & Account Creation
-                // Use dynamic hostname to work on LAN (172.x.x.x) or localhost
-                const apiHost = window.location.hostname;
-                const res = await fetch(`http://${apiHost}:8000/auth/google`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        id_token: tokenResponse.access_token
-                    })
+                // 1. Send Access Token to Backend (Proxy handles URL)
+                const data = await api.post<{ access_token: string }>('/api/auth/google', {
+                    id_token: tokenResponse.access_token
                 });
-
-                if (!res.ok) {
-                    const errData = await res.json();
-                    throw new Error(errData.detail || 'Falha no login com Google');
-                }
-
-                const data = await res.json(); // { access_token: "...", token_type: "bearer" }
 
                 // 2. Login in Frontend (Store Token)
                 auth.login({

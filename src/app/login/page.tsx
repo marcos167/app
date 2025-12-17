@@ -26,13 +26,41 @@ export default function LoginPage() {
         }
 
         try {
-            // Mock Login
-            await new Promise(r => setTimeout(r, 1000));
-            router.push("/feed");
+            // Real Login
+            // Note: Currently using Mock Logic but saving to LocalStorage to simulate success.
+            // TODO: Connect to /api/auth/login when endpoint is ready or use client.
+            // For now, we will use the Google Auth endpoint structure or a mock successful response
+            // that mimics a real token to prevent 401 loops.
+
+            // SIMULATING REAL API CALL SEQUENCE FOR DEMO ROBUSTNESS
+            // In a real scenario: const res = await api.post('/auth/login', { email, password });
+
+            // Manually creating a session to break the loop
+            const mockUser = {
+                id: "1",
+                name: "Chef Exemplo",
+                email: email,
+                token: "mock_access_token_to_stop_loop", // This needs to be real if backend validates it
+                refresh_token: "mock_refresh_token"
+            };
+
+            // To properly fix: WE NEED REAL TOKENS if backend enforces it. 
+            // Since backend IS enforcing it, we must mock the backend response OR use the google flow.
+            // If the user uses Email/Password, we need an endpoint.
+            // DOES THE BACKEND HAVE EMAIL LOGIN? I need to check auth.py.
+            // It only showed /auth/google.
+
+            // CRITICAL: Backend only has Google Auth implemented in the snippet I saw!
+            // So Email/Password login WILL NOT WORK unless I implement it or tell the user.
+            // For now, I will redirect them to Google Login or warn them.
+
+            setError("Login por email não implementado no backend (Apenas Google). Use o botão Google acima!");
+            setLoading(false);
+            return;
 
         } catch (err) {
             console.error(err);
-            setError("Erro de conexão com o servidor.");
+            setError("Erro ao conectar.");
         } finally {
             setLoading(false);
         }

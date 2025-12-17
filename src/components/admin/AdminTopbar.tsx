@@ -2,21 +2,24 @@
 
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
+import { api } from '@/lib/api';
 import { useState, useEffect, useRef } from 'react';
 
 export default function AdminTopbar() {
     const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
-        // Fetch fresh user data from server (HttpOnly Cookie based)
-        fetch('/api/auth/me')
-            .then(res => res.json())
-            .then(data => {
+        const fetchUser = async () => {
+            try {
+                const data = await api.get<any>('/api/users/me'); // Correct endpoint
                 if (data && !data.error) {
                     setUser(data);
                 }
-            })
-            .catch(console.error);
+            } catch (error) {
+                console.error("Failed to fetch admin profile", error);
+            }
+        };
+        fetchUser();
     }, []);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
