@@ -6,7 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 import { recipes } from "@/lib/data";
 import Link from 'next/link';
-import { Edit3, Settings, Grid, Heart, Clock, Award, Crown, Sparkles, Lock, Users, Trophy, Medal } from 'lucide-react';
+import { Edit3, Settings, Grid, Heart, Clock, Award, Crown, Sparkles, Lock, Users, Trophy, Medal, Play } from 'lucide-react';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { PlanStatusCard } from '@/components/subscription/PlanStatusCard';
 import { LevelProgressCard, BadgesGrid, GamificationStats } from '@/components/gamification/GamificationComponents';
@@ -93,7 +93,7 @@ function MyRecipesSection() {
 }
 
 export default function ProfilePage() {
-    const [activeTab, setActiveTab] = useState<'saved' | 'history' | 'my_recipes'>('saved');
+    const [activeTab, setActiveTab] = useState<'saved' | 'history' | 'my_recipes' | 'posts' | 'reels'>('saved');
     const [userProfile, setUserProfile] = useState(INITIAL_PROFILE);
     const [stats, setStats] = useState(INITIAL_PROFILE.stats);
     const [scrolled, setScrolled] = useState(false);
@@ -199,8 +199,11 @@ export default function ProfilePage() {
                     <div
                         className={`absolute top-1 bottom-1 w-1/3 bg-white dark:bg-stone-700 rounded-xl shadow-sm transition-all duration-300 ease-spring`}
                         style={{
-                            left: activeTab === 'saved' ? '4px' : activeTab === 'my_recipes' ? 'calc(33.33% + 2px)' : 'calc(66.66%)',
-                            width: 'calc(33.33% - 4px)'
+                            left: activeTab === 'saved' ? '4px' :
+                                activeTab === 'my_recipes' ? 'calc(20% + 2px)' :
+                                    activeTab === 'history' ? 'calc(40% + 2px)' :
+                                        activeTab === 'posts' ? 'calc(60% + 2px)' : 'calc(80% + 2px)',
+                            width: 'calc(20% - 4px)'
                         }}
                     ></div>
 
@@ -208,6 +211,8 @@ export default function ProfilePage() {
                         { id: 'saved', icon: Heart, label: 'Salvas' },
                         { id: 'my_recipes', icon: Grid, label: 'Minhas' },
                         { id: 'history', icon: Clock, label: 'Histórico' },
+                        { id: 'posts', icon: Sparkles, label: 'Posts' },
+                        { id: 'reels', icon: Play, label: 'Reels' },
                     ].map((tab) => {
                         const Icon = tab.icon;
                         const isActive = activeTab === tab.id;
@@ -277,6 +282,42 @@ export default function ProfilePage() {
                                                 Ver receita <span>→</span>
                                             </Link>
                                         </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* POSTS GRID */}
+                    {activeTab === 'posts' && (
+                        <div className="grid grid-cols-3 gap-1">
+                            {[1, 2, 3, 4, 5, 6].map((i) => (
+                                <div key={i} className="relative aspect-square bg-stone-800 overflow-hidden group cursor-pointer">
+                                    <img
+                                        src={`https://source.unsplash.com/random/400x400?food&sig=${i}`}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <Heart className="text-white fill-white" size={20} />
+                                        <span className="text-white font-bold text-sm ml-1">{100 + i * 20}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* REELS GRID */}
+                    {activeTab === 'reels' && (
+                        <div className="grid grid-cols-3 gap-1">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                                <div key={i} className="relative aspect-[9/16] bg-stone-800 overflow-hidden group cursor-pointer rounded-lg">
+                                    <img
+                                        src={`https://source.unsplash.com/random/400x700?cooking&sig=${i}`}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute bottom-2 left-2 flex items-center gap-1">
+                                        <Play className="text-white fill-white" size={12} />
+                                        <span className="text-white font-bold text-xs">10k</span>
                                     </div>
                                 </div>
                             ))}

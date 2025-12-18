@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, Heart, User, Users } from 'lucide-react';
+import { Home, Search, Calendar, User, Users } from 'lucide-react';
 import { colors } from '@/theme/chefex-theme';
 
 const navItems = [
     { href: '/feed', icon: Home, label: 'Home' },
     { href: '/explore', icon: Search, label: 'Explorar' },
     { href: '/community', icon: Users, label: 'Comunidade', isMain: true },
-    { href: '/saved', icon: Heart, label: 'Salvos' },
+    { href: '/meal-planning', icon: Calendar, label: 'Calendário' },
     { href: '/profile', icon: User, label: 'Perfil' },
 ];
 
@@ -21,7 +21,7 @@ export function BottomNavigation() {
 
     return (
         <nav
-            className="fixed bottom-0 left-0 right-0 z-50 md:hidden"
+            className="fixed bottom-0 left-0 right-0 z-50"
             style={{
                 backgroundColor: 'rgba(14, 15, 16, 0.8)',
                 borderTop: '1px solid rgba(255,255,255,0.06)',

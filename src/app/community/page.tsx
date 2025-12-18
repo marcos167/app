@@ -3,10 +3,13 @@
 import Navbar from "@/components/layout/Navbar";
 import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 import { EmptyState } from "@/components/ui";
-import { Heart, MessageCircle, Bookmark, TrendingUp, Flame, Crown, Star, Trophy, Clock, Award, ChevronUp, ChevronDown, Minus } from "lucide-react";
+import { Heart, MessageCircle, Bookmark, TrendingUp, Flame, Crown, Star, Trophy, Clock, Award, ChevronUp, ChevronDown, Minus, Grid } from "lucide-react";
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { generateMockRankingData, getTopRecipes, getTrendingRecipes, RankingPeriod, RecipeRankingData } from "@/lib/ranking";
+import { CreationFAB } from "@/components/community/CreationFAB";
+import { FeedItem } from "@/components/community/FeedItem";
+import { MOCK_POSTS, MOCK_REELS, FeedContent } from "@/lib/community-data";
 
 // Trend Indicator Component
 function TrendIndicator({ trend, previousRank }: { trend?: RecipeRankingData['trend']; previousRank?: number }) {
@@ -76,6 +79,27 @@ export default function CommunityPage() {
     const rankedRecipes = useMemo(() => getTopRecipes(allRecipes, 10, activePeriod), [allRecipes, activePeriod]);
     const trendingRecipes = useMemo(() => getTrendingRecipes(allRecipes, 3), [allRecipes]);
 
+    // ✨ UNIFIED FEED LOGIC
+    // Combine recipes, posts, and reels into a single feed
+    const unifiedFeed = useMemo(() => {
+        const recipes: FeedContent[] = rankedRecipes.slice(0, 10).map(r => ({
+            ...r,
+            type: 'recipe' as const,
+            createdAt: new Date(r.publishedAt).toISOString(),
+            liked: likedRecipes.has(r.id),
+            saved: savedRecipes.has(r.id)
+        }));
+
+        const feed: FeedContent[] = [
+            ...recipes,
+            ...MOCK_POSTS,
+            ...MOCK_REELS
+        ];
+
+        // Simple shuffle for "discovery" feel (seeded by ID for stability in this mock)
+        return feed.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    }, [rankedRecipes, likedRecipes, savedRecipes]);
+
     const toggleLike = (id: string) => {
         setLikedRecipes(prev => {
             const next = new Set(prev);
@@ -110,11 +134,11 @@ export default function CommunityPage() {
                         Comunidade
                     </h1>
                     <p className="text-stone-400 text-sm">
-                        Ranking de receitas mais bem avaliadas
+                        O melhor da gastronomia em um só lugar
                     </p>
                 </header>
 
-                {/* 🔥 Trending Section */}
+                {/* 🔥 Trending Section (Keep horizontal scroll) */}
                 <section className="mb-8">
                     <div className="flex items-center gap-2 mb-4">
                         <Flame size={18} className="text-orange-400" />
@@ -147,8 +171,8 @@ export default function CommunityPage() {
                     </div>
                 </section>
 
-                {/* 🏆 Ranking Section */}
-                <section className="mb-6">
+                {/* 🏆 Ranking Section (Keep simplified) */}
+                <section className="mb-8">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
                             <Trophy size={18} className="text-yellow-400" />
@@ -166,8 +190,8 @@ export default function CommunityPage() {
                                     key={period.id}
                                     onClick={() => setActivePeriod(period.id)}
                                     className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${isActive
-                                            ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-900 shadow-lg shadow-yellow-500/20'
-                                            : 'bg-[#1B1E22] text-stone-400 border border-stone-800 hover:border-stone-700'
+                                        ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-900 shadow-lg shadow-yellow-500/20'
+                                        : 'bg-[#1B1E22] text-stone-400 border border-stone-800 hover:border-stone-700'
                                         }`}
                                 >
                                     <Icon size={14} />
@@ -178,108 +202,30 @@ export default function CommunityPage() {
                     </div>
                 </section>
 
-                {/* Recipe List */}
-                <div className="space-y-4">
-                    {rankedRecipes.map((recipe) => {
-                        const isLiked = likedRecipes.has(recipe.id);
-                        const isSaved = savedRecipes.has(recipe.id);
+                {/* 🌍 Unified Feed Section */}
+                <section>
+                    <div className="flex items-center gap-2 mb-6">
+                        <Grid size={18} className="text-[var(--color-primary)]" />
+                        <h2 className="text-2xl font-black text-white">Para Você</h2>
+                    </div>
 
-                        return (
-                            <div
-                                key={recipe.id}
-                                className="bg-[#1B1E22] rounded-2xl overflow-hidden border border-stone-800/50 hover:border-stone-700 transition-colors"
-                            >
-                                <div className="flex gap-4 p-4">
-                                    {/* Rank & Image */}
-                                    <div className="flex items-start gap-3">
-                                        <div className="flex flex-col items-center gap-1">
-                                            <RankBadge rank={recipe.rank || 0} />
-                                            <TrendIndicator trend={recipe.trend} previousRank={recipe.previousRank} />
-                                        </div>
+                    <div className="space-y-6">
+                        {unifiedFeed.map((item) => (
+                            <FeedItem key={`${item.type}-${item.id}`} item={item} />
+                        ))}
+                    </div>
 
-                                        <Link href={`/recipes/${recipe.id}`}>
-                                            <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
-                                                <img
-                                                    src={recipe.image}
-                                                    alt={recipe.title}
-                                                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                                                />
-                                            </div>
-                                        </Link>
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="flex-1 min-w-0">
-                                        {/* Author */}
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <img
-                                                src={recipe.author.avatar}
-                                                alt={recipe.author.name}
-                                                className="w-5 h-5 rounded-full"
-                                            />
-                                            <span className="text-stone-400 text-xs truncate">{recipe.author.name}</span>
-                                            {recipe.author.isMasterChef && (
-                                                <Crown size={10} className="text-yellow-400" />
-                                            )}
-                                        </div>
-
-                                        {/* Title */}
-                                        <Link href={`/recipes/${recipe.id}`}>
-                                            <h3 className="font-bold text-white text-sm line-clamp-2 hover:text-[var(--color-primary)] transition-colors">
-                                                {recipe.title}
-                                            </h3>
-                                        </Link>
-
-                                        {/* Stats */}
-                                        <div className="flex items-center gap-3 mt-2">
-                                            <StarRating rating={recipe.avgRating} count={recipe.ratingCount} />
-                                            <span className="text-stone-500 text-[10px]">
-                                                Score: {recipe.score?.toFixed(1)}
-                                            </span>
-                                        </div>
-
-                                        {/* Actions */}
-                                        <div className="flex items-center gap-4 mt-3">
-                                            <button
-                                                onClick={() => toggleLike(recipe.id)}
-                                                className={`flex items-center gap-1 text-xs transition-colors ${isLiked ? 'text-red-500' : 'text-stone-500 hover:text-red-500'
-                                                    }`}
-                                            >
-                                                <Heart size={14} fill={isLiked ? 'currentColor' : 'none'} />
-                                                {recipe.likesCount + (isLiked ? 1 : 0)}
-                                            </button>
-
-                                            <span className="flex items-center gap-1 text-xs text-stone-500">
-                                                <MessageCircle size={14} />
-                                                {recipe.commentsCount}
-                                            </span>
-
-                                            <button
-                                                onClick={() => toggleSave(recipe.id)}
-                                                className={`flex items-center gap-1 text-xs transition-colors ${isSaved ? 'text-[var(--color-primary)]' : 'text-stone-500 hover:text-[var(--color-primary)]'
-                                                    }`}
-                                            >
-                                                <Bookmark size={14} fill={isSaved ? 'currentColor' : 'none'} />
-                                                {recipe.savesCount + (isSaved ? 1 : 0)}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {/* Empty State */}
-                {rankedRecipes.length === 0 && (
-                    <EmptyState
-                        title="Nenhuma receita no ranking"
-                        description="Publique receitas para aparecer aqui!"
-                    />
-                )}
+                    {unifiedFeed.length === 0 && (
+                        <EmptyState
+                            title="Nenhum conteúdo"
+                            description="Seja o primeiro a publicar!"
+                        />
+                    )}
+                </section>
 
             </main>
 
+            <CreationFAB />
             <BottomNavigation />
         </div>
     );

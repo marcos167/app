@@ -81,23 +81,31 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden font-sans">
 
-            {/* Immersive Background */}
-            <div className="absolute inset-0 z-0">
-                <img
-                    src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?q=80&w=2070&auto=format&fit=crop"
-                    className="w-full h-full object-cover"
-                    alt="Background"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30 backdrop-blur-sm"></div>
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-            </div>
+
 
             {/* Login Card */}
             <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-700">
 
                 {/* Brand Logo */}
-                <div className="flex flex-col items-center mb-8 animate-in slide-in-from-top-8 duration-1000">
-                    <ChefexLogo size="xl" theme="dark" showTagline showCompany />
+                <div className="flex flex-col items-center mb-12 animate-in slide-in-from-top-8 duration-1000">
+                    {/* Logo Unificado */}
+                    <div className="flex flex-col items-center justify-center transform hover:scale-105 transition-transform duration-500">
+                        {/* Ícone (Maior e Centralizado) */}
+                        <div className="relative w-44 h-44 -mb-12 drop-shadow-[0_0_40px_rgba(74,157,91,0.6)] z-10">
+                            <img
+                                src="/brand/logo-icon-final.png"
+                                alt="Chefex Logo"
+                                className="w-full h-full object-contain filter brightness-110"
+                            />
+                        </div>
+
+                        {/* Texto (Ajustado e Próximo) */}
+                        <img
+                            src="/brand/logo-text-final.png"
+                            alt="Chefex"
+                            className="h-16 w-auto object-contain drop-shadow-2xl opacity-100 relative z-20"
+                        />
+                    </div>
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-8 shadow-2xl shadow-black/50 overflow-hidden relative group">
@@ -179,6 +187,18 @@ export default function LoginPage() {
                         <Link href="/feed" className="text-xs font-bold text-stone-500 hover:text-stone-300 uppercase tracking-widest border-b border-transparent hover:border-stone-300 transition-all">
                             Entrar como Visitante
                         </Link>
+                    </div>
+                </div>
+
+                {/* Footer Institucional Axis Software */}
+                <div className="mt-12 flex flex-col items-center opacity-100 select-none pointer-events-none">
+                    <p className="text-[10px] text-stone-500 font-medium tracking-widest uppercase mb-2">Powered by</p>
+                    <div className="h-14 flex items-center justify-center">
+                        <img
+                            src="/brand/axis-logo.png"
+                            alt="Axis Software"
+                            className="h-full w-auto object-contain drop-shadow-sm"
+                        />
                     </div>
                 </div>
 

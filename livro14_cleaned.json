@@ -1,0 +1,1077 @@
+[
+  {
+    "id": "9",
+    "title": "Mousse de Maracujá",
+    "description": "Receita tradicional da vovó Adenice de Fátima Melim Silva. Sabor caseiro de verdade!",
+    "time": "3h+",
+    "servings": "6 porções",
+    "calories": "250 kcal",
+    "difficulty": "Fácil",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.9,
+    "reviews": 113,
+    "is_premium": false,
+    "ingredients": [
+      "2 caixinhas de gelatina sabor maracujá",
+      "2 xícaras (chá) de água",
+      "1 lata de leite condensado",
+      "2 claras batidas em neve"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Dissolva a gelatina na água fervente, despeje o leite condensado no liquidificador e em seguida acrescente a gelatina, batendo sempre."
+      },
+      {
+        "step": 2,
+        "text": "Depois coloque em uma tigela, acrescente as claras em neve e misture até ficar com a consistência bem leve."
+      },
+      {
+        "step": 3,
+        "text": "Deixe gelar por aproximadamente três horas."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Adenice de Fátima Melim Silva",
+    "reactions": {
+      "love": 145,
+      "like": 48,
+      "dislike": 0
+    }
+  },
+  {
+    "id": "10",
+    "title": "Arroz Doce com Canela",
+    "description": "Receita tradicional da vovó brasileira. Sabor caseiro de verdade!",
+    "time": "30 min",
+    "servings": "6 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.5,
+    "reviews": 120,
+    "is_premium": false,
+    "ingredients": [
+      "3 xícaras (chá) de arroz branco",
+      "2 latas de leite condensado",
+      "1 litro de leite",
+      "50g de coco ralado",
+      "Canela em pó"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Em uma panela grande coloque água e deixe ferver, enquanto isso lave o arroz."
+      },
+      {
+        "step": 2,
+        "text": "Após a água ferver, coloque o arroz para cozinhar."
+      },
+      {
+        "step": 3,
+        "text": "Em outro recipiente, ferva o leite."
+      },
+      {
+        "step": 4,
+        "text": "Após o arroz estar cozido, coloque o leite, o leite condensado e o coco ralado."
+      },
+      {
+        "step": 5,
+        "text": "Depois de pronto, coloque o arroz em um recipiente e polvilhe canela em pó."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": null,
+    "reactions": {
+      "love": 150,
+      "like": 50,
+      "dislike": 1
+    }
+  },
+  {
+    "id": "11",
+    "title": "Rocambole",
+    "description": "Receita tradicional da vovó Lídia Schlickmann. Sabor caseiro de verdade!",
+    "time": "45 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Fácil",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.6,
+    "reviews": 127,
+    "is_premium": false,
+    "ingredients": [
+      "7 ovos",
+      "7 colheres (sopa) de açúcar",
+      "7 colheres (sopa) de farinha de trigo",
+      "5 colheres (sopa) de água",
+      "1 colher (sopa) de fermento em pó"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Bata as claras em neve, acrescente as gemas, uma a uma."
+      },
+      {
+        "step": 2,
+        "text": "Coloque o açúcar aos poucos."
+      },
+      {
+        "step": 3,
+        "text": "Por último, a farinha, a água e o fermento em pó."
+      },
+      {
+        "step": 4,
+        "text": "Untar a assadeira e leve para assar."
+      },
+      {
+        "step": 5,
+        "text": "Espere esfriar, coloque o recheio e enrole com o auxílio de um pano umidecido."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Lídia Schlickmann",
+    "reactions": {
+      "love": 155,
+      "like": 52,
+      "dislike": 2
+    }
+  },
+  {
+    "id": "12",
+    "title": "Cocada de Cenoura",
+    "description": "Receita tradicional da vovó brasileira. Sabor caseiro de verdade!",
+    "time": "3h+",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.7,
+    "reviews": 134,
+    "is_premium": false,
+    "ingredients": [
+      "1 coco médio",
+      "1 kg de cenoura",
+      "1 kg de açúcar mascavo",
+      "1 abacaxi ou outra fruta desejada"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Bata o abacaxi no liquidificador e rale no ralo grosso a cenoura e o coco."
+      },
+      {
+        "step": 2,
+        "text": "Misture tudo, junte as frutas e o açúcar mascavo, leve ao fogo até dar o ponto desejado."
+      },
+      {
+        "step": 3,
+        "text": "Espalhe numa forma enfarinhada os rolinhos de cocada."
+      },
+      {
+        "step": 4,
+        "text": "Leve a geladeira até endurecer."
+      },
+      {
+        "step": 5,
+        "text": "Quando endurecer, desenformá-los e colocá-los em outro recipiente."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": null,
+    "reactions": {
+      "love": 160,
+      "like": 54,
+      "dislike": 0
+    }
+  },
+  {
+    "id": "13",
+    "title": "Arroz Campeiro",
+    "description": "Receita tradicional da vovó Olga Bressan. Sabor caseiro de verdade!",
+    "time": "30 min",
+    "servings": "6 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
+    "rating": 4.8,
+    "reviews": 141,
+    "is_premium": false,
+    "ingredients": [
+      "3 xícaras (chá) de arroz",
+      "200g de presunto picado",
+      "½ tomate picado",
+      "½ cebola picada",
+      "1 lata de ervilha",
+      "2 cubos de caldo de carne",
+      "1 colher (sopa) de manteiga",
+      "½ xícara (chá) de tempero verde (salsinha e cebolinha)"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Coloque a manteiga em uma panela e aqueça até derreter, adicione todos os ingredientes picados e a ervilha."
+      },
+      {
+        "step": 2,
+        "text": "Leve ao fogo para refogar, após refogar os ingredientes adicione o arroz, o caldo de carne e água para cozinhar, se preferir adicione sal a gosto."
+      }
+    ],
+    "tags": [
+      "Salgado",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Olga Bressan",
+    "reactions": {
+      "love": 165,
+      "like": 56,
+      "dislike": 1
+    }
+  },
+  {
+    "id": "14",
+    "title": "Bolinho da Vovó",
+    "description": "Receita tradicional da vovó Rosa Santos da Silva. Sabor caseiro de verdade!",
+    "time": "25 min",
+    "servings": "20 unidades",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop",
+    "rating": 4.9,
+    "reviews": 148,
+    "is_premium": false,
+    "ingredients": [
+      "3 ovos",
+      "2 xícaras (chá) de açúcar",
+      "2 colheres (sopa) de margarina",
+      "½ kg de farinha de trigo",
+      "2 colheres (café) de sal amoníaco",
+      "3 xícaras (chá) de leite"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Misture todos os ingredientes e frite em óleo bem quente."
+      }
+    ],
+    "tags": [
+      "Pães e Biscoitos",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Rosa Santos da Silva",
+    "reactions": {
+      "love": 170,
+      "like": 58,
+      "dislike": 2
+    }
+  },
+  {
+    "id": "15",
+    "title": "Curau de Milho",
+    "description": "Receita tradicional da vovó brasileira. Sabor caseiro de verdade!",
+    "time": "25 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Fácil",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.5,
+    "reviews": 155,
+    "is_premium": false,
+    "ingredients": [
+      "4 espigas de milho verde",
+      "1 litro de leite",
+      "2 colheres (sopa) de margarina",
+      "1 xícara (chá) de açúcar"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Rale as espigas de milho ou corte com uma faca."
+      },
+      {
+        "step": 2,
+        "text": "Depois de cortado, bata no liquidificador o milho com o leite."
+      },
+      {
+        "step": 3,
+        "text": "Coloque em um panela a mistura batida."
+      },
+      {
+        "step": 4,
+        "text": "Acrescente a margarina, o açúcar e cozinhe até que engrosse."
+      },
+      {
+        "step": 5,
+        "text": "Sirva quente ou gelado."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": null,
+    "reactions": {
+      "love": 175,
+      "like": 60,
+      "dislike": 0
+    }
+  },
+  {
+    "id": "16",
+    "title": "Peixe Acebolado com Batata Doce",
+    "description": "Receita tradicional da vovó Aluna: Marines de Fatima Pessotto. Sabor caseiro de verdade!",
+    "time": "20 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.6,
+    "reviews": 162,
+    "is_premium": false,
+    "ingredients": [
+      "3 batatas doce grandes",
+      "4 cebolas grandes",
+      "4 tomates",
+      "500g de filé de peixe",
+      "1 fio de óleo de oliva",
+      "sal a gosto, temperos em geral"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Pegue as cebolas depois de descascadas e os tomates e corte em rodelas."
+      },
+      {
+        "step": 2,
+        "text": "Em outro recipiente, pegue o filé de peixe e tempere a gosto, em seguida pegue uma panela, de preferência de ferro e coloque um fio de óleo de oliva."
+      },
+      {
+        "step": 3,
+        "text": "Forre o fundo da panela com as cebolas cortadas em rodelas, em seguida coloque os tomates, depois as batatas doce e em cima das batatas coloque o peixe."
+      },
+      {
+        "step": 4,
+        "text": "Deixe cozinhar por a minutos, sirva com arroz branco e salada verde."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Aluna: Marines de Fatima Pessotto",
+    "reactions": {
+      "love": 180,
+      "like": 62,
+      "dislike": 1
+    }
+  },
+  {
+    "id": "17",
+    "title": "Brodo",
+    "description": "Receita tradicional da vovó Amalia Maria Madalena. Sabor caseiro de verdade!",
+    "time": "30 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop",
+    "rating": 4.7,
+    "reviews": 169,
+    "is_premium": false,
+    "ingredients": [
+      "1 galinha caipira",
+      "6 dentes de alho",
+      "1 maço de cheiro verde",
+      "2 galhos de manjerona",
+      "2 cebolas médias",
+      "2 colheres (sopa) de óleo",
+      "sal e pimenta a gosto"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Em uma panela grande coloque o óleo e todos os ingredientes do tempero para refogar."
+      },
+      {
+        "step": 2,
+        "text": "Em seguida corte a galinha em pedaços grandes e coloque na panela, cubra tudo com água e acrescente o sal e a pimenta à gosto."
+      },
+      {
+        "step": 3,
+        "text": "Deixe cozinhar por aproximadamente horas, sirva o caldo (brodo) em xícaras, e para acompanhar os pedaços de carne um delicioso pão caseiro cortado em fatias."
+      }
+    ],
+    "tags": [
+      "Sopas",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Amalia Maria Madalena",
+    "reactions": {
+      "love": 185,
+      "like": 64,
+      "dislike": 2
+    }
+  },
+  {
+    "id": "18",
+    "title": "Bolinho de Chuva",
+    "description": "Receita tradicional da vovó Olga Lazarette Dartora. Sabor caseiro de verdade!",
+    "time": "25 min",
+    "servings": "20 unidades",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop",
+    "rating": 4.8,
+    "reviews": 176,
+    "is_premium": false,
+    "ingredients": [
+      "1 ovo",
+      "1 colher (sopa) de maizena",
+      "1 colher (chá) de sal",
+      "1 colher (chá) de  fermento em pó",
+      "2 xícaras (chá) de leite ou água",
+      "farinha de trigo até dar o ponto"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Bata o ovo, a maizena, o sal e o fermeto na mão, depois adicione o leite ou a água."
+      },
+      {
+        "step": 2,
+        "text": "Por último, coloque a farinha até dar ponto, não pode ficar duro, frite a massa até ficar dourado."
+      }
+    ],
+    "tags": [
+      "Pães e Biscoitos",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Olga Lazarette Dartora",
+    "reactions": {
+      "love": 190,
+      "like": 66,
+      "dislike": 0
+    }
+  },
+  {
+    "id": "19",
+    "title": "Bolinho de Arroz",
+    "description": "Receita tradicional da vovó Aracy Piola. Sabor caseiro de verdade!",
+    "time": "25 min",
+    "servings": "20 unidades",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
+    "rating": 4.9,
+    "reviews": 183,
+    "is_premium": false,
+    "ingredients": [
+      "2 pratos de arroz cozido (pode ser sobras)",
+      "2 ovos",
+      "½ xícara (chá) de salsinha e cebolinha picados (opcional)",
+      "2 colheres (sopa) aproximadamente de farinha de trigo",
+      "1 colher (café) de fermento de trigo",
+      "sal a gosto",
+      "óleo para fritar"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Coloque todos os ingredientes em uma panela (menos a farinha de trigo) e misture- os bem."
+      },
+      {
+        "step": 2,
+        "text": "Depois vá colocando aos poucos a farinha até que dê uma boa liga, modele como quiser (pode ser de forma redonda ou rolinhos)."
+      },
+      {
+        "step": 3,
+        "text": "Se preferir pode rechear com presunto ou queijo, aqueça o óleo e frite- os."
+      }
+    ],
+    "tags": [
+      "Salgado",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Aracy Piola",
+    "reactions": {
+      "love": 195,
+      "like": 68,
+      "dislike": 1
+    }
+  },
+  {
+    "id": "20",
+    "title": "Bolo sem Farinha",
+    "description": "Receita tradicional da vovó Santa Libra Stelter. Sabor caseiro de verdade!",
+    "time": "25 min",
+    "servings": "8 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.5,
+    "reviews": 190,
+    "is_premium": false,
+    "ingredients": [
+      "7 ovos",
+      "7 colheres (sopa) de chocolate em pó",
+      "7 colheres (sopa) de açúcar",
+      "4 colheres (sopa) de óleo",
+      "2 colheres (sopa) de margarina",
+      "50 g (pacote pequeno) de coco ralado",
+      "1 colher (sopa) cheia de fermento em pó"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Bata tudo no liquidificador, depois de bem batido, acrescentar o fermento só para misturar um pouco Untar uma assadeira média com manteiga e farinha Levar ao forno médio para assar por aproximadamente minutos"
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Santa Libra Stelter",
+    "reactions": {
+      "love": 200,
+      "like": 70,
+      "dislike": 2
+    }
+  },
+  {
+    "id": "21",
+    "title": "Polenta Recheada",
+    "description": "Receita tradicional da vovó Benedita Marcelino. Sabor caseiro de verdade!",
+    "time": "15 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
+    "rating": 4.6,
+    "reviews": 197,
+    "is_premium": false,
+    "ingredients": [
+      "2 copos de fubá fino",
+      "5 copos de água",
+      "2 caldos de galinha caipira",
+      "2 dentes de alho amassado",
+      "200g de mussarela",
+      "Sal a gosto"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Desmanche o fubá na água fria e acrescente sal, alho e caldo de galinha."
+      },
+      {
+        "step": 2,
+        "text": "Deixe cozinhar bem até desgrudar do fundo da panela e reserve."
+      },
+      {
+        "step": 3,
+        "text": "MOLHO Frite a carne moída com o alho, a cebola e acrescente o tomate picado."
+      },
+      {
+        "step": 4,
+        "text": "Faça um molho bem grosso e consistente, em uma forma refratária faça camadas de molho, polenta, molho e por cima mussarela, leve ao forno para gratinar por minutos, e sirva com arroz branco e salada verde."
+      }
+    ],
+    "tags": [
+      "Salgado",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Benedita Marcelino",
+    "reactions": {
+      "love": 205,
+      "like": 72,
+      "dislike": 0
+    }
+  },
+  {
+    "id": "22",
+    "title": "Cuca Rápida de Royal",
+    "description": "Receita tradicional da vovó Joana Ferreira Colla. Sabor caseiro de verdade!",
+    "time": "45 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.7,
+    "reviews": 204,
+    "is_premium": false,
+    "ingredients": [
+      "2 ovos (claras em neve)",
+      "1 xícara (chá) de nata fresca",
+      "1 xícara (chá) de leite",
+      "1 ½ xícara (chá) de açúcar",
+      "Raspas de 1 limão",
+      "Farinha de trigo até o ponto de massa de bolo",
+      "1 colher (sopa) de Royal",
+      "Canela em pó"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Em um refratário coloque as duas gemas e o açúcar, bata até ficar homogêneo."
+      },
+      {
+        "step": 2,
+        "text": "Junte a nata, o leite, as raspas do limão e vá jogando aos poucos a farinha, até dar o ponto de bolo."
+      },
+      {
+        "step": 3,
+        "text": "Junte as claras em neve com cuidado e adicione o Royal."
+      },
+      {
+        "step": 4,
+        "text": "Coloque a massa em uma forma retangular."
+      },
+      {
+        "step": 5,
+        "text": "Dica: Antes de levar a cuca ao forno, espalhe a canela em pó por cima da massa."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Joana Ferreira Colla",
+    "reactions": {
+      "love": 210,
+      "like": 74,
+      "dislike": 1
+    }
+  },
+  {
+    "id": "23",
+    "title": "Espera Marido",
+    "description": "Receita tradicional da vovó Odila Draeger. Sabor caseiro de verdade!",
+    "time": "30 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.8,
+    "reviews": 211,
+    "is_premium": false,
+    "ingredients": [
+      "1 lata de leite condensado.",
+      "2 latas de leite",
+      "3 gemas",
+      "1 colher (sopa) de maizena",
+      "1 pitada de baunilha",
+      "1 creme de leite",
+      "2 colheres (sopa) de açúcar."
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Cozinhar em banho maria, fazer gemada, colocar maisena."
+      },
+      {
+        "step": 2,
+        "text": "Forrar a tigela de bolacha passada ao leite, colocar o creme resfriado sobre as bolachas."
+      },
+      {
+        "step": 3,
+        "text": "Bater as claras em neve com as colheres de açúcar, misturar o creme de leite, e colocá-lo por cima quando estiver gelado."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Odila Draeger",
+    "reactions": {
+      "love": 215,
+      "like": 76,
+      "dislike": 2
+    }
+  },
+  {
+    "id": "24",
+    "title": "Vatapá",
+    "description": "Receita tradicional da vovó Eduarda dos Santos Rocha. Sabor caseiro de verdade!",
+    "time": "25 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Difícil",
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
+    "rating": 4.9,
+    "reviews": 218,
+    "is_premium": false,
+    "ingredients": [
+      "1 a 2kg de camarão salgado e descascado",
+      "1 vidro de leite de coco de 200ml",
+      "1 xícara (chá) de azeite de Dendê",
+      "1 xícara (chá) de farinha de trigo, se precisar acrescentar mais",
+      "2 a 4 litros de água",
+      "1 cebola picada, cebolinha, coentro",
+      "1 dente de alho, sal a gosto",
+      "½ pimenta de cheiro",
+      "½ pimentão",
+      "Em uma panela refogue o camarão descascado com duas colheres de azeite de",
+      "dendê, cebola, coentro, alho, sal, pimenta de cheiro, pimentão. Enquanto isso as",
+      "cabeças já ferveram, escorra- as em um"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "escorredor de arroz ou macarrão pegando só o caldo e descartando as cabeças ao lixo."
+      },
+      {
+        "step": 2,
+        "text": "Neste caldo adicione o refogado do camarão, deixando ferver por um minuto."
+      },
+      {
+        "step": 3,
+        "text": "Separadamente, dissolva a farinha de trigo a uma xícara de água e despeje no caldo mexendo sem parar para que não grude, verificando ai a textura do caldo."
+      },
+      {
+        "step": 4,
+        "text": "O ideal é que seja nem tão fino e nem tão grosso, pois quando esfria ele fica mais grosso."
+      },
+      {
+        "step": 5,
+        "text": "Se for o caso de precisar engrossar, realiza-se o mesmo procedimento, dissolvendo a farinha na água."
+      },
+      {
+        "step": 6,
+        "text": "Após isso, deixe cozinhar em um período de minutos a meia hora, sempre mexendo."
+      },
+      {
+        "step": 7,
+        "text": "Após este cozimento, adicione o restante do dendê, quanto mais acrescentar mas amarelo vai ficar."
+      },
+      {
+        "step": 8,
+        "text": "Deixe cozinhar por mais minutos e adicione o leite de coco."
+      },
+      {
+        "step": 9,
+        "text": "Após isso, o vatapá está pronto para ser comido com arroz branco e pimenta."
+      }
+    ],
+    "tags": [
+      "Salgado",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Eduarda dos Santos Rocha",
+    "reactions": {
+      "love": 220,
+      "like": 78,
+      "dislike": 0
+    }
+  },
+  {
+    "id": "25",
+    "title": "Doce de Leite",
+    "description": "Receita tradicional da vovó Maria José Rodrigues Cardoso. Sabor caseiro de verdade!",
+    "time": "30 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Fácil",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.5,
+    "reviews": 225,
+    "is_premium": false,
+    "ingredients": [
+      "1 litro de leite",
+      "2 xícaras (chá) de açúcar",
+      "1 pitada de fermento em pó",
+      "1 colher (café) de farinha de trigo"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Junte todos os ingredientes, mecha bem e deixe cozinhar em fogo brando ate ficar cremoso."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Maria José Rodrigues Cardoso",
+    "reactions": {
+      "love": 225,
+      "like": 80,
+      "dislike": 1
+    }
+  },
+  {
+    "id": "26",
+    "title": "Torteis",
+    "description": "Receita tradicional da vovó Valda Chehban. Sabor caseiro de verdade!",
+    "time": "25 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
+    "rating": 4.6,
+    "reviews": 232,
+    "is_premium": false,
+    "ingredients": [
+      "200g gramas de farinha de trigo",
+      "2 ovos",
+      "sal"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "MASSA Misture todos os ingredientes até formar uma massa firme, se necessário acrescente um pouco de água, tudo vai depender do tamanho dos ovos."
+      },
+      {
+        "step": 2,
+        "text": "Abra com um rolo de massa ou em um cilindro, corte em quadrados e coloque o recheio dobrado na diagonal e depois junte as duas pontas inferiores."
+      },
+      {
+        "step": 3,
+        "text": "RECHEIO MONTAGEM Misture todos os ingredientes formando uma pasta firme, reserve para empregar no recheio da massa."
+      },
+      {
+        "step": 4,
+        "text": "Cozinhe os torteis em bastante água fervente apenas com sal, faça o molho de sua preferência ou apenas com manteiga derretida e folhas de salvia e com muito parmesão."
+      }
+    ],
+    "tags": [
+      "Salgado",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Valda Chehban",
+    "reactions": {
+      "love": 230,
+      "like": 82,
+      "dislike": 2
+    }
+  },
+  {
+    "id": "27",
+    "title": "Curau",
+    "description": "Receita tradicional da vovó Adélia Leite Rodrigues. Sabor caseiro de verdade!",
+    "time": "20 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop",
+    "rating": 4.7,
+    "reviews": 239,
+    "is_premium": false,
+    "ingredients": [
+      "1 litro de leite",
+      "1 xícara (chá) de açúcar",
+      "200 gramas de coco ralado",
+      "100 ml de leite condensado",
+      "200 gramas de queijo ralado",
+      "canela em pó a gosto",
+      "cravo socado a gosto",
+      "1 litro de caldo de milho verde"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "DO CALDO DE MILHO VERDE Ralar espigas de milho, coar e engrossar em fogo brando por minutos."
+      },
+      {
+        "step": 2,
+        "text": "MODO DE PREPARO DO CURAU Misturar todos os ingredientes em uma panela e mexer em fogo alto, sem parar, por minutos."
+      },
+      {
+        "step": 3,
+        "text": "Servir quente ou frio."
+      }
+    ],
+    "tags": [
+      "Doce",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Adélia Leite Rodrigues",
+    "reactions": {
+      "love": 235,
+      "like": 84,
+      "dislike": 0
+    }
+  },
+  {
+    "id": "28",
+    "title": "Biscoito de Polvilho",
+    "description": "Receita tradicional da vovó Leni Balbina Vasconcelos. Sabor caseiro de verdade!",
+    "time": "30 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Fácil",
+    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop",
+    "rating": 4.8,
+    "reviews": 246,
+    "is_premium": false,
+    "ingredients": [
+      "1 xícara (chá) de água",
+      "1 xícara (chá) de óleo",
+      "2 ovos",
+      "1 pacote de polvilho azedo",
+      "1 pitada de sal a gosto"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Misture o óleo na água e deixe ferver."
+      },
+      {
+        "step": 2,
+        "text": "Após isso, despeje em cima do polvilho, mexendo sem parar até a massa da consistência, para não grudar nas mãos."
+      },
+      {
+        "step": 3,
+        "text": "Após ter feito a massa, fazer as bolinhas e fritar."
+      }
+    ],
+    "tags": [
+      "Pães e Biscoitos",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Leni Balbina Vasconcelos",
+    "reactions": {
+      "love": 240,
+      "like": 86,
+      "dislike": 1
+    }
+  },
+  {
+    "id": "29",
+    "title": "Farofa Simples",
+    "description": "Receita tradicional da vovó Miraci do Nascimento de Lima. Sabor caseiro de verdade!",
+    "time": "2 min",
+    "servings": "4 porções",
+    "calories": "250 kcal",
+    "difficulty": "Médio",
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop",
+    "rating": 4.9,
+    "reviews": 253,
+    "is_premium": false,
+    "ingredients": [
+      "500g de farinha de mandioca",
+      "2 cebolas médias",
+      "2 ovos",
+      "1/3 xícara (chá) de azeitonas verdes",
+      "70g ½ xícara (chá) de bacon",
+      "100g da manteiga",
+      "½ xícara (chá) de uvas- passas (opcional)"
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "text": "Com uma faca afiada descasque a cebola e corte em fatias bem finas."
+      },
+      {
+        "step": 2,
+        "text": "Retire o caroço das azeitonas e corte em rodelas, pique o bacon em cubinhos pequenos."
+      },
+      {
+        "step": 3,
+        "text": "Leve uma panela média ao fogo baixo para aquecer."
+      },
+      {
+        "step": 4,
+        "text": "Em seguida acrescente a manteiga, o bacon e refogue por minutos."
+      },
+      {
+        "step": 5,
+        "text": "Junte a cebola e refogue por mais minutos, adicione as azeitonas picadas, as uvas- passas (caso esteja usando)e a farinha de mandioca."
+      },
+      {
+        "step": 6,
+        "text": "Misture bem com uma colher de pau para a farinha absolver bem os temperos."
+      },
+      {
+        "step": 7,
+        "text": "Quebre os ovos numa tigela e misture levemente com um garfo."
+      },
+      {
+        "step": 8,
+        "text": "Despeje de uma vez só na panela e misture rapidamente com a colher, misture bem e sirva a seguir."
+      }
+    ],
+    "tags": [
+      "Salgado",
+      "Receita da Vovó",
+      "Tradicional",
+      "Caseiro"
+    ],
+    "source": "Livro14 – FASUL",
+    "author": "Miraci do Nascimento de Lima",
+    "reactions": {
+      "love": 245,
+      "like": 88,
+      "dislike": 2
+    }
+  }
+]

@@ -50,6 +50,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        {/* Global Background */}
+        <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden select-none">
+          <img
+            src="/background/global-bg.jpg"
+            alt="App Background"
+            className="w-full h-full object-cover opacity-20 blur-[2px] scale-105"
+          />
+          {/* Gradient Overlay for better readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90 mix-blend-multiply"></div>
+        </div>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '1019372792734-k6s58dq78pov4ktnhoiv9ddf3mkbjrf3.apps.googleusercontent.com'}>
           <ThemeProvider>
             <SubscriptionProvider>

@@ -16,6 +16,7 @@ export interface User {
 }
 
 const STORAGE_KEY = 'app_receitas_user';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 // Internal cache for synchronous access
 let currentUser: User | null = null;
@@ -53,8 +54,21 @@ export const auth = {
         }
     },
 
-    logout: () => {
+    logout: async () => {
         if (typeof window !== 'undefined') {
+            // Call backend to invalidate refresh token
+            const refreshToken = auth.getRefreshToken();
+            if (refreshToken) {
+                try {
+                    await fetch(`${API_URL}/auth/logout`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ refresh_token: refreshToken })
+                    });
+                } catch (e) {
+                    console.error('Failed to logout on server:', e);
+                }
+            }
             currentUser = null;
             localStorage.removeItem(STORAGE_KEY);
             window.dispatchEvent(new Event('auth:update'));
@@ -71,5 +85,40 @@ export const auth = {
 
     getToken: (): string | undefined => {
         return auth.getUser()?.token;
+    },
+
+    getRefreshToken: (): string | undefined => {
+        return auth.getUser()?.refresh_token;
+    },
+
+    // Refresh access token using refresh token
+    refreshTokens: async (): Promise<boolean> => {
+        const refreshToken = auth.getRefreshToken();
+        if (!refreshToken) return false;
+
+        try {
+            const res = await fetch(`${API_URL}/auth/refresh`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ refresh_token: refreshToken })
+            });
+
+            if (!res.ok) {
+                // Refresh token invalid/expired - force logout
+                auth.logout();
+                return false;
+            }
+
+            const data = await res.json();
+            auth.updateUser({
+                token: data.access_token,
+                refresh_token: data.refresh_token
+            });
+            return true;
+        } catch (e) {
+            console.error('Failed to refresh tokens:', e);
+            return false;
+        }
     }
 };
+

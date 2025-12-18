@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { api } from "@/lib/api";
+import { recipes as localRecipes } from "@/lib/data";
 import { LoadingState, EmptyState, RecipeCardSkeleton } from "@/components/ui";
 import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 import { colors } from "@/theme/chefex-theme";
@@ -20,13 +21,19 @@ export default function Home() {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const data = await api.get<any[]>('/api/recipes?status=published');
+        const data = await api.get<any>('/api/recipes?status=published');
+        // Handle both array and paginated response formats
         if (Array.isArray(data)) {
           setRecipes(data);
+        } else if (data && Array.isArray(data.recipes)) {
+          setRecipes(data.recipes);
+        } else {
+          throw new Error("Invalid response format");
         }
       } catch (error) {
-        console.error("Failed to fetch recipes", error);
-        setError(true);
+        console.error("API failed, using local recipes...", error);
+        // Fallback: use local recipes directly
+        setRecipes(localRecipes as any[]);
       } finally {
         setLoading(false);
       }

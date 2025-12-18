@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
-import { ChevronLeft, Heart, Clock, Users, Flame, ChefHat, CheckCircle2, Share2, PlayCircle, Lock, Crown } from 'lucide-react';
+import { ChevronLeft, Heart, Clock, Users, Flame, ChefHat, CheckCircle2, Share2, PlayCircle, Lock, Crown, ShoppingCart } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import { BottomNavigation } from '@/components/navigation/BottomNavigation';
 import { LoadingState, ErrorState } from '@/components/ui';
 import { api } from '@/lib/api';
+import { getRecipeById } from '@/lib/data';
 
 export default function RecipeDetailPage() {
     const router = useRouter();
@@ -21,6 +22,7 @@ export default function RecipeDetailPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [recipe, setRecipe] = useState<any>(null);
+    const [addedToList, setAddedToList] = useState(false);
 
     // Mock User Premium Status (In real app, comes from AuthContext)
     // Change this to true to test unlocked view
@@ -34,8 +36,17 @@ export default function RecipeDetailPage() {
                 setRecipe(data);
                 setError(false);
             } catch (error) {
-                console.error("Failed to fetch recipe", error);
-                setError(true);
+                console.error("API failed, trying local data...", error);
+                // Fallback: try local data directly
+                const localRecipe = getRecipeById(id as string);
+                if (localRecipe) {
+                    console.log("Using local recipe data");
+                    setRecipe(localRecipe);
+                    setError(false);
+                } else {
+                    console.error("Recipe not found in local data either");
+                    setError(true);
+                }
             } finally {
                 setLoading(false);
             }
@@ -48,6 +59,26 @@ export default function RecipeDetailPage() {
         if (next.has(ing)) next.delete(ing);
         else next.add(ing);
         setCheckedIngredients(next);
+    };
+
+    const addToShoppingList = () => {
+        if (!recipe || ingredientsList.length === 0) return;
+
+        const existingList = JSON.parse(localStorage.getItem('shoppingList') || '[]');
+        const newItems = ingredientsList.map((ing: string) => ({
+            id: crypto.randomUUID(),
+            name: ing,
+            recipeTitle: recipe.title,
+            addedAt: new Date().toISOString(),
+            checked: false,
+            price: 0
+        }));
+
+        localStorage.setItem('shoppingList', JSON.stringify([...existingList, ...newItems]));
+        setAddedToList(true);
+
+        // Reset after 3 seconds
+        setTimeout(() => setAddedToList(false), 3000);
     };
 
     // Loading State Premium
@@ -209,6 +240,22 @@ export default function RecipeDetailPage() {
                                         <span className={`text-sm font-medium ${checkedIngredients.has(ing) ? 'text-stone-400 line-through' : 'text-stone-700 dark:text-stone-200'}`}>{ing}</span>
                                     </div>
                                 ))}
+
+                                {/* Add to Shopping List Button */}
+                                <button
+                                    onClick={addToShoppingList}
+                                    disabled={addedToList}
+                                    className={`w-full mt-4 py-3 px-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${addedToList
+                                        ? 'bg-green-500/20 text-green-600 dark:text-green-400 border border-green-500/30'
+                                        : 'bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/30 hover:bg-[var(--color-primary)]/20'
+                                        }`}
+                                >
+                                    {addedToList ? (
+                                        <><CheckCircle2 size={18} /> Adicionado à Lista!</>
+                                    ) : (
+                                        <><ShoppingCart size={18} /> Adicionar à Lista de Compras</>
+                                    )}
+                                </button>
                             </div>
                         ) : (
                             <div className="space-y-6">

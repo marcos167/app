@@ -16,3 +16,4 @@ starlette
 typing_extensions
 stripe
 argon2-cffi
+slowapi
