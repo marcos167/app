@@ -1,11 +1,7 @@
 {
     "rewrites": [
         {
-            "source": "/api/recipes/:path*",
-            "destination": "/api/recipes/:path*"
-        },
-        {
-            "source": "/api/((?!recipes).*)",
+            "source": "/api/(.*)",
             "destination": "/api/index.py"
         }
     ]

@@ -43,20 +43,34 @@ class User(SQLModel, table=True):
 
 class Recipe(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    title: str
-    description: str
-    image: str
-    time: str
-    calories: str
-    servings: int
-    category: str
+    title: str = Field(index=True)
+    description: str = ""
+    image: str = ""
+    time: str = ""  # "30 min"
+    calories: str = ""  # "350 kcal"
+    servings: str = ""  # "4 porções"
+    difficulty: str = "Fácil"  # Fácil, Médio, Difícil
+    category: str = ""
+    
+    # JSON fields stored as strings
+    ingredients: str = "[]"  # JSON array of strings
+    instructions: str = "[]"  # JSON array of {step, text, timerMinutes?}
+    tags: str = "[]"  # JSON array of strings
+    
+    # Ratings and reactions
     rating: float = 0.0
     reviews: int = 0
+    reactions_love: int = 0
+    reactions_like: int = 0
+    reactions_dislike: int = 0
     
     # Premium Features
     is_premium: bool = False
     video_url: Optional[str] = None
     
+    # Metadata
+    author: Optional[str] = None
+    source: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     status: str = "published"
 
