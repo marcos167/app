@@ -1,5 +1,4 @@
 from sqlmodel import SQLModel, create_engine, Session
-
 import os
 
 # Use SQLite for persistence in dev, or switch to Postgres url in .env
@@ -11,14 +10,22 @@ database_url = os.getenv("DATABASE_URL")
 
 # If DATABASE_URL is present, we use it. 
 # Note: SQLModel (SQLAlchemy) requires 'postgresql://' but some providers give 'postgres://'
-if database_url and database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
+if database_url:
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
 
 connection_string = database_url if database_url else sqlite_url
 
-connect_args = {"check_same_thread": False} if "sqlite" in connection_string else {}
-
-engine = create_engine(connection_string, connect_args=connect_args)
+# SQLite needs check_same_thread=False
+if "sqlite" in connection_string:
+    connect_args = {"check_same_thread": False}
+    engine = create_engine(connection_string, connect_args=connect_args)
+else:
+    # PostgreSQL - use simple config for serverless
+    engine = create_engine(
+        connection_string,
+        pool_pre_ping=True,
+    )
 
 def create_db_and_tables():
     from server import models # Ensure models are registered
