@@ -45,10 +45,10 @@ export function MasterChefGate({
 
                 {/* CTA Buttons */}
                 <div className="space-y-3">
-                    <Link href="/plans" className="block">
+                    <Link href="/upgrade" className="block">
                         <button className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-900 font-bold py-4 px-8 rounded-2xl shadow-lg shadow-yellow-500/30 hover:shadow-yellow-500/50 hover:scale-105 transition-all flex items-center justify-center gap-2">
                             <Sparkles size={18} />
-                            Tornar-se Master Chef
+                            Quero ser Master Chef
                         </button>
                     </Link>
 
