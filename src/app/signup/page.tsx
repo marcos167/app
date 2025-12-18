@@ -5,8 +5,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/auth";
 import SocialButtons from "@/components/auth/SocialButtons";
-import { ChefexLogo } from "@/components/brand";
-import { colors } from "@/theme/chefex-theme";
 import { ArrowRight, User, Mail, Lock, Check } from 'lucide-react';
 
 const PROFILES = [
@@ -64,39 +62,44 @@ export default function SignupPage() {
     return (
         <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden font-sans">
 
-            {/* Immersive Background */}
-            <div className="absolute inset-0 z-0">
-                <img
-                    src="https://images.unsplash.com/photo-1495195134817-aeb325a55b65?q=80&w=2076&auto=format&fit=crop"
-                    className="w-full h-full object-cover"
-                    alt="Background"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/40 to-black/90 backdrop-blur-sm"></div>
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-            </div>
+            {/* Login Card - Matching Login Page Style */}
+            <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-700">
 
-            {/* Floating Elements */}
-            <div className="absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl animate-pulse" style={{ backgroundColor: `${colors.primary.green}20` }}></div>
-            <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse delay-1000" style={{ backgroundColor: `${colors.secondary.orange}20` }}></div>
+                {/* Brand Logo - Same as Login */}
+                <div className="flex flex-col items-center mb-12 animate-in slide-in-from-top-8 duration-1000">
+                    <div className="flex flex-col items-center justify-center transform hover:scale-105 transition-transform duration-500">
+                        {/* Ícone (Maior e Centralizado) */}
+                        <div className="relative w-44 h-44 -mb-12 drop-shadow-[0_0_40px_rgba(74,157,91,0.6)] z-10">
+                            <img
+                                src="/brand/logo-icon-final.png"
+                                alt="Chefex Logo"
+                                className="w-full h-full object-contain filter brightness-110"
+                            />
+                        </div>
 
-            {/* Main Content */}
-            <div className="w-full max-w-lg relative z-10 animate-in fade-in zoom-in-95 duration-700">
-
-                {/* Brand Logo */}
-                <div className="flex flex-col items-center mb-6">
-                    <ChefexLogo size="lg" theme="dark" showTagline />
+                        {/* Texto (Ajustado e Próximo) */}
+                        <img
+                            src="/brand/logo-text-final.png"
+                            alt="Chefex"
+                            className="h-16 w-auto object-contain drop-shadow-2xl opacity-100 relative z-20"
+                        />
+                    </div>
                 </div>
 
-                {/* Glass Card */}
-                <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem] p-6 shadow-2xl shadow-black/50 overflow-hidden relative">
-                    {/* Glass Glare */}
+                {/* Glass Card - Same Style as Login */}
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-8 shadow-2xl shadow-black/50 overflow-hidden relative group">
+                    {/* Glass Glare Effect */}
                     <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-br from-white/10 via-transparent to-transparent rotate-45 pointer-events-none"></div>
 
                     <div className="relative z-10">
-                        {/* Social Signup */}
-                        <SocialButtons onError={setError} />
+                        <h2 className="text-2xl font-bold text-white mb-6 text-center">Criar sua conta</h2>
 
-                        <div className="relative flex items-center py-3 mb-4">
+                        {/* Social Buttons */}
+                        <div className="mb-8">
+                            <SocialButtons onError={setError} />
+                        </div>
+
+                        <div className="relative flex items-center py-2 mb-6">
                             <div className="flex-grow border-t border-white/20"></div>
                             <span className="flex-shrink-0 mx-4 text-[10px] font-bold text-white/40 uppercase tracking-widest">Ou cadastre-se</span>
                             <div className="flex-grow border-t border-white/20"></div>
@@ -109,7 +112,7 @@ export default function SignupPage() {
                                 <input
                                     type="text"
                                     placeholder="Seu nome completo"
-                                    className="w-full bg-black/30 border border-white/10 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder:text-white/30 focus:outline-none focus:bg-black/50 focus:border-[var(--color-primary)]/50 transition-all font-medium text-sm"
+                                    className="w-full bg-black/20 border border-white/10 rounded-2xl pl-11 pr-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:bg-black/40 focus:border-[var(--color-primary)]/50 transition-all font-medium"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     onFocus={() => setFocusedField('name')}
@@ -118,39 +121,39 @@ export default function SignupPage() {
                                 />
                             </div>
 
-                            {/* Email & Password Row */}
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className={`relative transition-all duration-300 ${focusedField === 'email' ? 'scale-[1.02]' : ''}`}>
-                                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-                                    <input
-                                        type="email"
-                                        placeholder="Email"
-                                        className="w-full bg-black/30 border border-white/10 rounded-xl pl-9 pr-3 py-3.5 text-white placeholder:text-white/30 focus:outline-none focus:bg-black/50 focus:border-[var(--color-primary)]/50 transition-all font-medium text-sm"
-                                        value={formData.email}
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        onFocus={() => setFocusedField('email')}
-                                        onBlur={() => setFocusedField(null)}
-                                        required
-                                    />
-                                </div>
-                                <div className={`relative transition-all duration-300 ${focusedField === 'password' ? 'scale-[1.02]' : ''}`}>
-                                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-                                    <input
-                                        type="password"
-                                        placeholder="Senha"
-                                        className="w-full bg-black/30 border border-white/10 rounded-xl pl-9 pr-3 py-3.5 text-white placeholder:text-white/30 focus:outline-none focus:bg-black/50 focus:border-[var(--color-primary)]/50 transition-all font-medium text-sm"
-                                        value={formData.password}
-                                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                        onFocus={() => setFocusedField('password')}
-                                        onBlur={() => setFocusedField(null)}
-                                        required
-                                    />
-                                </div>
+                            {/* Email Input */}
+                            <div className={`relative transition-all duration-300 ${focusedField === 'email' ? 'scale-[1.02]' : ''}`}>
+                                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                                <input
+                                    type="email"
+                                    placeholder="Seu email"
+                                    className="w-full bg-black/20 border border-white/10 rounded-2xl pl-11 pr-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:bg-black/40 focus:border-[var(--color-primary)]/50 transition-all font-medium"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    onFocus={() => setFocusedField('email')}
+                                    onBlur={() => setFocusedField(null)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Password Input */}
+                            <div className={`relative transition-all duration-300 ${focusedField === 'password' ? 'scale-[1.02]' : ''}`}>
+                                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                                <input
+                                    type="password"
+                                    placeholder="Sua senha"
+                                    className="w-full bg-black/20 border border-white/10 rounded-2xl pl-11 pr-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:bg-black/40 focus:border-[var(--color-primary)]/50 transition-all font-medium"
+                                    value={formData.password}
+                                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                    onFocus={() => setFocusedField('password')}
+                                    onBlur={() => setFocusedField(null)}
+                                    required
+                                />
                             </div>
 
                             {/* Profile Selection */}
                             <div>
-                                <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-2 ml-1">Seu nível</p>
+                                <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-3 ml-1">Seu nível</p>
                                 <div className="grid grid-cols-4 gap-2">
                                     {PROFILES.map((profile) => (
                                         <button
@@ -178,7 +181,7 @@ export default function SignupPage() {
 
                             {/* Error Message */}
                             {error && (
-                                <div className="bg-red-500/20 text-red-200 text-xs font-bold py-3 px-4 rounded-xl border border-red-500/30 text-center">
+                                <div className="bg-red-500/20 text-red-200 text-xs font-bold py-3 px-4 rounded-xl border border-red-500/30 text-center animate-pulse">
                                     {error}
                                 </div>
                             )}
@@ -203,15 +206,28 @@ export default function SignupPage() {
                 </div>
 
                 {/* Footer Links */}
-                <div className="mt-6 text-center space-y-3">
-                    <Link href="/feed" className="block text-xs font-bold text-stone-500 hover:text-stone-300 uppercase tracking-widest transition-colors">
-                        Continuar como Visitante
-                    </Link>
+                <div className="mt-8 text-center">
                     <p className="text-stone-400 text-sm">
                         Já tem conta? <Link href="/login" className="font-bold text-white hover:text-[var(--color-secondary)] transition-colors">Fazer login</Link>
                     </p>
+                    <div className="mt-6">
+                        <Link href="/feed" className="text-xs font-bold text-stone-500 hover:text-stone-300 uppercase tracking-widest border-b border-transparent hover:border-stone-300 transition-all">
+                            Continuar como Visitante
+                        </Link>
+                    </div>
                 </div>
 
+                {/* Footer Institucional Axis Software */}
+                <div className="mt-12 flex flex-col items-center opacity-100 select-none pointer-events-none">
+                    <p className="text-[10px] text-stone-500 font-medium tracking-widest uppercase mb-2">Powered by</p>
+                    <div className="h-14 flex items-center justify-center">
+                        <img
+                            src="/brand/axis-logo.png"
+                            alt="Axis Software"
+                            className="h-full w-auto object-contain drop-shadow-sm"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );
