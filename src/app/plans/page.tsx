@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbar';
 import { BottomNavigation } from '@/components/navigation/BottomNavigation';
 import { Crown, Check, Star, Zap, Video, Lock, ChefHat, ArrowRight, Loader2, X } from 'lucide-react';
-import { getToken } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 
 const FEATURES_FREE = [
     'Acesso a 10 receitas por dia',
@@ -39,7 +39,7 @@ export default function PlansPage() {
         }
 
         const fetchStatus = async () => {
-            const token = getToken();
+            const token = auth.getToken();
             if (!token) return;
 
             try {
@@ -58,7 +58,7 @@ export default function PlansPage() {
     }, [searchParams]);
 
     const handleSubscribe = async () => {
-        const token = getToken();
+        const token = auth.getToken();
         if (!token) {
             router.push('/login?redirect=/plans');
             return;
@@ -88,7 +88,7 @@ export default function PlansPage() {
     };
 
     const handleManageSubscription = async () => {
-        const token = getToken();
+        const token = auth.getToken();
         if (!token) return;
 
         setLoading(true);
