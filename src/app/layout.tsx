@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { GamificationProvider } from "@/contexts/GamificationContext";
+import { ModerationProvider } from "@/contexts/ModerationContext";
 import { AchievementToastProvider } from "@/components/gamification/AchievementToast";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -53,11 +54,13 @@ export default function RootLayout({
           <ThemeProvider>
             <SubscriptionProvider>
               <GamificationProvider>
-                <AchievementToastProvider>
-                  <ToastProvider>
-                    {children}
-                  </ToastProvider>
-                </AchievementToastProvider>
+                <ModerationProvider>
+                  <AchievementToastProvider>
+                    <ToastProvider>
+                      {children}
+                    </ToastProvider>
+                  </AchievementToastProvider>
+                </ModerationProvider>
               </GamificationProvider>
             </SubscriptionProvider>
           </ThemeProvider>
