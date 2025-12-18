@@ -22,25 +22,59 @@ export default function SocialButtons({ onStart, onError }: SocialButtonsProps) 
 
             try {
                 // 1. Send Access Token to Backend (Proxy handles URL)
-                const data = await api.post<{ access_token: string }>('/api/auth/google', {
+                const data = await api.post<{
+                    access_token: string;
+                    refresh_token?: string;
+                }>('/api/auth/google', {
                     id_token: tokenResponse.access_token
                 });
 
-                // 2. Login in Frontend (Store Token)
-                auth.login({
-                    name: 'Google User', // We could fetch real name from backend /users/me if we want perfection
-                    email: 'google@user.com', // Placeholder or fetch real info
-                    token: data.access_token
+                // 2. Fetch real user data from backend
+                const userResponse = await fetch('/api/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${data.access_token}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
 
-                // 3. Redirect
+                let userName = 'Usuário';
+                let userEmail = '';
+                let userAvatar = '';
+
+                if (userResponse.ok) {
+                    const userData = await userResponse.json();
+                    userName = userData.full_name || userData.name || 'Usuário';
+                    userEmail = userData.email || '';
+                    userAvatar = userData.avatar_url || '';
+                }
+
+                // 3. Login in Frontend (Store Token with real data)
+                auth.login({
+                    name: userName,
+                    email: userEmail,
+                    image: userAvatar,
+                    token: data.access_token,
+                    refresh_token: data.refresh_token
+                });
+
+                // 4. Redirect
                 router.push('/feed');
 
             } catch (e: any) {
-                console.error(e);
+                console.error('Google Login Error:', e);
                 setIsConnecting(null);
-                alert("Erro no Login: " + (e.response?.data?.detail || e.message)); // Visual feedback
-                if (onError) onError(e.message || 'Falha na conexão com o servidor.');
+
+                // Extract error message from different possible sources
+                let errorMsg = 'Erro desconhecido';
+                if (e.message) {
+                    errorMsg = e.message;
+                }
+                if (e.detail) {
+                    errorMsg = e.detail;
+                }
+
+                alert("Erro no Login: " + errorMsg);
+                if (onError) onError(errorMsg);
             }
         },
         onError: () => {

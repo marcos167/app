@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import LogoChefex from '@/components/brand/LogoChefex';
 
 export default function AdminSidebar() {
     const pathname = usePathname();
@@ -12,7 +13,7 @@ export default function AdminSidebar() {
         { name: 'Receitas', icon: '🍜', path: '/admin/recipes' },
         { name: 'Categorias', icon: '🏷️', path: '/admin/categories' },
         { name: 'Comentários', icon: '💬', path: '/admin/comments' },
-        { name: 'Estatísticas', icon: '📈', path: '/admin/stats' }, // Fixed path
+        { name: 'Estatísticas', icon: '📈', path: '/admin/stats' },
         { name: 'Usuários', icon: '👥', path: '/admin/users' },
         { name: 'Logs', icon: '📝', path: '/admin/logs' },
         { name: 'Configurações', icon: '⚙️', path: '/admin/settings' },
@@ -20,10 +21,9 @@ export default function AdminSidebar() {
 
     return (
         <aside className="w-64 bg-[#1A1A1A] border-r border-[#2A2A2A] hidden md:flex flex-col fixed h-full z-10">
-            <div className="p-6 border-b border-[#2A2A2A]">
-                <h1 className="text-2xl font-bold text-white tracking-tight">
-                    Admin <span className="text-[var(--color-primary)]">Receitas</span>
-                </h1>
+            <div className="p-6 border-b border-[#2A2A2A] flex items-center gap-3">
+                <LogoChefex size="sm" theme="dark" />
+                <span className="text-stone-500 text-xs font-bold uppercase tracking-wider">Admin</span>
             </div>
 
             <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">

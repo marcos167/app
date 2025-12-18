@@ -4,6 +4,7 @@ from enum import Enum
 from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
 
+# Enum constants (for reference, but we use strings in DB for compatibility)
 class Provider(str, Enum):
     LOCAL = "local"
     GOOGLE = "google"
@@ -24,12 +25,12 @@ class User(SQLModel, table=True):
     full_name: Optional[str] = None
     avatar_url: Optional[str] = None
     
-    # Google Fields
+    # Google Fields - Using str instead of Enum for SQLite/PostgreSQL compatibility
     google_id: Optional[str] = Field(default=None, unique=True, index=True)
-    provider: Provider = Field(default=Provider.LOCAL)
+    provider: str = Field(default="google")  # "local" or "google"
     
-    role: Role = Field(default=Role.USER)
-    plan_tier: PlanTier = Field(default=PlanTier.FREE)
+    role: str = Field(default="user")  # "user" or "admin"
+    plan_tier: str = Field(default="free")  # "free" or "masterchef"
     disabled: bool = False
     
     created_at: datetime = Field(default_factory=datetime.utcnow)
@@ -95,3 +96,13 @@ class GoogleAuthRequest(BaseModel):
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str
+
+class SignupRequest(BaseModel):
+    name: str
+    email: str
+    password: str
+    profile: Optional[str] = "enthusiast"  # chef, amador, enthusiast, beginner
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str

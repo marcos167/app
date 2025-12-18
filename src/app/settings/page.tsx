@@ -7,7 +7,7 @@ import { auth } from '@/lib/auth';
 import { useToast } from '@/contexts/ToastContext';
 import { Moon, Globe, Bell, Mail, Lock, Info, FileText, LogOut, ChevronRight, Share2 } from 'lucide-react';
 import Navbar from "@/components/layout/Navbar";
-import BottomNav from "@/components/layout/BottomNav";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 
 export default function SettingsPage() {
     const router = useRouter();
@@ -34,7 +34,7 @@ export default function SettingsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCF5] dark:bg-stone-950 pb-20 font-sans selection:bg-[var(--color-primary)] selection:text-white">
+        <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] pb-20 font-sans selection:bg-[var(--color-primary)] selection:text-white">
             {/* Immersive Background */}
             <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
             <div className="fixed top-0 left-0 w-full h-[300px] bg-gradient-to-b from-[var(--color-secondary)]/10 to-transparent pointer-events-none z-0"></div>
@@ -182,7 +182,7 @@ export default function SettingsPage() {
 
             </div>
 
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }

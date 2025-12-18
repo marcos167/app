@@ -1,8 +1,7 @@
-```json
 {
-    "name": "Gastrofy",
-    "short_name": "Gastrofy",
-    "description": "Sua cozinha, suas regras. Receitas premium. E inteligente.",
+    "name": "Chefex",
+    "short_name": "Chefex",
+    "description": "Chefex - Seu assistente na cozinha. Receitas inteligentes. Axis Software.",
     "start_url": "/feed",
     "display": "standalone",
     "background_color": "#000000",

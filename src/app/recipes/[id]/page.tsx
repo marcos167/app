@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
 import { ChevronLeft, Heart, Clock, Users, Flame, ChefHat, CheckCircle2, Share2, PlayCircle, Lock, Crown } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
-import BottomNav from '@/components/layout/BottomNav';
+import { BottomNavigation } from '@/components/navigation/BottomNavigation';
+import { LoadingState, ErrorState } from '@/components/ui';
 import { api } from '@/lib/api';
 
 export default function RecipeDetailPage() {
@@ -18,6 +19,7 @@ export default function RecipeDetailPage() {
     const [checkedIngredients, setCheckedIngredients] = useState<Set<string>>(new Set());
     const [isSaved, setIsSaved] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const [recipe, setRecipe] = useState<any>(null);
 
     // Mock User Premium Status (In real app, comes from AuthContext)
@@ -28,26 +30,12 @@ export default function RecipeDetailPage() {
         const fetchRecipe = async () => {
             if (!id) return;
             try {
-                // Try fetching from real API first
                 const data = await api.get<any>(`/api/recipes/${id}`);
                 setRecipe(data);
+                setError(false);
             } catch (error) {
-                console.error("Failed to fetch from API, falling back to mock", error);
-                // Fallback Mock if API fails or doesn't have data
-                setRecipe({
-                    id: id,
-                    title: "Salmão Grelhado com Aspargos",
-                    description: "Uma refeição leve, sofisticada e cheia de ômega-3.",
-                    image: "https://images.unsplash.com/photo-1467003909585-2f8a7270028d?q=80&w=1287&auto=format&fit=crop",
-                    rating: 4.8,
-                    reviews: 124,
-                    time: "25 min",
-                    calories: "320 kcal",
-                    servings: 2,
-                    is_premium: false, // Default mock is free
-                    ingredients: ["Salmão", "Aspargos", "Limão"],
-                    instructions: [{ step: 1, text: "Grelhe tudo." }]
-                });
+                console.error("Failed to fetch recipe", error);
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -62,15 +50,38 @@ export default function RecipeDetailPage() {
         setCheckedIngredients(next);
     };
 
+    // Loading State Premium
     if (loading) {
         return (
-            <div className="min-h-screen bg-stone-950 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--color-primary)]"></div>
+            <div className="min-h-screen bg-stone-950 flex flex-col">
+                <Navbar />
+                <div className="flex-1 flex items-center justify-center">
+                    <LoadingState title="Carregando receita..." size="lg" />
+                </div>
+                <BottomNavigation />
             </div>
         );
     }
 
-    if (!recipe) return <div className="text-white text-center pt-20">Receita não encontrada</div>;
+    // Error State Premium
+    if (error || !recipe) {
+        return (
+            <div className="min-h-screen bg-stone-950 flex flex-col">
+                <Navbar />
+                <div className="flex-1 flex items-center justify-center px-6">
+                    <ErrorState
+                        title="Receita não encontrada"
+                        description="Não foi possível carregar esta receita. Verifique sua conexão."
+                        action={{
+                            label: 'Tentar novamente',
+                            onClick: () => window.location.reload()
+                        }}
+                    />
+                </div>
+                <BottomNavigation />
+            </div>
+        );
+    }
 
     // Parse ingredients/instructions if they are strings (from DB they might be)
     // For MVP we just handle the mock structure or simple array
@@ -224,7 +235,7 @@ export default function RecipeDetailPage() {
                 </div>
             )}
 
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }

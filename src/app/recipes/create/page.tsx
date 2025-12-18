@@ -3,12 +3,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Navbar from "@/components/layout/Navbar";
-import BottomNav from "@/components/layout/BottomNav";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
+import { MasterChefGate } from "@/components/subscription/MasterChefGate";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 import { ArrowLeft, Plus, X, Upload, Clock, ChefHat, BarChart3, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function UserCreateRecipe() {
     const router = useRouter();
+    const { canCreate } = useSubscription();
     const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -62,8 +65,26 @@ export default function UserCreateRecipe() {
         }
     };
 
+    // 🔒 Bloqueio para usuários sem plano Master Chef
+    if (!canCreate) {
+        return (
+            <div className="min-h-screen bg-[#0E0F10] pb-24">
+                {/* Premium Background */}
+                <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none z-0"></div>
+                <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,#1A1D20_0%,transparent_60%)] pointer-events-none z-0"></div>
+
+                <Navbar />
+                <MasterChefGate
+                    title="Crie suas Receitas"
+                    description="Compartilhe sua arte culinária com a comunidade. Criar e publicar receitas é exclusivo do plano Master Chef."
+                />
+                <BottomNavigation />
+            </div>
+        );
+    }
+
     return (
-        <div className="min-h-screen bg-[#FDFCF5] dark:bg-stone-950 pb-24 selection:bg-[var(--color-primary)] selection:text-white">
+        <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] pb-24 selection:bg-[var(--color-primary)] selection:text-white">
             <Navbar />
 
             <div className="max-w-3xl mx-auto px-4 pt-6">
@@ -197,8 +218,8 @@ export default function UserCreateRecipe() {
                                         type="button"
                                         onClick={() => setFormData({ ...formData, difficulty: diff })}
                                         className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${formData.difficulty === diff
-                                                ? 'bg-[var(--color-primary)] text-white shadow-lg shadow-purple-500/20'
-                                                : 'bg-stone-100 dark:bg-stone-800 text-stone-500 hover:bg-stone-200'
+                                            ? 'bg-[var(--color-primary)] text-white shadow-lg shadow-purple-500/20'
+                                            : 'bg-stone-100 dark:bg-stone-800 text-stone-500 hover:bg-stone-200'
                                             }`}
                                     >
                                         {diff}
@@ -266,7 +287,7 @@ export default function UserCreateRecipe() {
                 </form>
             </div>
 
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }

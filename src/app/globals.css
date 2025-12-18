@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/**
+ * 🎨 CHEFEX THEME - Premium Sophisticated
+ * 
+ * Background Premium:
+ * - Base: #0E0F10 (Dark Premium)
+ * - Secondary: #141618
+ * - Surface: #1B1E22
+ * 
+ * Cores Oficiais:
+ * - Verde Chefex: #4A9D5B
+ * - Laranja Chefex: #F5A623
+ * 
+ * REGRA: Nunca usar #000000 (preto puro) - é amador visualmente.
+ */
+
 @theme inline {
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
@@ -12,61 +27,193 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ============================================
+   📱 LIGHT MODE - Chefex Palette
+   ============================================ */
 :root {
-  /* Light Theme - Modern Palette */
-  --primary: #52006A;
-  /* Roxo Principal */
-  --secondary: #FF7600;
-  /* Laranja Secundário */
-  --accent: #FFA900;
-  /* Amarelo Acento */
-  --danger: #CD113B;
-  /* Vermelho Destaque */
+  --primary: #4A9D5B;
+  --secondary: #F5A623;
+  --accent: #FF8C00;
+  --danger: #EF4444;
 
   --background: #FDFCF5;
-  /* Premium Warm White */
   --foreground: #1C1917;
-  /* Stone 900 */
   --muted: #E7E5E4;
+
+  --surface: #FFFFFF;
+  --surface-hover: #F5F5F4;
+  --border: #E7E5E4;
+  --text-secondary: #78716C;
+
+  /* Premium Background Variables */
+  --bg-main: #FDFCF5;
+  --bg-secondary: #F5F5F4;
+  --bg-surface: #FFFFFF;
+  --border-soft: rgba(0, 0, 0, 0.06);
 }
 
-:root.dark {
-  /* Dark Theme */
-  --primary: #9D4EDD;
-  /* Roxo mais claro para contraste */
-  --secondary: #FF9E00;
-  /* Laranja mais brilhante */
-  --accent: #FFC300;
-  /* Amarelo */
+/* ============================================
+   🌙 DARK MODE - Premium Sophisticated
+   ============================================ */
+:root.dark,
+.dark {
+  --primary: #5DB46E;
+  --secondary: #FFAD33;
+  --accent: #FFA500;
   --danger: #FF4D6D;
-  /* Vermelho suave */
 
-  --background: #0C0A09;
-  /* Stone 950 - Ultra Dark */
-  --foreground: #FAFAF9;
-  /* Stone 50 */
-  --muted: #292524;
+  /* Premium Dark Palette - NÃO usar #000000 */
+  --background: #0E0F10;
+  --foreground: #EDEDED;
+  --muted: #1B1E22;
+
+  --surface: #1B1E22;
+  --surface-hover: #24272C;
+  --border: #2A2D32;
+  --text-secondary: #9CA3AF;
+
+  /* Premium Background Variables */
+  --bg-main: #0E0F10;
+  --bg-secondary: #141618;
+  --bg-surface: #1B1E22;
+  --bg-elevated: #24272C;
+  --border-soft: rgba(255, 255, 255, 0.06);
 }
 
-
-
+/* ============================================
+   🎯 BODY - Premium Background
+   ============================================ */
 body {
-  background-color: var(--background);
+  background-color: var(--bg-main);
   color: var(--foreground);
-  font-family: var(--font-sans), sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  /* Smooth transition */
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+/* Dark mode gradient background */
+.dark body,
+body.dark-bg {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%,
+      #1A1D20 0%,
+      #0E0F10 60%);
+  background-attachment: fixed;
+}
+
+/* Seleção de texto */
+::selection {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* ============================================
+   🃏 CARD STYLES - Premium Effects
+   ============================================ */
+.card-premium {
+  background: linear-gradient(180deg, #1C1F24 0%, #15171A 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+.card-elevated {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* ============================================
+   🔮 GLASSMORPHISM - Refined
+   ============================================ */
+.glass {
+  background: rgba(20, 22, 24, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   ✨ GLOW EFFECTS
+   ============================================ */
+.glow-green {
+  box-shadow: 0 0 20px rgba(74, 157, 91, 0.3);
+}
+
+.glow-orange {
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
+}
+
+.glow-gold {
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.25);
+}
+
+/* ============================================
+   📝 GRADIENT TEXT
+   ============================================ */
+.text-gradient-chefex {
+  background: linear-gradient(135deg, #4A9D5B 0%, #F5A623 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   🔧 UTILITIES
+   ============================================ */
+
+/* Hide scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
+}
+
+/* Shine animation */
+@keyframes shine {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shine {
+  animation: shine 2s ease-in-out infinite;
+}
+
+/* Soft pulse */
+@keyframes soft-pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 3s ease-in-out infinite;
 }

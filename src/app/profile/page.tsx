@@ -3,10 +3,13 @@
 import { useState, useEffect } from 'react';
 import { auth } from '@/lib/auth';
 import Navbar from "@/components/layout/Navbar";
-import BottomNav from "@/components/layout/BottomNav";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 import { recipes } from "@/lib/data";
 import Link from 'next/link';
-import { Edit3, Settings, Grid, Heart, Clock, Award } from 'lucide-react';
+import { Edit3, Settings, Grid, Heart, Clock, Award, Crown, Sparkles, Lock, Users, Trophy, Medal } from 'lucide-react';
+import { useSubscription } from '@/contexts/SubscriptionContext';
+import { PlanStatusCard } from '@/components/subscription/PlanStatusCard';
+import { LevelProgressCard, BadgesGrid, GamificationStats } from '@/components/gamification/GamificationComponents';
 
 // Initial Mock Data
 const INITIAL_PROFILE = {
@@ -21,6 +24,73 @@ const INITIAL_PROFILE = {
         following: 128
     }
 };
+
+// Componente Minhas Receitas com verificação de plano
+function MyRecipesSection() {
+    const { canCreate, planName } = useSubscription();
+
+    // 🔒 Usuário sem Master Chef - mostrar bloqueio
+    if (!canCreate) {
+        return (
+            <div className="bg-white/80 dark:bg-[#1B1E22] backdrop-blur-sm rounded-3xl border border-stone-100 dark:border-stone-800 shadow-lg p-8 text-center">
+                {/* Lock Icon */}
+                <div className="relative mx-auto w-20 h-20 mb-4">
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl blur-lg opacity-40" />
+                    <div className="relative w-full h-full rounded-2xl bg-gradient-to-br from-yellow-400 via-amber-400 to-yellow-500 flex items-center justify-center">
+                        <Lock size={32} className="text-stone-900" />
+                    </div>
+                </div>
+
+                <h3 className="font-bold text-xl text-white mb-2">Recurso Master Chef</h3>
+                <p className="text-stone-400 mb-6 text-sm max-w-xs mx-auto">
+                    Criar e publicar receitas é exclusivo para assinantes Master Chef.
+                </p>
+
+                {/* Current Plan Badge */}
+                <div className="inline-flex items-center gap-2 bg-stone-800 px-3 py-1.5 rounded-full mb-6">
+                    <span className="text-stone-400 text-xs">Seu plano:</span>
+                    <span className="text-white text-xs font-bold">{planName}</span>
+                </div>
+
+                <div className="space-y-3">
+                    <Link href="/plans" className="block">
+                        <button className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-900 font-bold py-4 px-8 rounded-2xl shadow-lg shadow-yellow-500/30 hover:scale-105 transition-all flex items-center justify-center gap-2">
+                            <Crown size={18} />
+                            Tornar-se Master Chef
+                        </button>
+                    </Link>
+                    <Link href="/community" className="block">
+                        <button className="w-full bg-stone-800 text-stone-300 font-bold py-3 px-8 rounded-2xl border border-stone-700 hover:bg-stone-700 transition-all flex items-center justify-center gap-2">
+                            <Users size={16} />
+                            Ver Comunidade
+                        </button>
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
+    // ✅ Usuário Master Chef - mostrar botão de criar
+    return (
+        <div className="space-y-6">
+            <div className="bg-white/80 dark:bg-[#1B1E22] backdrop-blur-sm rounded-3xl border border-stone-100 dark:border-stone-800 shadow-lg p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 rounded-full flex items-center justify-center text-4xl mb-4 mx-auto">
+                    👨‍🍳
+                </div>
+                <h3 className="font-bold text-xl text-stone-800 dark:text-white mb-2">Seu livro de receitas</h3>
+                <p className="text-stone-500 dark:text-stone-400 mb-6 text-sm max-w-xs mx-auto">
+                    Crie, organize e compartilhe suas criações culinárias com a comunidade.
+                </p>
+                <Link href="/recipes/create">
+                    <button className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-green-500/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 mx-auto">
+                        <Edit3 size={18} />
+                        Nova Receita
+                    </button>
+                </Link>
+            </div>
+        </div>
+    );
+}
 
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState<'saved' | 'history' | 'my_recipes'>('saved');
@@ -44,15 +114,19 @@ export default function ProfilePage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-[#FDFCF5] dark:bg-stone-950 pb-28 selection:bg-[var(--color-primary)] selection:text-white">
+        <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] pb-28 selection:bg-[var(--color-primary)] selection:text-white">
             <Navbar />
+
+            {/* Premium Background */}
+            <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none z-0"></div>
+            <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,#1A1D20_0%,transparent_60%)] pointer-events-none z-0"></div>
 
             {/* Immersive Background Header */}
             <div className="relative w-full h-80 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-primary)]/20 to-transparent dark:from-[var(--color-primary)]/10 z-0"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1A1D20] to-transparent z-0"></div>
                 {/* Decorative Circles */}
-                <div className="absolute -top-20 -right-20 w-96 h-96 bg-[var(--color-secondary)]/20 rounded-full blur-[100px] animate-pulse"></div>
-                <div className="absolute top-20 -left-20 w-72 h-72 bg-[var(--color-primary)]/20 rounded-full blur-[80px]"></div>
+                <div className="absolute -top-20 -right-20 w-96 h-96 bg-[var(--color-secondary)]/10 rounded-full blur-[100px] animate-soft-pulse"></div>
+                <div className="absolute top-20 -left-20 w-72 h-72 bg-[var(--color-primary)]/10 rounded-full blur-[80px]"></div>
             </div>
 
             <main className="max-w-md mx-auto px-5 relative z-10 -mt-60">
@@ -87,34 +161,48 @@ export default function ProfilePage() {
                         {userProfile.bio}
                     </p>
 
-                    {/* Stats Row */}
-                    <div className="flex justify-between items-center bg-stone-50 dark:bg-stone-800/50 rounded-2xl p-4 border border-stone-100 dark:border-white/5">
-                        <div className="flex-1">
-                            <div className="text-2xl font-black text-stone-800 dark:text-white">{stats.recipes}</div>
-                            <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Receitas</div>
-                        </div>
-                        <div className="w-px h-8 bg-stone-200 dark:bg-stone-700"></div>
-                        <div className="flex-1">
-                            <div className="text-2xl font-black text-stone-800 dark:text-white">{stats.saved}</div>
-                            <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Salvas</div>
-                        </div>
-                        <div className="w-px h-8 bg-stone-200 dark:bg-stone-700"></div>
-                        <div className="flex-1">
-                            <div className="text-2xl font-black text-stone-800 dark:text-white">{stats.following}</div>
-                            <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Seguindo</div>
-                        </div>
+                    {/* Stats Row - Refined */}
+                    <div className="grid grid-cols-3 gap-3">
+                        {[
+                            { value: stats.recipes, label: 'Receitas', icon: '🍳' },
+                            { value: stats.saved, label: 'Salvas', icon: '❤️' },
+                            { value: stats.following, label: 'Seguindo', icon: '👥' },
+                        ].map((stat, i) => (
+                            <div
+                                key={i}
+                                className="bg-stone-50/80 dark:bg-stone-800/50 backdrop-blur-sm rounded-2xl p-4 text-center border border-stone-100 dark:border-white/5 hover:scale-105 transition-transform cursor-default"
+                            >
+                                <span className="text-lg block mb-1">{stat.icon}</span>
+                                <div className="text-2xl font-black text-stone-800 dark:text-white tabular-nums">
+                                    {stat.value}
+                                </div>
+                                <div className="text-[10px] font-semibold text-stone-400 uppercase tracking-widest">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Premium Membership Card - Dynamic */}
+                    <PlanStatusCard />
+
+                    {/* Gamification Section */}
+                    <div className="mt-6 space-y-4">
+                        <LevelProgressCard />
+                        <BadgesGrid limit={8} />
                     </div>
                 </div>
 
                 {/* Content Tabs */}
                 <div className="flex p-1 bg-stone-200/50 dark:bg-stone-800/50 backdrop-blur-md rounded-2xl mb-6 relative">
                     {/* Animated Background Pill */}
-                    <div className={`absolute top-1 bottom-1 w-1/3 bg-white dark:bg-stone-700 rounded-xl shadow-sm transition-all duration-300 ease-spring ${activeTab === 'saved' ? 'left-1' :
-                        activeTab === 'my_recipes' ? 'left-1/3' : 'left-2/3' // Approximate centering
-                        }`} style={{
+                    <div
+                        className={`absolute top-1 bottom-1 w-1/3 bg-white dark:bg-stone-700 rounded-xl shadow-sm transition-all duration-300 ease-spring`}
+                        style={{
                             left: activeTab === 'saved' ? '4px' : activeTab === 'my_recipes' ? 'calc(33.33% + 2px)' : 'calc(66.66%)',
                             width: 'calc(33.33% - 4px)'
-                        }}></div>
+                        }}
+                    ></div>
 
                     {[
                         { id: 'saved', icon: Heart, label: 'Salvas' },
@@ -127,8 +215,7 @@ export default function ProfilePage() {
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id as any)}
-                                className={`flex-1 relative z-10 flex flex-col items-center justify-center py-3 gap-1 transition-colors duration-200 ${isActive ? 'text-[var(--color-primary)]' : 'text-stone-500 hover:text-stone-700 dark:text-stone-400'
-                                    }`}
+                                className={`flex-1 relative z-10 flex flex-col items-center justify-center py-3 gap-1 transition-colors duration-200 ${isActive ? 'text-[var(--color-primary)]' : 'text-stone-500 hover:text-stone-700 dark:text-stone-400'}`}
                             >
                                 <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
                                 <span className="text-[10px] font-bold uppercase tracking-wider">{tab.label}</span>
@@ -168,19 +255,7 @@ export default function ProfilePage() {
 
                     {/* MY RECIPES */}
                     {activeTab === 'my_recipes' && (
-                        <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-stone-900 rounded-[2.5rem] border border-stone-100 dark:border-stone-800 shadow-sm text-center px-8">
-                            <div className="w-20 h-20 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center text-4xl mb-4 animate-bounce">
-                                👨‍🍳
-                            </div>
-                            <h3 className="font-bold text-xl text-stone-800 dark:text-white mb-2">Seu livro de receitas</h3>
-                            <p className="text-stone-500 mb-6 text-sm">Crie, organize e compartilhe suas criações culinárias com o mundo.</p>
-                            <Link href="/admin/recipes/create">
-                                <button className="bg-[var(--color-primary)] text-white px-8 py-4 rounded-2xl font-bold font-lg shadow-lg shadow-orange-500/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
-                                    <Edit3 size={18} />
-                                    Criar Nova Receita
-                                </button>
-                            </Link>
-                        </div>
+                        <MyRecipesSection />
                     )}
 
                     {/* HISTORY */}
@@ -210,7 +285,8 @@ export default function ProfilePage() {
                 </div>
 
             </main>
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }
+

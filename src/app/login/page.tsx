@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SocialButtons from "@/components/auth/SocialButtons";
-import { ArrowRight, ChefHat, Sparkles } from 'lucide-react';
+import { ChefexLogo } from "@/components/brand";
+import { colors } from "@/theme/chefex-theme";
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -26,41 +28,51 @@ export default function LoginPage() {
         }
 
         try {
-            // Real Login
-            // Note: Currently using Mock Logic but saving to LocalStorage to simulate success.
-            // TODO: Connect to /api/auth/login when endpoint is ready or use client.
-            // For now, we will use the Google Auth endpoint structure or a mock successful response
-            // that mimics a real token to prevent 401 loops.
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
 
-            // SIMULATING REAL API CALL SEQUENCE FOR DEMO ROBUSTNESS
-            // In a real scenario: const res = await api.post('/auth/login', { email, password });
+            const data = await response.json();
 
-            // Manually creating a session to break the loop
-            const mockUser = {
-                id: "1",
-                name: "Chef Exemplo",
-                email: email,
-                token: "mock_access_token_to_stop_loop", // This needs to be real if backend validates it
-                refresh_token: "mock_refresh_token"
-            };
+            if (response.ok) {
+                // Fetch user info
+                const userResponse = await fetch('/api/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${data.access_token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-            // To properly fix: WE NEED REAL TOKENS if backend enforces it. 
-            // Since backend IS enforcing it, we must mock the backend response OR use the google flow.
-            // If the user uses Email/Password, we need an endpoint.
-            // DOES THE BACKEND HAVE EMAIL LOGIN? I need to check auth.py.
-            // It only showed /auth/google.
+                let userName = 'Usuário';
+                let userEmail = email;
+                let userAvatar = '';
 
-            // CRITICAL: Backend only has Google Auth implemented in the snippet I saw!
-            // So Email/Password login WILL NOT WORK unless I implement it or tell the user.
-            // For now, I will redirect them to Google Login or warn them.
+                if (userResponse.ok) {
+                    const userData = await userResponse.json();
+                    userName = userData.full_name || 'Usuário';
+                    userEmail = userData.email || email;
+                    userAvatar = userData.avatar_url || '';
+                }
 
-            setError("Login por email não implementado no backend (Apenas Google). Use o botão Google acima!");
-            setLoading(false);
-            return;
+                // Save session
+                const { auth } = await import('@/lib/auth');
+                auth.login({
+                    name: userName,
+                    email: userEmail,
+                    image: userAvatar,
+                    token: data.access_token,
+                    refresh_token: data.refresh_token
+                });
 
+                router.push("/feed");
+            } else {
+                setError(data.detail || "Email ou senha incorretos.");
+            }
         } catch (err) {
             console.error(err);
-            setError("Erro ao conectar.");
+            setError("Erro ao conectar ao servidor.");
         } finally {
             setLoading(false);
         }
@@ -83,19 +95,9 @@ export default function LoginPage() {
             {/* Login Card */}
             <div className="w-full max-w-md relative z-10 animate-in fade-in zoom-in-95 duration-700">
 
-                {/* Brand Logo / Icon */}
-                <div className="flex flex-col items-center mb-8">
-                    <div className="w-20 h-20 bg-gradient-to-tr from-[var(--color-primary)] to-[var(--color-secondary)] rounded-3xl rotate-6 flex items-center justify-center shadow-2xl shadow-purple-500/30 mb-4 animate-in slide-in-from-top-8 duration-1000">
-                        <ChefHat size={40} className="text-white -rotate-6" />
-                    </div>
-                    <h1 className="text-5xl font-black text-white tracking-tighter drop-shadow-xl mb-1 flex items-center gap-2">
-                        Gastro<span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-secondary)] to-yellow-400">fy</span>
-                    </h1>
-                    <p className="text-stone-300 font-medium tracking-widest text-xs uppercase flex items-center gap-2">
-                        <Sparkles size={12} className="text-yellow-400" />
-                        A Arte de Cozinhar
-                        <Sparkles size={12} className="text-yellow-400" />
-                    </p>
+                {/* Brand Logo */}
+                <div className="flex flex-col items-center mb-8 animate-in slide-in-from-top-8 duration-1000">
+                    <ChefexLogo size="xl" theme="dark" showTagline showCompany />
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-8 shadow-2xl shadow-black/50 overflow-hidden relative group">

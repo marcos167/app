@@ -4,17 +4,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from server.db import create_db_and_tables
 from server.api.endpoints import auth, recipes, payment, debug
 
-app = FastAPI(title="Gastrofy API")
+app = FastAPI(
+    title="Chefex API",
+    description="API oficial do Chefex — Axis Software",
+    version="1.0.0"
+)
 
-# Configuração de CORS
-origins = ["*"]
+# Configuração de CORS - Origens permitidas
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://receitasappmarcosouza.vercel.app",  # Produção
+    # Adicione outros domínios conforme necessário
+]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 @app.on_event("startup")
@@ -29,7 +38,7 @@ def on_startup():
 
 @app.get("/")
 def read_root():
-    return {"message": "Gastrofy API rodando! 🚀"}
+    return {"message": "Chefex API rodando! 🚀 | Axis Software"}
 
 # Routers
 app.include_router(auth.router, prefix="/api", tags=["auth"])

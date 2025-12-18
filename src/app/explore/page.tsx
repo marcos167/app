@@ -1,7 +1,8 @@
 'use client';
 
 import Navbar from "@/components/layout/Navbar";
-import BottomNav from "@/components/layout/BottomNav";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
+import { RecipeCardSkeleton, EmptyState } from "@/components/ui";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, SlidersHorizontal, ArrowUpRight, Heart, Crown } from 'lucide-react';
@@ -36,7 +37,7 @@ export default function ExplorePage() {
     );
 
     return (
-        <div className="min-h-screen bg-[#FDFCF5] dark:bg-stone-950 pb-24 font-sans transition-colors duration-300">
+        <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] pb-24 font-sans transition-colors duration-300">
             {/* Ambient Background Noise & Gradients */}
             <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
             <div className="fixed top-0 left-0 right-0 h-[50vh] bg-gradient-to-b from-[var(--color-primary)]/5 via-transparent to-transparent pointer-events-none z-0"></div>
@@ -86,13 +87,8 @@ export default function ExplorePage() {
                 {/* Results Grid */}
                 <div className="grid grid-cols-2 gap-4">
                     {loading ? (
-                        // Premium Skeletons
                         [1, 2, 3, 4, 5, 6].map((i) => (
-                            <div key={i} className="aspect-[3/4] bg-white dark:bg-stone-900 rounded-[2rem] p-3 border border-stone-100 dark:border-stone-800 shadow-sm animate-pulse">
-                                <div className="w-full h-2/3 bg-stone-200 dark:bg-stone-800 rounded-2xl mb-3"></div>
-                                <div className="w-3/4 h-4 bg-stone-200 dark:bg-stone-800 rounded-md mb-2"></div>
-                                <div className="w-1/2 h-3 bg-stone-200 dark:bg-stone-800 rounded-md"></div>
-                            </div>
+                            <RecipeCardSkeleton key={i} />
                         ))
                     ) : (
                         // Recipe Cards
@@ -155,21 +151,19 @@ export default function ExplorePage() {
                     )}
                 </div>
 
-                {/* Empty State */}
                 {!loading && filteredRecipes.length === 0 && (
-                    <div className="mt-20 text-center animate-in fade-in zoom-in-95 duration-500">
-                        <div className="w-24 h-24 bg-stone-100 dark:bg-stone-900 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-inner">
-                            🤔
-                        </div>
-                        <h3 className="text-xl font-bold text-stone-800 dark:text-white mb-2">Nada encontrado</h3>
-                        <p className="text-stone-400 max-w-[200px] mx-auto text-sm">
-                            Tente buscar por "Frango", "Massas" ou "Sobremesas".
-                        </p>
-                    </div>
+                    <EmptyState
+                        title="Nada encontrado"
+                        description="Tente buscar por 'Frango', 'Massas' ou 'Sobremesas'."
+                        action={{
+                            label: 'Limpar busca',
+                            onClick: () => setSearchTerm('')
+                        }}
+                    />
                 )}
             </main>
 
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }

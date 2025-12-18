@@ -1,7 +1,8 @@
 'use client';
 
 import Navbar from "@/components/layout/Navbar";
-import BottomNav from "@/components/layout/BottomNav";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
+import { EmptyState } from "@/components/ui";
 import Link from 'next/link';
 import { ArrowRight, Trash2 } from "lucide-react";
 import { useState } from 'react';
@@ -15,10 +16,11 @@ export default function SavedPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#FDFCF5] dark:bg-stone-950 pb-24 font-sans selection:bg-[var(--color-primary)] selection:text-white">
-            {/* Immersive Background */}
-            <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
-            <div className="fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-[var(--color-accent)]/5 via-transparent to-transparent pointer-events-none z-0"></div>
+        <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] pb-24 font-sans selection:bg-[var(--color-primary)] selection:text-white">
+            {/* Premium Noise Texture */}
+            <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none z-0"></div>
+            {/* Premium Radial Gradient */}
+            <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,#1A1D20_0%,transparent_60%)] pointer-events-none z-0 dark:block hidden"></div>
 
             <Navbar />
 
@@ -73,12 +75,14 @@ export default function SavedPage() {
                     ))}
 
                     {savedRecipes.length === 0 && (
-                        <div className="py-12 text-center bg-white/50 dark:bg-stone-900/50 rounded-[2rem] border border-dashed border-stone-300 dark:border-stone-700">
-                            <p className="text-stone-400 font-medium">Você ainda não salvou nenhuma receita.</p>
-                            <Link href="/feed">
-                                <button className="mt-4 text-[var(--color-primary)] font-bold text-sm hover:underline">Ir para o Feed</button>
-                            </Link>
-                        </div>
+                        <EmptyState
+                            title="Nenhuma receita salva"
+                            description="Você ainda não salvou nenhuma receita. Explore e salve suas favoritas!"
+                            action={{
+                                label: 'Explorar Receitas',
+                                onClick: () => window.location.href = '/feed'
+                            }}
+                        />
                     )}
                 </div>
 
@@ -89,7 +93,7 @@ export default function SavedPage() {
 
             </main>
 
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }

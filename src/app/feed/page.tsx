@@ -2,36 +2,31 @@
 
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
-import RecipeCard from "@/components/ui/RecipeCard";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { api } from "@/lib/api";
-import BottomNav from "@/components/layout/BottomNav";
+import { LoadingState, EmptyState, RecipeCardSkeleton } from "@/components/ui";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
+import { colors } from "@/theme/chefex-theme";
 
 export default function Home() {
   const router = useRouter();
   const [recipes, setRecipes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [activeCategory, setActiveCategory] = useState('Populares');
 
   useEffect(() => {
-    // Authenticated check check removed to allow Guest Mode
-    // if (!auth.isAuthenticated()) {
-    //   router.push("/login");
-    //   return;
-    // }
-
     const fetchRecipes = async () => {
       try {
         const data = await api.get<any[]>('/api/recipes?status=published');
-        // Filter out seed logic or malformed data if needed
         if (Array.isArray(data)) {
           setRecipes(data);
         }
       } catch (error) {
         console.error("Failed to fetch recipes", error);
-        // Fallback or Toast here
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -55,16 +50,25 @@ export default function Home() {
     ? recipes
     : recipes.filter(r => r.category === activeCategory);
 
+  // Loading State Premium
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-[var(--color-primary)]">Carregando...</div>;
+    return (
+      <div className="min-h-screen bg-[#0C0A09] flex flex-col">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <LoadingState title="Buscando receitas..." />
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFCF5] dark:bg-stone-950 font-sans pb-24 transition-colors duration-300">
-      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
+    <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] font-sans pb-24 transition-colors duration-300">
+      {/* Premium Noise Texture */}
+      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none z-0"></div>
 
-      {/* Immersive Background */}
-      <div className="fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-[var(--color-primary)]/10 via-transparent to-transparent pointer-events-none z-0"></div>
+      {/* Premium Radial Gradient */}
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,#1A1D20_0%,transparent_60%)] pointer-events-none z-0 dark:block hidden"></div>
 
       <Navbar />
 
@@ -169,16 +173,20 @@ export default function Home() {
           </div>
 
           {filteredRecipes.length === 0 && (
-            <div className="py-20 text-center">
-              <div className="text-4xl mb-4 opacity-50">🍳</div>
-              <p className="text-stone-400 font-medium">Nenhuma receita encontrada.</p>
-            </div>
+            <EmptyState
+              title="Nenhuma receita encontrada"
+              description="Tente mudar a categoria ou volte mais tarde."
+              action={{
+                label: 'Ver todas',
+                onClick: () => setActiveCategory('Populares')
+              }}
+            />
           )}
         </section>
 
       </main>
 
-      <BottomNav />
+      <BottomNavigation />
     </div>
   );
 }

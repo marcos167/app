@@ -1,7 +1,7 @@
 'use client';
 
 import Navbar from "@/components/layout/Navbar";
-import BottomNav from "@/components/layout/BottomNav";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 import { Clock, Trash2, X, Calendar } from "lucide-react";
 import { useState } from "react";
 import Link from 'next/link';
@@ -28,7 +28,7 @@ export default function HistoryPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCF5] dark:bg-stone-950 pb-24 font-sans overflow-hidden">
+        <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] pb-24 font-sans overflow-hidden">
             {/* Immersive Background */}
             <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
             <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-[var(--color-primary)]/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -117,7 +117,7 @@ export default function HistoryPage() {
                 </div>
 
             </main>
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }

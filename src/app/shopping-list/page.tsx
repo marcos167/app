@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Trash2, Plus, Check, ShoppingBag, ArrowLeft, Download, Upload, FileSpreadsheet, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import BottomNav from "@/components/layout/BottomNav";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 
 export default function ShoppingListPage() {
     const [items, setItems] = useState<any[]>([]);
@@ -347,7 +347,7 @@ export default function ShoppingListPage() {
                     )}
                 </AnimatePresence>
             </div>
-            <BottomNav />
+            <BottomNavigation />
         </div>
     );
 }
