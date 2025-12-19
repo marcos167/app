@@ -12,6 +12,7 @@ class Provider(str, Enum):
 class Role(str, Enum):
     USER = "user"
     ADMIN = "admin"
+    MODERATOR = "moderator"
 
 class PlanTier(str, Enum):
     FREE = "free"
@@ -34,6 +35,15 @@ class User(SQLModel, table=True):
     disabled: bool = False
     
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    # Auth & Security Fields
+    email_verified: bool = False
+    email_verification_token: Optional[str] = None
+    email_verification_expires: Optional[datetime] = None
+    password_reset_token: Optional[str] = None
+    password_reset_expires: Optional[datetime] = None
+    failed_login_attempts: int = 0
+    locked_until: Optional[datetime] = None
 
     # Stripe Fields
     stripe_customer_id: Optional[str] = Field(default=None, index=True)
@@ -93,6 +103,25 @@ class RefreshToken(SQLModel, table=True):
     expires_at: datetime
     created_at: datetime = Field(default_factory=datetime.utcnow)
     revoked: bool = False
+
+class SupportTicket(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="user.id", index=True)
+    status: str = Field(default="bot") # bot, in_queue, resolved
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+class SupportMessage(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    ticket_id: int = Field(foreign_key="supportticket.id", index=True)
+    sender: str = "user" # user, bot, support
+    content: str
+
+class Follower(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    follower_id: int = Field(foreign_key="user.id", index=True)
+    following_id: int = Field(foreign_key="user.id", index=True)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
 # Pydantic Schemas (Non-DB)
 class Token(BaseModel):

@@ -1,168 +1,323 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { TrendingUp, Users, DollarSign, AlertTriangle, CheckCircle, Clock, Activity, Zap } from 'lucide-react';
+
+interface DashboardStats {
+    users: { total: number; active_today: number; new_this_week: number };
+    recipes: { total: number; published: number; pending_moderation: number };
+    monetization: { pending_applications: number; approved_users: number; total_payouts: number };
+    system: { uptime: string; api_health: string; db_health: string };
+}
 
 export default function AdminDashboard() {
+    const [stats, setStats] = useState<DashboardStats | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Fetch real stats from API
+        fetchStats();
+
+        // Refresh every 30 seconds
+        const interval = setInterval(fetchStats, 30000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const fetchStats = async () => {
+        try {
+            // TODO: Implement real API call
+            // For now, mock data
+            setStats({
+                users: { total: 8432, active_today: 1247, new_this_week: 156 },
+                recipes: { total: 1284, published: 1266, pending_moderation: 18 },
+                monetization: { pending_applications: 3, approved_users: 12, total_payouts: 4250.50 },
+                system: { uptime: '99.9%', api_health: 'healthy', db_health: 'healthy' }
+            });
+            setLoading(false);
+        } catch (err) {
+            console.error('Failed to fetch stats:', err);
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-96">
+                <div className="w-12 h-12 border-4 border-amber-500/30 border-t-amber-500 rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
     return (
-        <div className="space-y-8 animate-fade-in">
-            {/* Welcome & Date */}
+        <div className="space-y-6 animate-fade-in">
+            {/* Header */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
-                    <p className="text-stone-400">Bem Vindo Meu Mestre Oque vamos fazer hoje!</p>
+                    <h1 className="text-3xl font-black text-white mb-2">Dashboard Administrativo</h1>
+                    <p className="text-stone-400">Visão geral completa do Chefex</p>
                 </div>
                 <div className="flex gap-3">
-                    <a href="/admin/recipes/create">
-                        <button className="px-4 py-2 bg-[var(--color-primary)] text-white font-bold rounded-lg shadow-lg hover:brightness-110 transition-all text-sm flex items-center gap-2">
-                            <span>✍️</span> Criar Nova Receita
+                    <Link href="/admin/recipes/create">
+                        <button className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold rounded-xl hover:scale-105 transition-transform flex items-center gap-2">
+                            ✍️ Nova Receita
                         </button>
-                    </a>
+                    </Link>
                     <button
-                        onClick={() => {
-                            const data = [
-                                ['ID', 'Nome', 'Status', 'Data'],
-                                ['1', 'Receita Teste', 'Ativa', '2024-01-01'],
-                                // Mock data for report
-                            ];
-                            const csvContent = "data:text/csv;charset=utf-8," +
-                                data.map(e => e.join(",")).join("\n");
-                            const encodedUri = encodeURI(csvContent);
-                            const link = document.createElement("a");
-                            link.setAttribute("href", encodedUri);
-                            link.setAttribute("download", "relatorio_receitas.csv");
-                            document.body.appendChild(link);
-                            link.click();
-                        }}
-                        className="px-4 py-2 bg-[#252525] text-stone-300 font-medium rounded-lg hover:bg-[#333] transition-all text-sm"
+                        onClick={() => window.location.reload()}
+                        className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-white font-medium rounded-xl transition-colors"
                     >
-                        Baixar Relatório ⬇️
+                        🔄 Atualizar
                     </button>
                 </div>
             </div>
 
-            {/* KPIs Grid */}
+            {/* System Health Bar */}
+            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/5 border border-green-500/30 rounded-2xl p-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-white font-bold">Sistema Operacional</span>
+                    </div>
+                    <div className="flex items-center gap-6 text-sm">
+                        <div className="flex items-center gap-2">
+                            <Activity size={16} className="text-green-400" />
+                            <span className="text-stone-300">API: <strong className="text-green-400">{stats?.system.api_health}</strong></span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Zap size={16} className="text-green-400" />
+                            <span className="text-stone-300">DB: <strong className="text-green-400">{stats?.system.db_health}</strong></span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <TrendingUp size={16} className="text-green-400" />
+                            <span className="text-stone-300">Uptime: <strong className="text-green-400">{stats?.system.uptime}</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main KPIs */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                    { title: 'Total de Receitas', value: '1,284', trend: '+12%', icon: '🍜', color: 'blue' },
-                    { title: 'Receitas Publicadas', value: '24', trend: '+5 Hoje', icon: '✅', color: 'green' },
-                    { title: 'Comentários Pendentes', value: '18', trend: 'Ação Necessária', icon: '💬', color: 'orange' },
-                    { title: 'Usuários Ativos', value: '8.4k', trend: '+18% Semanal', icon: '👥', color: 'purple' },
-                ].map((kpi, idx) => (
-                    <div key={idx} className="bg-[#1A1A1A] border border-[#2A2A2A] p-6 rounded-2xl shadow-sm hover:border-stone-700 transition-colors">
-                        <div className="flex justify-between items-start mb-4">
-                            <div className={`p-3 rounded-lg bg-${kpi.color}-500/10 text-${kpi.color}-500 text-2xl`}>
-                                {kpi.icon}
+                {/* Users */}
+                <Link href="/admin/users">
+                    <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-3xl p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-blue-500/20 p-3 rounded-2xl">
+                                <Users size={24} className="text-blue-400" />
                             </div>
-                            <span className={`text-xs font-bold px-2 py-1 rounded-full ${kpi.trend.includes('+') ? 'bg-green-500/10 text-green-500' : 'bg-orange-500/10 text-orange-500'}`}>
-                                {kpi.trend}
+                            <div className="flex-1">
+                                <p className="text-xs text-stone-400 uppercase font-bold">Usuários</p>
+                                <p className="text-2xl font-black text-white">{stats?.users.total.toLocaleString('pt-BR')}</p>
+                            </div>
+                        </div>
+                        <div className="space-y-1 text-sm">
+                            <div className="flex items-center justify-between">
+                                <span className="text-stone-400">Ativos hoje</span>
+                                <span className="text-blue-400 font-bold">{stats?.users.active_today}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-stone-400">Novos (7d)</span>
+                                <span className="text-green-400 font-bold">+{stats?.users.new_this_week}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+
+                {/* Recipes */}
+                <Link href="/admin/recipes">
+                    <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-3xl p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-purple-500/20 p-3 rounded-2xl">
+                                <span className="text-2xl">🍜</span>
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-xs text-stone-400 uppercase font-bold">Receitas</p>
+                                <p className="text-2xl font-black text-white">{stats?.recipes.total.toLocaleString('pt-BR')}</p>
+                            </div>
+                        </div>
+                        <div className="space-y-1 text-sm">
+                            <div className="flex items-center justify-between">
+                                <span className="text-stone-400">Publicadas</span>
+                                <span className="text-green-400 font-bold">{stats?.recipes.published}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-stone-400">Moderação</span>
+                                <span className="text-orange-400 font-bold">{stats?.recipes.pending_moderation}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+
+                {/* Monetization */}
+                <Link href="/admin/monetization-review">
+                    <div className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/20 rounded-3xl p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-amber-500/20 p-3 rounded-2xl">
+                                <DollarSign size={24} className="text-amber-400" />
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-xs text-stone-400 uppercase font-bold">Monetização</p>
+                                <p className="text-2xl font-black text-white">{stats?.monetization.approved_users}</p>
+                            </div>
+                        </div>
+                        <div className="space-y-1 text-sm">
+                            <div className="flex items-center justify-between">
+                                <span className="text-stone-400">Pendentes</span>
+                                <span className="text-yellow-400 font-bold">{stats?.monetization.pending_applications}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className="text-stone-400">Pagamentos</span>
+                                <span className="text-green-400 font-bold">R$ {stats?.monetization.total_payouts.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+
+                {/* Moderation */}
+                <Link href="/admin/moderation">
+                    <div className="bg-gradient-to-br from-red-500/10 to-red-500/5 border border-red-500/20 rounded-3xl p-6 hover:scale-105 transition-transform cursor-pointer">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-red-500/20 p-3 rounded-2xl">
+                                <AlertTriangle size={24} className="text-red-400" />
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-xs text-stone-400 uppercase font-bold">Moderação</p>
+                                <p className="text-2xl font-black text-white">{stats?.recipes.pending_moderation}</p>
+                            </div>
+                        </div>
+                        <div className="space-y-1 text-sm">
+                            <div className="flex items-center justify-between">
+                                <span className="text-stone-400">Ação necessária</span>
+                                <span className="text-red-400 font-bold">Revisar</span>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Link href="/admin/monetization-review">
+                    <div className="bg-[#1A1A1A] border border-amber-500/30 rounded-2xl p-6 hover:border-amber-500 transition-colors cursor-pointer group">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-amber-500/20 p-4 rounded-2xl group-hover:scale-110 transition-transform">
+                                <DollarSign size={32} className="text-amber-500" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-white mb-1">Revisar Aplicações</h3>
+                                <p className="text-sm text-stone-400">{stats?.monetization.pending_applications} aplicações aguardando</p>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+
+                <Link href="/admin/moderation">
+                    <div className="bg-[#1A1A1A] border border-red-500/30 rounded-2xl p-6 hover:border-red-500 transition-colors cursor-pointer group">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-red-500/20 p-4 rounded-2xl group-hover:scale-110 transition-transform">
+                                <AlertTriangle size={32} className="text-red-500" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-white mb-1">Moderar Conteúdo</h3>
+                                <p className="text-sm text-stone-400">{stats?.recipes.pending_moderation} itens pendentes</p>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+
+                <Link href="/admin/users">
+                    <div className="bg-[#1A1A1A] border border-blue-500/30 rounded-2xl p-6 hover:border-blue-500 transition-colors cursor-pointer group">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-blue-500/20 p-4 rounded-2xl group-hover:scale-110 transition-transform">
+                                <Users size={32} className="text-blue-500" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-white mb-1">Gerenciar Usuários</h3>
+                                <p className="text-sm text-stone-400">{stats?.users.active_today} ativos hoje</p>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
+            {/* Recent Activity & Logs */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Recent Activity */}
+                <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl overflow-hidden">
+                    <div className="p-6 border-b border-[#2A2A2A] flex justify-between items-center">
+                        <h3 className="text-lg font-bold text-white">Atividade Recente</h3>
+                        <Link href="/admin/logs">
+                            <button className="text-amber-500 text-sm font-bold hover:underline">Ver todos</button>
+                        </Link>
+                    </div>
+                    <div className="p-6 space-y-4">
+                        {[
+                            { user: 'Ana Julia', action: 'publicou uma receita', time: '2 min atrás', icon: '✅', color: 'green' },
+                            { user: 'Carlos M.', action: 'aplicou para monetização', time: '15 min atrás', icon: '💰', color: 'yellow' },
+                            { user: 'Mariana S.', action: 'reportou conteúdo', time: '1h atrás', icon: '⚠️', color: 'red' },
+                            { user: 'Pedro L.', action: 'criou nova conta', time: '2h atrás', icon: '👤', color: 'blue' },
+                        ].map((activity, idx) => (
+                            <div key={idx} className="flex items-center gap-4 p-3 bg-[#252525] rounded-xl hover:bg-[#2A2A2A] transition-colors">
+                                <span className="text-2xl">{activity.icon}</span>
+                                <div className="flex-1">
+                                    <p className="text-sm text-white font-medium">
+                                        <strong>{activity.user}</strong> {activity.action}
+                                    </p>
+                                    <p className="text-xs text-stone-500">{activity.time}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* System Logs */}
+                <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl overflow-hidden">
+                    <div className="p-6 border-b border-[#2A2A2A] flex justify-between items-center">
+                        <h3 className="text-lg font-bold text-white">Logs do Sistema</h3>
+                        <Link href="/admin/logs">
+                            <button className="text-amber-500 text-sm font-bold hover:underline">Ver completo</button>
+                        </Link>
+                    </div>
+                    <div className="p-6 space-y-3 font-mono text-xs">
+                        {[
+                            { level: 'INFO', message: 'Database backup completed successfully', time: '01:29' },
+                            { level: 'WARN', message: 'High memory usage detected (85%)', time: '01:15' },
+                            { level: 'INFO', message: 'Monetization application #127 approved', time: '00:45' },
+                            { level: 'ERROR', message: 'Failed to send email notification', time: '00:30' },
+                        ].map((log, idx) => (
+                            <div key={idx} className="flex items-start gap-3 p-2 bg-[#252525] rounded-lg">
+                                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${log.level === 'ERROR' ? 'bg-red-500/20 text-red-400' :
+                                    log.level === 'WARN' ? 'bg-yellow-500/20 text-yellow-400' :
+                                        'bg-green-500/20 text-green-400'
+                                    }`}>
+                                    {log.level}
+                                </span>
+                                <div className="flex-1">
+                                    <p className="text-stone-300">{log.message}</p>
+                                    <p className="text-stone-600 text-[10px] mt-1">{log.time}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Performance Chart */}
+            <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-white mb-6">Engajamento dos Últimos 7 Dias</h3>
+                <div className="h-64 flex items-end justify-between gap-2">
+                    {[65, 78, 56, 89, 45, 92, 73].map((height, idx) => (
+                        <div key={idx} className="flex-1 flex flex-col items-center gap-2">
+                            <div className="w-full bg-gradient-to-t from-amber-500 to-orange-500 rounded-t-lg hover:opacity-80 transition-opacity relative group" style={{ height: `${height}%` }}>
+                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                    {height * 10} usuários
+                                </div>
+                            </div>
+                            <span className="text-xs text-stone-500 font-mono">
+                                {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'][idx]}
                             </span>
                         </div>
-                        <h3 className="text-stone-500 text-sm font-medium mb-1">{kpi.title}</h3>
-                        <p className="text-3xl font-bold text-white">{kpi.value}</p>
-                    </div>
-                ))}
-            </div>
-
-            {/* Charts & Activity Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                {/* Main Chart (Mock) */}
-                <div className="lg:col-span-2 bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6">
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-white">Engajamento Mensal</h3>
-                        <select className="bg-[#252525] border-none text-xs text-stone-400 rounded-lg px-3 py-1 outline-none">
-                            <option>Últimos 30 dias</option>
-                            <option>Últimos 7 dias</option>
-                        </select>
-                    </div>
-                    {/* Mock Bars */}
-                    <div className="h-64 flex items-end justify-between gap-2 px-4">
-                        {[40, 65, 34, 78, 56, 45, 89, 23, 67, 78, 54, 88].map((h, i) => (
-                            <div key={i} className="w-full bg-[#252525] hover:bg-[var(--color-primary)] rounded-t-sm transition-colors relative group" style={{ height: `${h}%` }}>
-                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                    {h * 10}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex justify-between mt-4 text-xs text-stone-600 font-mono">
-                        <span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span>
-                        <span>Jul</span><span>Ago</span><span>Set</span><span>Out</span><span>Nov</span><span>Dez</span>
-                    </div>
-                </div>
-
-                {/* Popular Categories */}
-                <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6">
-                    <h3 className="text-lg font-bold text-white mb-6">Categorias Populares</h3>
-                    <div className="space-y-5">
-                        {[
-                            { name: 'Pratos Brasileiros', count: 450, pct: '70%' },
-                            { name: 'Sobremesas', count: 320, pct: '50%' },
-                            { name: 'Saudáveis', count: 210, pct: '35%' },
-                            { name: 'Rápidas', count: 180, pct: '28%' },
-                        ].map((cat) => (
-                            <div key={cat.name}>
-                                <div className="flex justify-between text-sm mb-2">
-                                    <span className="font-medium text-stone-300">{cat.name}</span>
-                                    <span className="text-stone-500">{cat.count} receitas</span>
-                                </div>
-                                <div className="h-2 bg-[#252525] rounded-full overflow-hidden">
-                                    <div className="h-full bg-gradient-to-r from-orange-600 to-orange-400 rounded-full" style={{ width: cat.pct }}></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <Link href="/admin/categories">
-                        <button className="w-full mt-8 py-3 rounded-xl border border-[#333] text-stone-400 text-sm hover:text-white hover:border-stone-500 transition-all">
-                            Ver todas as categorias
-                        </button>
-                    </Link>
-                </div>
-
-            </div>
-
-            {/* Recent Table */}
-            <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl overflow-hidden">
-                <div className="p-6 border-b border-[#2A2A2A] flex justify-between items-center">
-                    <h3 className="text-lg font-bold text-white">Últimos Comentários</h3>
-                    <Link href="/admin/comments">
-                        <button className="text-[var(--color-primary)] text-sm font-bold hover:underline">Ver todos</button>
-                    </Link>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left text-stone-400 text-sm">
-                        <thead className="bg-[#202020] text-stone-500 uppercase font-bold text-xs">
-                            <tr>
-                                <th className="p-4">Usuário</th>
-                                <th className="p-4">Receita</th>
-                                <th className="p-4">Comentário</th>
-                                <th className="p-4">Status</th>
-                                <th className="p-4 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#2A2A2A]">
-                            {[
-                                { user: 'Ana Julia', recipe: 'Bolo de Fubá', comment: 'Receita maravilhosa! Adorei.', status: 'Pendente' },
-                                { user: 'Carlos M.', recipe: 'Feijoada', comment: 'Faltou sal na minha...', status: 'Aprovado' },
-                                { user: 'Mariana Silva', recipe: 'Pudim', comment: 'Posso substituir o leite?', status: 'Pendente' },
-                            ].map((row, i) => (
-                                <tr key={i} className="hover:bg-[#252525] transition-colors">
-                                    <td className="p-4 font-bold text-white max-w-[150px] truncate">{row.user}</td>
-                                    <td className="p-4 text-[var(--color-primary)]">{row.recipe}</td>
-                                    <td className="p-4 max-w-xs truncate">{row.comment}</td>
-                                    <td className="p-4">
-                                        <span className={`px-2 py-1 rounded text-xs font-bold ${row.status === 'Pendente' ? 'bg-orange-500/10 text-orange-500' : 'bg-green-500/10 text-green-500'}`}>
-                                            {row.status}
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-right">
-                                        <button className="text-stone-400 hover:text-white mr-3">✏️</button>
-                                        <button className="text-stone-400 hover:text-red-500">🗑️</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    ))}
                 </div>
             </div>
         </div>

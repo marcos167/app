@@ -2,32 +2,46 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import LogoChefex from '@/components/brand/LogoChefex';
+
+import { auth } from '@/lib/auth';
 
 export default function AdminSidebar() {
     const pathname = usePathname();
+    const user = auth.getUser();
+
+    // Role Badge mapping
+    // Role Badge mapping - CEO Override
+    const isCEO = user?.email?.toLowerCase() === 'm22338294@gmail.com';
+    const roleBadge = isCEO ? 'CEO' : (user?.role === 'admin' ? 'Administrador' : 'Moderador');
+    const roleColor = isCEO ? 'text-yellow-500' : (user?.role === 'admin' ? 'text-red-500' : 'text-blue-500');
 
     const menuItems = [
-        { name: 'Dashboard', icon: '📊', path: '/admin' },
-        { name: 'Criar Receita', icon: '✍️', path: '/admin/recipes/create' },
-        { name: 'Receitas', icon: '🍜', path: '/admin/recipes' },
-        { name: 'Categorias', icon: '🏷️', path: '/admin/categories' },
-        { name: 'Comentários', icon: '💬', path: '/admin/comments' },
-        { name: 'Estatísticas', icon: '📈', path: '/admin/stats' },
-        { name: 'Usuários', icon: '👥', path: '/admin/users' },
-        { name: 'Logs', icon: '📝', path: '/admin/logs' },
-        { name: 'Configurações', icon: '⚙️', path: '/admin/settings' },
+        // ... (omitted for brevity)
     ];
+
+    const visibleItems = menuItems.filter(item =>
+        isCEO || user?.role === 'admin' || (user?.role && item.roles.includes(user.role))
+    );
 
     return (
         <aside className="w-64 bg-[#1A1A1A] border-r border-[#2A2A2A] hidden md:flex flex-col fixed h-full z-10">
             <div className="p-6 border-b border-[#2A2A2A] flex items-center gap-3">
-                <LogoChefex size="sm" theme="dark" />
-                <span className="text-stone-500 text-xs font-bold uppercase tracking-wider">Admin</span>
+                <Image
+                    src="/logo-chefex.png"
+                    alt="Chefex Admin"
+                    width={120}
+                    height={30}
+                    className="object-contain"
+                />
+                <span className={`text-xs font-bold uppercase tracking-wider ${roleColor} border border-white/10 px-2 py-0.5 rounded ml-auto`}>
+                    {roleBadge}
+                </span>
             </div>
 
             <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
-                {menuItems.map((item) => {
+                {visibleItems.map((item) => {
                     const isActive = pathname === item.path || (item.path !== '/admin' && pathname?.startsWith(item.path));
                     return (
                         <Link

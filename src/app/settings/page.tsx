@@ -1,187 +1,128 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/auth';
-import { useToast } from '@/contexts/ToastContext';
-import { Moon, Globe, Bell, Mail, Lock, Info, FileText, LogOut, ChevronRight, Share2 } from 'lucide-react';
 import Navbar from "@/components/layout/Navbar";
 import { BottomNavigation } from "@/components/navigation/BottomNavigation";
+import { Bell, Lock, Eye, EyeOff, Globe, Trash2, ChevronRight, Moon, Sun } from "lucide-react";
+import { useState } from "react";
 
 export default function SettingsPage() {
-    const router = useRouter();
-    const { showToast } = useToast();
-
-    // Preferences State
-    const [notifications, setNotifications] = useState({
-        push: true,
-        email: false,
-        marketing: false
-    });
-
-    const [privacy, setPrivacy] = useState({
-        publicProfile: true,
-        showActivity: true
-    });
-
-    const [darkMode, setDarkMode] = useState(false);
-
-    const handleLogout = () => {
-        auth.logout();
-        showToast('Você saiu da conta', 'info');
-        router.push('/login');
-    };
+    const [notifications, setNotifications] = useState(true);
+    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
     return (
-        <div className="min-h-screen bg-[#FDFCF5] dark:bg-[#0E0F10] pb-20 font-sans selection:bg-[var(--color-primary)] selection:text-white">
-            {/* Immersive Background */}
-            <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
-            <div className="fixed top-0 left-0 w-full h-[300px] bg-gradient-to-b from-[var(--color-secondary)]/10 to-transparent pointer-events-none z-0"></div>
-
+        <div className="min-h-screen bg-[#0C0A09] pb-24 font-sans text-stone-300">
+            <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none z-0"></div>
             <Navbar />
 
-            <div className="p-4 space-y-8 max-w-md mx-auto pt-8 relative z-10">
+            <main className="max-w-2xl mx-auto px-6 pt-12 relative z-10">
+                <header className="mb-12 text-center">
+                    <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">Configurações</h1>
+                    <p className="text-stone-400 text-sm">Personalize sua experiência no Chefex</p>
+                </header>
 
-                {/* Header */}
-                <div className="mb-6">
-                    <h1 className="text-3xl font-black text-stone-800 dark:text-white tracking-tight">Configurações ⚙️</h1>
-                    <p className="text-stone-500 text-sm dark:text-stone-400 font-medium">Personalize sua experiência.</p>
+                <div className="space-y-6 mb-12">
+                    {/* Notifications */}
+                    <section className="bg-[#1C1917] p-6 rounded-2xl border border-white/5">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-500/10 p-2 rounded-lg">
+                                    <Bell size={20} className="text-blue-500" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-white">Notificações</h3>
+                                    <p className="text-xs text-stone-500">Receba atualizações sobre suas receitas</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setNotifications(!notifications)}
+                                className={`w-12 h-6 rounded-full transition-colors relative ${notifications ? 'bg-green-500' : 'bg-stone-700'}`}
+                            >
+                                <div className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform ${notifications ? 'translate-x-6' : 'translate-x-0.5'}`} />
+                            </button>
+                        </div>
+                    </section>
+
+                    {/* Theme */}
+                    <section className="bg-[#1C1917] p-6 rounded-2xl border border-white/5">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-purple-500/10 p-2 rounded-lg">
+                                    {theme === 'dark' ? <Moon size={20} className="text-purple-500" /> : <Sun size={20} className="text-amber-500" />}
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-white">Tema</h3>
+                                    <p className="text-xs text-stone-500">Modo {theme === 'dark' ? 'Escuro' : 'Claro'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => setTheme('dark')}
+                                className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${theme === 'dark' ? 'bg-white text-black' : 'bg-white/5 text-stone-400 hover:bg-white/10'}`}
+                            >
+                                Escuro
+                            </button>
+                            <button
+                                onClick={() => setTheme('light')}
+                                className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${theme === 'light' ? 'bg-white text-black' : 'bg-white/5 text-stone-400 hover:bg-white/10'}`}
+                            >
+                                Claro
+                            </button>
+                        </div>
+                    </section>
+
+                    {/* Privacy */}
+                    <section className="bg-[#1C1917] p-6 rounded-2xl border border-white/5">
+                        <h3 className="font-bold text-white mb-4">Privacidade</h3>
+                        <div className="space-y-3">
+                            <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <Lock size={18} className="text-stone-400" />
+                                    <span className="text-sm">Conta Privada</span>
+                                </div>
+                                <ChevronRight size={18} className="text-stone-600" />
+                            </button>
+                            <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <Eye size={18} className="text-stone-400" />
+                                    <span className="text-sm">Quem pode ver minhas receitas</span>
+                                </div>
+                                <ChevronRight size={18} className="text-stone-600" />
+                            </button>
+                        </div>
+                    </section>
+
+                    {/* Data & Legal */}
+                    <section className="bg-[#1C1917] p-6 rounded-2xl border border-white/5">
+                        <h3 className="font-bold text-white mb-4">Dados e Legal</h3>
+                        <div className="space-y-3">
+                            <a href="/legal/privacy" className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <Globe size={18} className="text-stone-400" />
+                                    <span className="text-sm">Política de Privacidade</span>
+                                </div>
+                                <ChevronRight size={18} className="text-stone-600" />
+                            </a>
+                            <a href="/legal/terms" className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <Globe size={18} className="text-stone-400" />
+                                    <span className="text-sm">Termos de Uso</span>
+                                </div>
+                                <ChevronRight size={18} className="text-stone-600" />
+                            </a>
+                        </div>
+                    </section>
+
+                    {/* Danger Zone */}
+                    <section className="bg-red-500/5 p-6 rounded-2xl border border-red-500/10">
+                        <h3 className="font-bold text-red-400 mb-4">Zona de Perigo</h3>
+                        <button className="w-full p-3 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-colors flex items-center justify-center gap-2 text-red-400 font-bold text-sm">
+                            <Trash2 size={18} />
+                            Excluir Minha Conta
+                        </button>
+                    </section>
                 </div>
-
-                {/* Section: Preferences */}
-                <section>
-                    <h2 className="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-4 ml-2">Preferências</h2>
-                    <div className="bg-white/60 dark:bg-stone-900/60 backdrop-blur-xl rounded-[2rem] shadow-xl border border-white/50 dark:border-stone-800 overflow-hidden">
-
-                        {/* Dark Mode */}
-                        <div className="p-5 flex items-center justify-between border-b border-stone-100 dark:border-stone-800 group hover:bg-white/40 dark:hover:bg-stone-800/40 transition-colors">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 flex items-center justify-center">
-                                    <Moon size={20} />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-stone-800 dark:text-white leading-tight mb-0.5">Modo Escuro</p>
-                                    <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Economiza bateria e descansa a vista</p>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked={darkMode} onChange={() => setDarkMode(!darkMode)} className="sr-only peer" />
-                                <div className="w-12 h-7 bg-stone-200 dark:bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-primary)] shadow-inner"></div>
-                            </label>
-                        </div>
-
-                        {/* Language */}
-                        <div className="p-5 flex items-center justify-between group hover:bg-white/40 dark:hover:bg-stone-800/40 transition-colors cursor-pointer">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center">
-                                    <Globe size={20} />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-stone-800 dark:text-white leading-tight mb-0.5">Idioma</p>
-                                    <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Português (Brasil)</p>
-                                </div>
-                            </div>
-                            <ChevronRight size={18} className="text-stone-400" />
-                        </div>
-                    </div>
-                </section>
-
-                {/* Section: Notifications */}
-                <section>
-                    <h2 className="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-4 ml-2">Notificações</h2>
-                    <div className="bg-white/60 dark:bg-stone-900/60 backdrop-blur-xl rounded-[2rem] shadow-xl border border-white/50 dark:border-stone-800 overflow-hidden">
-
-                        <div className="p-5 flex items-center justify-between border-b border-stone-100 dark:border-stone-800 hover:bg-white/40 dark:hover:bg-stone-800/40 transition-colors">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 flex items-center justify-center">
-                                    <Bell size={20} />
-                                </div>
-                                <span className="font-bold text-sm text-stone-700 dark:text-stone-200">Push Notifications</span>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked={notifications.push} onChange={() => setNotifications(prev => ({ ...prev, push: !prev.push }))} className="sr-only peer" />
-                                <div className="w-10 h-6 bg-stone-200 dark:bg-stone-800 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
-                            </label>
-                        </div>
-                        <div className="p-5 flex items-center justify-between hover:bg-white/40 dark:hover:bg-stone-800/40 transition-colors">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-900/20 text-orange-500 flex items-center justify-center">
-                                    <Mail size={20} />
-                                </div>
-                                <span className="font-bold text-sm text-stone-700 dark:text-stone-200">Emails de Novidades</span>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked={notifications.email} onChange={() => setNotifications(prev => ({ ...prev, email: !prev.email }))} className="sr-only peer" />
-                                <div className="w-10 h-6 bg-stone-200 dark:bg-stone-800 rounded-full peer peer-checked:bg-green-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all shadow-inner"></div>
-                            </label>
-                        </div>
-
-                    </div>
-                </section>
-
-                {/* Section: Privacy & Security */}
-                <section>
-                    <h2 className="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-4 ml-2">Privacidade</h2>
-                    <div className="bg-white/60 dark:bg-stone-900/60 backdrop-blur-xl rounded-[2rem] shadow-xl border border-white/50 dark:border-stone-800 overflow-hidden">
-                        <div className="p-5 flex items-center justify-between hover:bg-white/40 dark:hover:bg-stone-800/40 transition-colors">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-500 flex items-center justify-center">
-                                    <Lock size={20} />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-stone-800 dark:text-white leading-tight mb-0.5">Perfil Público</p>
-                                    <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Outros podem ver suas receitas salvas</p>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked={privacy.publicProfile} onChange={() => setPrivacy(prev => ({ ...prev, publicProfile: !prev.publicProfile }))} className="sr-only peer" />
-                                <div className="w-12 h-7 bg-stone-200 dark:bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-primary)] shadow-inner"></div>
-                            </label>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Section: Support */}
-                <section>
-                    <h2 className="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] mb-4 ml-2">Geral</h2>
-                    <div className="bg-white/60 dark:bg-stone-900/60 backdrop-blur-xl rounded-[2rem] shadow-xl border border-white/50 dark:border-stone-800 overflow-hidden">
-                        <Link href="/about" className="p-5 flex items-center justify-between hover:bg-white/40 dark:hover:bg-stone-800/40 transition-colors border-b border-stone-100 dark:border-stone-800">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500 flex items-center justify-center">
-                                    <Info size={20} />
-                                </div>
-                                <span className="text-sm font-bold text-stone-700 dark:text-stone-200">Sobre o App</span>
-                            </div>
-                            <span className="text-xs font-bold text-stone-400 bg-stone-100 dark:bg-stone-800 px-2 py-1 rounded-md">v2.0</span>
-                        </Link>
-                        <Link href="/terms" className="p-5 flex items-center justify-between hover:bg-white/40 dark:hover:bg-stone-800/40 transition-colors">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500 flex items-center justify-center">
-                                    <FileText size={20} />
-                                </div>
-                                <span className="text-sm font-bold text-stone-700 dark:text-stone-200">Termos e Condições</span>
-                            </div>
-                            <ChevronRight size={18} className="text-stone-400" />
-                        </Link>
-                    </div>
-                </section>
-
-                {/* Section: Danger Zone (Logout) */}
-                <section className="pt-4 pb-8">
-                    <button
-                        onClick={handleLogout}
-                        className="w-full bg-red-50 dark:bg-red-900/10 text-red-500 font-bold py-4 rounded-[2rem] border border-red-100 dark:border-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all flex items-center justify-center gap-3 shadow-lg shadow-red-500/5 group"
-                    >
-                        <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" /> Sair da Conta
-                    </button>
-                    <p className="text-center text-[10px] text-stone-300 dark:text-stone-600 mt-6 font-mono tracking-widest uppercase">
-                        CookApp ID: {auth.getUser()?.username || 'user-123'}
-                    </p>
-                </section>
-
-            </div>
-
+            </main>
             <BottomNavigation />
         </div>
     );

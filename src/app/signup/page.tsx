@@ -24,12 +24,19 @@ export default function SignupPage() {
     const [loading, setLoading] = useState(false);
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const [error, setError] = useState("");
+    const [termsAccepted, setTermsAccepted] = useState(false);
     const router = useRouter();
 
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError("");
+
+        if (!termsAccepted) {
+            setError("Você deve aceitar os Termos de Uso e Política de Privacidade para criar uma conta.");
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await fetch('/api/auth/signup', {
@@ -179,6 +186,22 @@ export default function SignupPage() {
                                 </div>
                             </div>
 
+                            {/* Terms and Privacy Acceptance (MANDATORY) */}
+                            <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4">
+                                <label className="flex items-start gap-3 cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        checked={termsAccepted}
+                                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                                        className="mt-1 w-5 h-5 rounded border-2 border-amber-500/50 bg-black/20 checked:bg-amber-500 checked:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all cursor-pointer"
+                                        required
+                                    />
+                                    <span className="text-xs text-amber-200 leading-relaxed">
+                                        Li e aceito os <a href="/legal/terms" target="_blank" className="font-bold underline hover:text-amber-100">Termos de Uso</a>, <a href="/legal/privacy" target="_blank" className="font-bold underline hover:text-amber-100">Política de Privacidade</a> e <a href="/legal/monetization" target="_blank" className="font-bold underline hover:text-amber-100">Política de Monetização</a> do Chefex.
+                                    </span>
+                                </label>
+                            </div>
+
                             {/* Error Message */}
                             {error && (
                                 <div className="bg-red-500/20 text-red-200 text-xs font-bold py-3 px-4 rounded-xl border border-red-500/30 text-center animate-pulse">
@@ -189,8 +212,9 @@ export default function SignupPage() {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                disabled={loading}
-                                className="w-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-bold py-4 rounded-2xl shadow-lg shadow-purple-900/40 hover:shadow-purple-900/60 transition-all active:scale-95 flex items-center justify-center gap-2 group/btn"
+                                disabled={loading || !termsAccepted}
+                                className={`w-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 group/btn ${!termsAccepted ? 'opacity-50 cursor-not-allowed' : 'shadow-purple-900/40 hover:shadow-purple-900/60'
+                                    }`}
                             >
                                 {loading ? (
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

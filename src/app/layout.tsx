@@ -8,6 +8,8 @@ import { GamificationProvider } from "@/contexts/GamificationContext";
 import { ModerationProvider } from "@/contexts/ModerationContext";
 import { AchievementToastProvider } from "@/components/gamification/AchievementToast";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import SupportWidget from '@/components/support/SupportWidget';
+import { LGPDModal } from '@/components/legal/LGPDModal';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +76,8 @@ export default function RootLayout({
               </GamificationProvider>
             </SubscriptionProvider>
           </ThemeProvider>
+          <SupportWidget />
+          <LGPDModal />
         </GoogleOAuthProvider>
       </body>
     </html>

@@ -91,7 +91,7 @@ export default function UserCreateRecipe() {
 
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
-                    <Link href="/profile" className="p-3 bg-white dark:bg-stone-900 rounded-full shadow-sm hover:scale-105 transition-transform text-stone-600 dark:text-stone-400">
+                    <Link href="/community" className="p-3 bg-white dark:bg-stone-900 rounded-full shadow-sm hover:scale-105 transition-transform text-stone-600 dark:text-stone-400">
                         <ArrowLeft size={20} />
                     </Link>
                     <div>

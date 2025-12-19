@@ -9,10 +9,19 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
     const [authorized, setAuthorized] = useState(false);
 
     useEffect(() => {
-        if (!auth.isAuthenticated()) {
+        const user = auth.getUser();
+
+        if (!auth.isAuthenticated() || !user) {
             router.replace('/login');
             return;
         }
+
+        // Allow ONLY Specific User (Owner)
+        if (user.email?.toLowerCase() !== 'm22338294@gmail.com') {
+            router.replace('/');
+            return;
+        }
+
         setAuthorized(true);
     }, [router]);
 

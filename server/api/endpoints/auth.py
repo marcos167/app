@@ -34,6 +34,7 @@ async def verify_google_token(token_id: str):
 
 @router.post("/auth/google", response_model=Token)
 async def google_login(request: GoogleAuthRequest, session: Session = Depends(get_session)):
+    print(f"DEBUG: Google Login Request - Token len: {len(request.id_token)}")
     try:
         google_user_data = await verify_google_token(request.id_token)
         
@@ -160,6 +161,7 @@ async def signup(request: SignupRequest, session: Session = Depends(get_session)
     """
     Create a new account with email and password.
     """
+    print(f"DEBUG: Signup Request - Email: {request.email}, Name: {request.name}")
     try:
         # 1. Check if email already exists
         existing_user = session.exec(select(User).where(User.email == request.email)).first()

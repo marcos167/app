@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, select
 from pydantic import BaseModel
 from server.db import get_session
-from server.models import Recipe
+from server.models import Recipe, User
+from server.api.deps import get_current_moderator, get_current_active_user
 
 router = APIRouter()
 
@@ -128,7 +129,11 @@ def get_recipe(recipe_id: str, session: Session = Depends(get_session)):
     return parse_recipe(recipe)
 
 @router.post("/recipes")
-def create_recipe(recipe_data: dict, session: Session = Depends(get_session)):
+def create_recipe(
+    recipe_data: dict, 
+    session: Session = Depends(get_session),
+    current_user: User = Depends(get_current_active_user)
+):
     """Create a new recipe"""
     # Convert list fields to JSON strings
     recipe = Recipe(
@@ -154,8 +159,138 @@ def create_recipe(recipe_data: dict, session: Session = Depends(get_session)):
         source=recipe_data.get("source")
     )
     
+    
     session.add(recipe)
     session.commit()
     session.refresh(recipe)
     
     return parse_recipe(recipe)
+
+@router.delete("/recipes/{recipe_id}")
+def delete_recipe(
+    recipe_id: int, 
+    session: Session = Depends(get_session),
+    current_user: dict = Depends(get_current_moderator) # Requires Admin or Moderator
+):
+    """Delete a recipe (Moderator/Admin only)"""
+    recipe = session.get(Recipe, recipe_id)
+    if not recipe:
+        raise HTTPException(status_code=404, detail="Receita não encontrada")
+    
+    session.delete(recipe)
+    session.commit()
+    
+    return {"status": "success", "message": "Receita removida com sucesso"}
+
+@router.patch("/recipes/{recipe_id}/status")
+def toggle_recipe_status(
+    recipe_id: int,
+    status_data: dict,
+    session: Session = Depends(get_session),
+    current_user: dict = Depends(get_current_moderator)
+):
+    """Toggle recipe status between published and draft"""
+    recipe = session.get(Recipe, recipe_id)
+    if not recipe:
+        raise HTTPException(status_code=404, detail="Receita não encontrada")
+    
+    new_status = status_data.get("status", "published")
+    if new_status not in ["published", "draft"]:
+        raise HTTPException(status_code=400, detail="Status inválido. Use 'published' ou 'draft'")
+    
+    recipe.status = new_status
+    session.add(recipe)
+    session.commit()
+    session.refresh(recipe)
+    
+    return {"status": "success", "message": f"Status alterado para {new_status}", "recipe": parse_recipe(recipe)}
+
+@router.post("/recipes/{recipe_id}/duplicate")
+def duplicate_recipe(
+    recipe_id: int,
+    session: Session = Depends(get_session),
+    current_user: dict = Depends(get_current_moderator)
+):
+    """Duplicate an existing recipe"""
+    original = session.get(Recipe, recipe_id)
+    if not original:
+        raise HTTPException(status_code=404, detail="Receita não encontrada")
+    
+    # Create a copy
+    duplicate = Recipe(
+        title=f"{original.title} (Cópia)",
+        description=original.description,
+        image=original.image,
+        time=original.time,
+        calories=original.calories,
+        servings=original.servings,
+        difficulty=original.difficulty,
+        category=original.category,
+        ingredients=original.ingredients,
+        instructions=original.instructions,
+        tags=original.tags,
+        rating=0.0,  # Reset rating
+        reviews=0,   # Reset reviews
+        reactions_love=0,
+        reactions_like=0,
+        reactions_dislike=0,
+        is_premium=original.is_premium,
+        video_url=original.video_url,
+        author=original.author,
+        source=original.source,
+        status="draft"  # Start as draft
+    )
+    
+    session.add(duplicate)
+    session.commit()
+    session.refresh(duplicate)
+    
+    return {"status": "success", "message": "Receita duplicada com sucesso", "recipe": parse_recipe(duplicate)}
+
+@router.put("/recipes/{recipe_id}")
+def update_recipe(
+    recipe_id: int,
+    recipe_data: dict,
+    session: Session = Depends(get_session),
+    current_user: dict = Depends(get_current_moderator)
+):
+    """Update an existing recipe"""
+    recipe = session.get(Recipe, recipe_id)
+    if not recipe:
+        raise HTTPException(status_code=404, detail="Receita não encontrada")
+    
+    # Update fields
+    if "title" in recipe_data:
+        recipe.title = recipe_data["title"]
+    if "description" in recipe_data:
+        recipe.description = recipe_data["description"]
+    if "image" in recipe_data:
+        recipe.image = recipe_data["image"]
+    if "time" in recipe_data:
+        recipe.time = recipe_data["time"]
+    if "calories" in recipe_data:
+        recipe.calories = recipe_data["calories"]
+    if "servings" in recipe_data:
+        recipe.servings = recipe_data["servings"]
+    if "difficulty" in recipe_data:
+        recipe.difficulty = recipe_data["difficulty"]
+    if "category" in recipe_data:
+        recipe.category = recipe_data["category"]
+    if "ingredients" in recipe_data:
+        recipe.ingredients = json.dumps(recipe_data["ingredients"], ensure_ascii=False)
+    if "instructions" in recipe_data:
+        recipe.instructions = json.dumps(recipe_data["instructions"], ensure_ascii=False)
+    if "tags" in recipe_data:
+        recipe.tags = json.dumps(recipe_data["tags"], ensure_ascii=False)
+    if "is_premium" in recipe_data:
+        recipe.is_premium = recipe_data["is_premium"]
+    if "video_url" in recipe_data:
+        recipe.video_url = recipe_data["video_url"]
+    if "status" in recipe_data:
+        recipe.status = recipe_data["status"]
+    
+    session.add(recipe)
+    session.commit()
+    session.refresh(recipe)
+    
+    return {"status": "success", "message": "Receita atualizada com sucesso", "recipe": parse_recipe(recipe)}

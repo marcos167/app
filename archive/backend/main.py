@@ -63,6 +63,7 @@ class Provider(str, Enum):
 class Role(str, Enum):
     USER = "user"
     CREATOR = "creator"  # Content creators - can publish recipes
+    MODERATOR = "moderator"
     ADMIN = "admin"
 
 class User(SQLModel, table=True):
@@ -333,6 +334,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Import Routers
+from server.api.endpoints import auth, payment, recipes
+
+# Include Routers
+app.include_router(auth.router, prefix="/api")  # /api/auth/*
+app.include_router(payment.router, prefix="/api") # /api/create-checkout-session etc
+app.include_router(recipes.router, prefix="/api") # /api/recipes/*
 
 @app.on_event("startup")
 def on_startup():
@@ -831,8 +840,8 @@ class MealPlan(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 class MealPlanCreate(BaseModel):
-    date: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}$")
-    meal_type: str = Field(..., pattern=r"^(breakfast|lunch|dinner|snack)$")
+    date: str  # YYYY-MM-DD format
+    meal_type: str  # breakfast, lunch, dinner, snack
     recipe_id: str
 
 @app.post("/api/meal-plans")

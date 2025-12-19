@@ -2,7 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from server.db import create_db_and_tables
-from server.api.endpoints import auth, recipes, payment, debug
+from dotenv import load_dotenv
+load_dotenv()
+from server.api.endpoints import auth, recipes, payment, debug, support, social, monetization, admin_monetization, monetization_hardcore, admin_monetization_hardcore, analytics, reports, notifications, ai_assistant, gamification
 
 app = FastAPI(
     title="Chefex API",
@@ -10,45 +12,33 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configuração de CORS - Origens permitidas
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://receitasappmarcosouza.vercel.app",  # Produção
-    # Adicione outros domínios conforme necessário
-]
-
+# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-@app.on_event("startup")
-def on_startup():
-    try:
-        create_db_and_tables()
-        print("Startup: DB Tables created/verified.")
-    except Exception as e:
-        print(f"Startup Error (DB): {e}")
-        # We generally don't want to kill the app here, purely so /debug can still work.
-        pass
-
-@app.get("/")
-def read_root():
-    return {"message": "Chefex API rodando! 🚀 | Axis Software"}
+# ...
 
 # Routers
 app.include_router(auth.router, prefix="/api", tags=["auth"])
-# Recipes router usually has its own prefix in the file, or we add one here if needed.
-# Checking recipes.py, it usually has @router.get("/api/recipes").
-# To be safe and consistent with previous "clean" delete, we should standardise.
-# But for now, let's just register them safely.
 app.include_router(recipes.router, prefix="/api", tags=["recipes"])
 app.include_router(payment.router, prefix="/api", tags=["payment"])
 app.include_router(debug.router, prefix="/api", tags=["debug"])
+app.include_router(support.router, prefix="/api/support", tags=["support"])
+app.include_router(social.router, prefix="/api", tags=["social"])
+app.include_router(monetization.router, prefix="/api", tags=["monetization"])
+app.include_router(admin_monetization.router, prefix="/api", tags=["admin"])
+app.include_router(monetization_hardcore.router, prefix="/api", tags=["monetization_hardcore"])
+app.include_router(admin_monetization_hardcore.router, prefix="/api", tags=["admin_hardcore"])
+app.include_router(analytics.router, prefix="/api", tags=["analytics"])
+app.include_router(reports.router, prefix="/api", tags=["reports"])
+app.include_router(notifications.router, prefix="/api", tags=["notifications"])
+app.include_router(ai_assistant.router, prefix="/api", tags=["ai"])
+app.include_router(gamification.router, prefix="/api", tags=["gamification"])
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,0 +1,69 @@
+============================================================
+DATABASE INSPECTION
+============================================================
+
+[1] Table 'user' columns:
+  - id: integer (int4)
+  - email: character varying (varchar)
+  - hashed_password: character varying (varchar)
+  - full_name: character varying (varchar)
+  - avatar_url: character varying (varchar)
+  - google_id: character varying (varchar)
+  - provider: character varying (varchar)
+  - role: character varying (varchar)
+  - disabled: boolean (bool)
+  - email_verified: boolean (bool)
+  - email_verification_token: character varying (varchar)
+  - email_verification_expires: timestamp without time zone (timestamp)
+  - password_reset_token: character varying (varchar)
+  - password_reset_expires: timestamp without time zone (timestamp)
+  - failed_login_attempts: integer (int4)
+  - locked_until: timestamp without time zone (timestamp)
+  - created_at: timestamp without time zone (timestamp)
+  - plan_tier: character varying (varchar)
+  - plan_status: character varying (varchar)
+  - stripe_customer_id: character varying (varchar)
+  - stripe_subscription_id: character varying (varchar)
+  - plan_current_period_end: timestamp without time zone (timestamp)
+
+[2] Enum Types in Database:
+  - Type 'aal_level' allows: aal1
+  - Type 'aal_level' allows: aal2
+  - Type 'aal_level' allows: aal3
+  - Type 'action' allows: DELETE
+  - Type 'action' allows: ERROR
+  - Type 'action' allows: INSERT
+  - Type 'action' allows: TRUNCATE
+  - Type 'action' allows: UPDATE
+  - Type 'buckettype' allows: ANALYTICS
+  - Type 'buckettype' allows: STANDARD
+  - Type 'buckettype' allows: VECTOR
+  - Type 'code_challenge_method' allows: plain
+  - Type 'code_challenge_method' allows: s256
+  - Type 'equality_op' allows: eq
+  - Type 'equality_op' allows: gt
+  - Type 'equality_op' allows: gte
+  - Type 'equality_op' allows: in
+  - Type 'equality_op' allows: lt
+  - Type 'equality_op' allows: lte
+  - Type 'equality_op' allows: neq
+  - Type 'factor_status' allows: unverified
+  - Type 'factor_status' allows: verified
+  - Type 'factor_type' allows: phone
+  - Type 'factor_type' allows: totp
+  - Type 'factor_type' allows: webauthn
+  - Type 'oauth_authorization_status' allows: approved
+  - Type 'oauth_authorization_status' allows: denied
+  - Type 'oauth_authorization_status' allows: expired
+  - Type 'oauth_authorization_status' allows: pending
+  - Type 'oauth_client_type' allows: confidential
+  - Type 'oauth_client_type' allows: public
+  - Type 'oauth_registration_type' allows: dynamic
+  - Type 'oauth_registration_type' allows: manual
+  - Type 'oauth_response_type' allows: code
+  - Type 'one_time_token_type' allows: confirmation_token
+  - Type 'one_time_token_type' allows: email_change_token_current
+  - Type 'one_time_token_type' allows: email_change_token_new
+  - Type 'one_time_token_type' allows: phone_change_token
+  - Type 'one_time_token_type' allows: reauthentication_token
+  - Type 'one_time_token_type' allows: recovery_token

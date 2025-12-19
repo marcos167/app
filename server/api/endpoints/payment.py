@@ -9,7 +9,7 @@ from server.api.deps import get_current_user
 router = APIRouter()
 
 # Initialize Stripe with live keys
-STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "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")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "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")
 stripe.api_key = STRIPE_SECRET_KEY
 
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
@@ -19,7 +19,7 @@ MASTERCHEF_PRODUCT_ID = "prod_Td5XZpTT1RpolN"
 MASTERCHEF_PRICE_ID = "price_1SfpMdEg2I4fRUxs5tF9XEbD"
 
 # App URLs
-APP_URL = os.getenv("NEXT_PUBLIC_APP_URL", "https://chefex.vercel.app")
+APP_URL = os.getenv("NEXT_PUBLIC_APP_URL", "http://localhost:3000")
 
 @router.post("/create-checkout-session")
 def create_checkout_session(
@@ -47,6 +47,7 @@ def create_checkout_session(
 
         checkout_session = stripe.checkout.Session.create(
             customer=current_user.stripe_customer_id,
+            payment_method_types=["card"],
             line_items=[
                 {
                     'price': MASTERCHEF_PRICE_ID,
@@ -67,9 +68,13 @@ def create_checkout_session(
         )
         return {"checkout_url": checkout_session.url}
     except stripe.error.StripeError as e:
+        print(f"STRIPE ERROR: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e.user_message if hasattr(e, 'user_message') else e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        print(f"GENERAL ERROR: {str(e)}")
+        # Return 400 to ensure frontend sees the message instead of "Internal Server Error"
+        raise HTTPException(status_code=400, detail=f"DEBUG ERROR: {str(e)}")
 
 @router.get("/subscription-status")
 def get_subscription_status(

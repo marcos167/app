@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { api } from '@/lib/api';
 import { useState, useEffect, useRef } from 'react';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 export default function AdminTopbar() {
     const [user, setUser] = useState<any>(null);
@@ -16,7 +17,7 @@ export default function AdminTopbar() {
                     setUser(data);
                 }
             } catch (error) {
-                console.error("Failed to fetch admin profile", error);
+                console.warn("Failed to fetch admin profile", error);
             }
         };
         fetchUser();
@@ -76,10 +77,7 @@ export default function AdminTopbar() {
 
             {/* Right Actions */}
             < div className="flex items-center gap-6" >
-                <button className="relative text-stone-400 hover:text-white transition-colors">
-                    🔔
-                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
+                <NotificationBell />
 
                 <div className="flex items-center gap-3 pl-6 border-l border-[#2A2A2A]">
                     <div className="text-right hidden sm:block">

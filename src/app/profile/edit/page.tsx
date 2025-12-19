@@ -90,7 +90,7 @@ export default function ProfileEditPage() {
             // In a real app, you would PUT to /api/user/me here too
 
             showToast('Perfil atualizado com sucesso!', 'success');
-            router.back();
+            router.push('/profile');
         } catch (error) {
             showToast('Erro ao atualizar perfil.', 'error');
         } finally {

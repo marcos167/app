@@ -17,3 +17,6 @@ typing_extensions
 stripe
 argon2-cffi
 slowapi
+python-dotenv
+openai
+openpyxl

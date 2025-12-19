@@ -88,7 +88,7 @@ export const MOCK_REELS: ReelContent[] = [
         author: AUTHORS[0],
         createdAt: '2025-12-18T14:20:00Z',
         thumbnail: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1000&auto=format&fit=crop',
-        videoUrl: '#', // Placeholder
+        videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
         duration: '0:59',
         caption: 'O segredo do molho perfeito em 1 minuto! 🍝✨',
         viewsCount: 15400,
