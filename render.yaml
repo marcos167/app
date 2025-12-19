@@ -1,0 +1,48 @@
+services:
+  # Backend API
+  - type: web
+    name: chefex-api
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn server.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        value: ***REMOVED_SECRET***
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: 7
+      - key: GOOGLE_CLIENT_ID
+        value: 1019372792734-k6s58dq78pov4ktnhoiv9ddf3mkbjrf3.apps.googleusercontent.com
+      - key: OPENAI_API_KEY
+        value: ***REMOVED_OPENAI_KEY***
+      - key: STRIPE_SECRET_KEY
+        value: ***REMOVED_STRIPE_KEY***
+      - key: ALLOWED_ORIGINS
+        value: http://localhost:3000
+      - key: DEBUG
+        value: false
+      - key: LOG_LEVEL
+        value: INFO
+      - key: HOST
+        value: 0.0.0.0
+      - key: APP_NAME
+        value: Chefex API
+      - key: APP_VERSION
+        value: 1.0.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chefex-db
+          property: connectionString
+
+databases:
+  - name: chefex-db
+    databaseName: chefex_prod
+    user: chefex_user
+    plan: free
