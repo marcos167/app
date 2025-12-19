@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from server.db import create_db_and_tables
 from dotenv import load_dotenv
 load_dotenv()
-from server.api.endpoints import auth, recipes, payment, debug, support, social, monetization, admin_monetization, monetization_hardcore, admin_monetization_hardcore, analytics, reports, notifications, ai_assistant, gamification
+from server.api.endpoints import auth, recipes, payment, debug, support, social, monetization, admin_monetization, monetization_hardcore, admin_monetization_hardcore, analytics, reports, notifications, ai_assistant, gamification, upload
 
 app = FastAPI(
     title="Chefex API",
@@ -39,6 +39,7 @@ app.include_router(reports.router, prefix="/api", tags=["reports"])
 app.include_router(notifications.router, prefix="/api", tags=["notifications"])
 app.include_router(ai_assistant.router, prefix="/api", tags=["ai"])
 app.include_router(gamification.router, prefix="/api", tags=["gamification"])
+app.include_router(upload.router, prefix="/api", tags=["upload"])
 
 if __name__ == "__main__":
     import uvicorn

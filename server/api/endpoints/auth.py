@@ -289,3 +289,21 @@ async def login(request: LoginRequest, session: Session = Depends(get_session)):
         import traceback
         print(f"Login Error: {str(e)} | {traceback.format_exc()}")
         raise HTTPException(status_code=400, detail=str(e))
+@router.put("/users/{user_id}")
+async def update_user(user_id: int, user_data: dict, session: Session = Depends(get_session), current_user: User = Depends(get_current_active_user)):
+    if current_user.id != user_id and current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Não permitido")
+    
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    
+    if "image" in user_data:
+        user.avatar_url = user_data["image"]
+    if "full_name" in user_data:
+        user.full_name = user_data["full_name"]
+        
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
