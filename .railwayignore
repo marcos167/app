@@ -1,0 +1,23 @@
+# Railway ignore file
+# Ignore frontend files to prevent Railway from detecting this as a Node.js project
+
+# Frontend
+/src/
+/public/
+/styles/
+/.next/
+/node_modules/
+package.json
+package-lock.json
+next.config.ts
+tsconfig.json
+tailwind.config.ts
+postcss.config.mjs
+
+# Only build backend
+!server/
+!requirements.txt
+!Procfile
+!runtime.txt
+!nixpacks.toml
+!railway.toml

@@ -1,0 +1,14 @@
+# Nixpacks configuration for Railway
+# This tells Railway to build as a Python app, not Node.js
+
+[phases.setup]
+nixPkgs = ["python311", "postgresql"]
+
+[phases.install]
+cmds = ["pip install --upgrade pip", "pip install -r requirements.txt"]
+
+[phases.build]
+cmds = ["echo 'No build step needed for Python backend'"]
+
+[start]
+cmd = "uvicorn server.main:app --host 0.0.0.0 --port ${PORT:-8000}"
