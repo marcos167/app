@@ -20,3 +20,5 @@ slowapi
 python-dotenv
 openai
 openpyxl
+python-multipart
+Pillow
