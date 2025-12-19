@@ -149,3 +149,21 @@ class SignupRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: str
     password: str
+class Comment(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    recipe_id: int = Field(foreign_key="recipe.id", index=True)
+    user_id: int = Field(foreign_key="user.id", index=True)
+    content: str
+    rating: int = 5
+    images: str = "[]"  # JSON array of strings
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class ModerationLog(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: Optional[int] = Field(default=None, foreign_key="user.id", index=True)
+    content_type: str = Field(index=True)  # "recipe", "comment", "user_bio"
+    content_id: Optional[int] = Field(default=None, index=True)
+    flagged_reason: str = ""
+    ai_score: float = 0.0
+    status: str = Field(default="flagged")  # "flagged", "cleared", "removed"
+    created_at: datetime = Field(default_factory=datetime.utcnow)

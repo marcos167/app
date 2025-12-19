@@ -7,6 +7,7 @@ import os
 
 from server.db import get_session
 from server.api.deps import get_current_active_user
+from server.models.user import ModerationLog
 
 router = APIRouter()
 
@@ -206,3 +207,52 @@ Retorne em formato JSON:
             "error": str(e),
             "nutrition": None
         }
+@router.post("/ai/moderate")
+async def moderate_content(
+    text: str,
+    content_type: str,
+    content_id: int | None = None,
+    user_id: int | None = None,
+    session: Session = Depends(get_session)
+):
+    """Scan content for toxicity using OpenAI Moderation API"""
+    if not openai.api_key:
+        return {"flagged": False, "categories": {}}
+
+    try:
+        response = openai.Moderation.create(input=text)
+        result = response["results"][0]
+        
+        if result["flagged"]:
+            # Log to DB
+            categories = [cat for cat, val in result["categories"].items() if val]
+            log = ModerationLog(
+                user_id=user_id,
+                content_type=content_type,
+                content_id=content_id,
+                flagged_reason=", ".join(categories),
+                ai_score=max(result["category_scores"].values()),
+                status="flagged"
+            )
+            session.add(log)
+            session.commit()
+
+        return {
+            "flagged": result["flagged"],
+            "categories": result["categories"],
+            "category_scores": result["category_scores"]
+        }
+    except Exception as e:
+        print(f"Moderation Error: {e}")
+        return {"flagged": False, "error": str(e)}
+
+async def check_and_moderate(text: str, content_type: str, user_id: int, session: Session):
+    """Helper to check content and return if it should be blocked"""
+    mod_result = await moderate_content(text, content_type, user_id=user_id, session=session)
+    if mod_result.get("flagged"):
+        # If highly toxic, block immediately
+        score = mod_result.get("ai_score", 0)
+        if score > 0.7:
+             return True, "Conteúdo bloqueado automaticamente por violar nossas diretrizes de comunidade."
+        return False, "Conteúdo sinalizado para revisão."
+    return False, None

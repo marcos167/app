@@ -112,9 +112,13 @@ export default function CommentsSection({ recipeId, userId }: { recipeId: string
                 setShowForm(false);
                 fetchComments();
                 alert('Avaliação enviada com sucesso! 🌟');
+            } else {
+                const errorData = await res.json().catch(() => ({ detail: 'Erro ao enviar comentário' }));
+                alert(errorData.detail || 'Erro ao enviar comentário');
             }
         } catch (error) {
             console.error(error);
+            alert('Falha na conexão com o servidor');
         } finally {
             setLoading(false);
         }

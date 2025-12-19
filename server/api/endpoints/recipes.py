@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from server.db import get_session
 from server.models import Recipe, User
 from server.api.deps import get_current_moderator, get_current_active_user
+from server.api.endpoints.ai_assistant import check_and_moderate
 
 router = APIRouter()
 
@@ -129,12 +130,24 @@ def get_recipe(recipe_id: str, session: Session = Depends(get_session)):
     return parse_recipe(recipe)
 
 @router.post("/recipes")
-def create_recipe(
+async def create_recipe(
     recipe_data: dict, 
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_active_user)
 ):
-    """Create a new recipe"""
+    """Create a new recipe with AI moderation"""
+    # AI Moderation Check
+    content_to_scan = f"{recipe_data.get('title', '')} {recipe_data.get('description', '')}"
+    is_blocked, message = await check_and_moderate(
+        content_to_scan, 
+        "recipe", 
+        current_user.id, 
+        session
+    )
+    
+    if is_blocked:
+        raise HTTPException(status_code=400, detail=message)
+
     # Convert list fields to JSON strings
     recipe = Recipe(
         title=recipe_data.get("title", ""),

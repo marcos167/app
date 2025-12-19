@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   title: "Chefex - Seu Assistente na Cozinha",
   description: "Chefex - Receitas inteligentes e personalizadas. Um produto Axis Software.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/brand/logo-icon-final.png",
+    apple: "/brand/logo-icon-final.png",
+  },
   themeColor: "#0c0a09",
   appleWebApp: {
     capable: true,

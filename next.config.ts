@@ -24,12 +24,6 @@ const nextConfig = {
     // In production (Vercel), requests to /api/ fail through to Vercel Functions (api/index.py) automatically
     if (process.env.NODE_ENV === 'development') {
       return [
-        // Exclude /api/recipes - handled by Next.js API routes directly
-        {
-          source: '/api/recipes/:path*',
-          destination: '/api/recipes/:path*', // Keep as Next.js route
-        },
-        // All other /api routes go to FastAPI backend
         {
           source: '/api/:path*',
           destination: 'http://127.0.0.1:8000/api/:path*',

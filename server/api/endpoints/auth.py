@@ -16,29 +16,41 @@ async def verify_google_token(token_id: str):
     try:
         # Try as ID Token first (fast, JWT check)
         try:
+            print(f"DEBUG: Attempting ID Token verification with GOOGLE_CLIENT_ID: {settings.GOOGLE_CLIENT_ID[:20]}...")
             id_info = id_token.verify_oauth2_token(token_id, requests.Request(), settings.GOOGLE_CLIENT_ID)
+            print(f"DEBUG: ID Token verification successful. Email: {id_info.get('email')}")
             return id_info
-        except Exception:
+        except Exception as id_token_error:
+            print(f"DEBUG: ID Token verification failed: {str(id_token_error)}")
             # Fallback: Try as Access Token (fetch userinfo)
             import requests as req
+            print(f"DEBUG: Trying Access Token fallback...")
             resp = req.get(
                 "https://www.googleapis.com/oauth2/v3/userinfo", 
                 headers={"Authorization": f"Bearer {token_id}"}
             )
+            print(f"DEBUG: Userinfo API response status: {resp.status_code}")
             if resp.status_code != 200:
+                print(f"DEBUG: Userinfo API failed with: {resp.text}")
                 return None
-            return resp.json()
+            user_data = resp.json()
+            print(f"DEBUG: Access Token verification successful. Email: {user_data.get('email')}")
+            return user_data
     except Exception as e:
-        print(f"Falha na validação de Token: {e}")
+        print(f"ERROR: Token validation completely failed: {str(e)}")
+        import traceback
+        print(traceback.format_exc())
         return None
 
 @router.post("/auth/google", response_model=Token)
 async def google_login(request: GoogleAuthRequest, session: Session = Depends(get_session)):
     print(f"DEBUG: Google Login Request - Token len: {len(request.id_token)}")
+    print(f"DEBUG: Token preview: {request.id_token[:50]}...")
     try:
         google_user_data = await verify_google_token(request.id_token)
         
         if not google_user_data:
+            print("ERROR: Token verification returned None")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token do Google inválido ou expirado",
