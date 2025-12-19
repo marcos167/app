@@ -1,38 +1,34 @@
 import type { NextConfig } from "next";
 
-// const withPWA = require("@ducanh2912/next-pwa").default({
-//   dest: "public",
-//   cacheOnFrontEndNav: true,
-//   aggressiveFrontEndNavCaching: true,
-//   reloadOnOnline: true,
-//   swcMinify: true,
-//   disable: process.env.NODE_ENV === "development",
-//   workboxOptions: {
-//     disableDevLogs: true,
-//   },
-// });
-
-const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
+const nextConfig: NextConfig = {
+  // Environment variables
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
   },
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
-  async rewrites() {
-    // Only proxy to local backend in development
-    // In production (Vercel), requests to /api/ fail through to Vercel Functions (api/index.py) automatically
-    if (process.env.NODE_ENV === 'development') {
-      return [
-        {
-          source: '/api/:path*',
-          destination: 'http://127.0.0.1:8000/api/:path*',
-        },
-      ];
-    }
-    return [];
+
+  // Image optimization
+  images: {
+    domains: ['images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
+      },
+    ],
+  },
+
+  // Production optimizations
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+
+  // Output configuration for deployment
+  output: 'standalone',
+
+  // TypeScript configuration
+  typescript: {
+    ignoreBuildErrors: false, // Changed to false for production
   },
 };
 
-// export default withPWA(nextConfig);
 export default nextConfig;
