@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle2, Crown, PartyPopper, ArrowRight, Loader2 } from 'lucide-react';
 
-export default function SubscriptionSuccessPage() {
+function SubscriptionSuccessInner() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [loading, setLoading] = useState(true);
@@ -86,5 +86,17 @@ export default function SubscriptionSuccessPage() {
                 </p>
             </div>
         </div>
+    );
+}
+
+export default function SubscriptionSuccessPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center">
+                <Loader2 className="w-12 h-12 text-amber-500 animate-spin" />
+            </div>
+        }>
+            <SubscriptionSuccessInner />
+        </Suspense>
     );
 }
