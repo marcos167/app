@@ -37,18 +37,20 @@ export default function ProfilePage() {
             if (loggedUser) {
                 setUserProfile(prev => ({ ...prev, ...loggedUser }));
                 // Fetch Stats
-                try {
-                    const token = auth.getToken();
-                    if (token) {
-                        const res = await fetch(`/api/users/${loggedUser.id}/stats`, {
-                            headers: { Authorization: `Bearer ${token}` }
-                        });
-                        if (res.ok) {
-                            const data = await res.json();
-                            setStats(data);
+                if (loggedUser.id) {
+                    try {
+                        const token = auth.getToken();
+                        if (token) {
+                            const res = await fetch(`/api/users/${loggedUser.id}/stats`, {
+                                headers: { Authorization: `Bearer ${token}` }
+                            });
+                            if (res.ok) {
+                                const data = await res.json();
+                                setStats(data);
+                            }
                         }
-                    }
-                } catch (error) { console.error(error); }
+                    } catch (error) { console.error(error); }
+                }
             }
         };
         loadProfile();
