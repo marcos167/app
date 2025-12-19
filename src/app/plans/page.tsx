@@ -7,6 +7,7 @@ import { BottomNavigation } from '@/components/navigation/BottomNavigation';
 import { Crown, Check, Zap, Flame, ShieldCheck, Star, ChefHat } from 'lucide-react';
 import { auth } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
+import { PayPalButton } from '@/components/subscription/PayPalButton';
 
 export default function PlansPage() {
     const router = useRouter();
@@ -217,7 +218,7 @@ export default function PlansPage() {
                             <button
                                 onClick={handleSubscribe}
                                 disabled={loading}
-                                className="relative w-full h-16 rounded-xl font-black text-white text-xl uppercase tracking-wide overflow-hidden group/btn hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                                className="relative w-full h-16 rounded-xl font-black text-white text-xl uppercase tracking-wide overflow-hidden group/btn hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 mb-4"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600"></div>
 
@@ -234,6 +235,14 @@ export default function PlansPage() {
                                     )}
                                 </div>
                             </button>
+
+                            <div className="relative flex items-center gap-4 mb-4">
+                                <div className="flex-1 h-px bg-white/5"></div>
+                                <span className="text-stone-500 text-[10px] font-black uppercase tracking-widest bg-[#0A0A0A] px-2">Ou</span>
+                                <div className="flex-1 h-px bg-white/5"></div>
+                            </div>
+
+                            <PayPalButton planId="P-80439400W77468732NFCPTTY" />
                         </div>
                     </motion.div>
 
@@ -248,7 +257,7 @@ export default function PlansPage() {
                 >
                     <div className="flex items-center gap-2 text-stone-400 text-xs font-semibold uppercase tracking-widest">
                         <ShieldCheck size={14} className="text-emerald-500" />
-                        Processado por Stripe
+                        Processado por Stripe & PayPal
                     </div>
                 </motion.div>
             </main>
