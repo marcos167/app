@@ -1,36 +1,34 @@
+"""
+Database configuration for Chefex
+Production: Supabase PostgreSQL
+"""
 from sqlmodel import SQLModel, create_engine, Session
-import os
+from server.core.config import get_settings
 
-# Use SQLite for persistence in dev, or switch to Postgres url in .env
-sqlite_file_name = "database.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+settings = get_settings()
 
-# Check for DATABASE_URL (Supabase/Vercel)
-database_url = os.getenv("DATABASE_URL")
-
-# If DATABASE_URL is present, we use it. 
-# Note: SQLModel (SQLAlchemy) requires 'postgresql://' but some providers give 'postgres://'
-if database_url:
-    if database_url.startswith("postgres://"):
-        database_url = database_url.replace("postgres://", "postgresql://", 1)
-
-connection_string = database_url if database_url else sqlite_url
-
-# SQLite needs check_same_thread=False
-if "sqlite" in connection_string:
-    connect_args = {"check_same_thread": False}
-    engine = create_engine(connection_string, connect_args=connect_args)
-else:
-    # PostgreSQL - use simple config for serverless
-    engine = create_engine(
-        connection_string,
-        pool_pre_ping=True,
-    )
+# PostgreSQL engine with production-ready configuration
+engine = create_engine(
+    settings.DATABASE_URL,
+    pool_pre_ping=True,      # Check connection health before using
+    pool_size=10,            # Number of connections to keep open
+    max_overflow=20,         # Extra connections when pool is full
+    pool_recycle=3600,       # Recycle connections after 1 hour
+    echo=settings.DEBUG      # Log SQL in debug mode
+)
 
 def create_db_and_tables():
-    from server import models # Ensure models are registered
-    SQLModel.metadata.create_all(engine)
+    """
+    Create database tables
+    Note: Tables are created via Prisma/Supabase SQL
+    This function is kept for compatibility
+    """
+    # Uncomment if you want to auto-create tables:
+    # from server import models
+    # SQLModel.metadata.create_all(engine)
+    pass
 
 def get_session():
+    """Get database session for dependency injection"""
     with Session(engine) as session:
         yield session
