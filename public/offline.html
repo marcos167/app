@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0c0a09">
+    <title>Chefex - Offline</title>
+    <link rel="icon" href="/icons/icon-192x192.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0c0a09 0%, #1c1917 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            opacity: 0.6;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #f97316, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        p {
+            color: #a8a29e;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(249, 115, 22, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .tips {
+            margin-top: 48px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tips h3 {
+            font-size: 0.9rem;
+            color: #78716c;
+            margin-bottom: 12px;
+        }
+        
+        .tips ul {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .tips li {
+            color: #a8a29e;
+            font-size: 0.85rem;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .tips li:last-child {
+            border-bottom: none;
+        }
+        
+        .tips li::before {
+            content: "📡 ";
+        }
+        
+        .status {
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: #57534e;
+        }
+        
+        .status.online {
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+        </svg>
+        
+        <h1>Sem conexão</h1>
+        
+        <p>Parece que você está offline. Verifique sua conexão com a internet e tente novamente.</p>
+        
+        <button onclick="location.reload()">
+            Tentar novamente
+        </button>
+        
+        <div class="tips">
+            <h3>Dicas:</h3>
+            <ul>
+                <li>Verifique se o Wi-Fi está ligado</li>
+                <li>Tente desligar e ligar o modo avião</li>
+                <li>Verifique se há sinal móvel</li>
+                <li>Reinicie o roteador se necessário</li>
+            </ul>
+        </div>
+        
+        <p class="status" id="status">Aguardando conexão...</p>
+    </div>
+    
+    <script>
+        // Auto-detect when connection is restored
+        window.addEventListener('online', () => {
+            document.getElementById('status').textContent = 'Conexão restaurada! Recarregando...';
+            document.getElementById('status').classList.add('online');
+            setTimeout(() => location.reload(), 1000);
+        });
+        
+        // Check connection periodically
+        setInterval(() => {
+            if (navigator.onLine) {
+                location.reload();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

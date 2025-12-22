@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTheme } from '@/lib/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { auth } from '@/lib/auth';
 import PlansModal from '@/components/profile/PlansModal';
 import PersonalDataForm from '@/components/profile/PersonalDataForm';
