@@ -53,3 +53,8 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Get cached settings instance"""
     return Settings()
+
+# Create a settings instance for backward compatibility
+# This allows imports like: from server.core.config import settings
+settings = get_settings()
+
