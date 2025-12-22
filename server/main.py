@@ -14,7 +14,8 @@ load_dotenv()
 from server.api.endpoints import (
     auth, recipes, payment, debug, support, social, monetization, 
     admin_monetization, monetization_hardcore, admin_monetization_hardcore, 
-    analytics, reports, notifications, ai_assistant, gamification, upload, comments
+    analytics, reports, notifications, ai_assistant, gamification, upload, comments,
+    admin_logs
 )
 
 # Initialize settings and logging
@@ -83,6 +84,7 @@ app.include_router(ai_assistant.router, prefix="/api", tags=["ai"])
 app.include_router(gamification.router, prefix="/api", tags=["gamification"])
 app.include_router(upload.router, prefix="/api", tags=["upload"])
 app.include_router(comments.router, prefix="/api", tags=["comments"])
+app.include_router(admin_logs.router, prefix="/api", tags=["admin_logs"])
 
 # Startup event
 @app.on_event("startup")
