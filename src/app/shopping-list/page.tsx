@@ -248,7 +248,7 @@ export default function ShoppingListPage() {
                             <p className="text-sm text-stone-500 max-w-[200px]">Adicione ingredientes das receitas ou crie itens avulsos.</p>
                         </motion.div>
                     ) : (
-                        Object.entries(groupedItems).map(([title, groupItems], groupIndex) => (
+                        Object.entries(groupedItems).map(([title, groupItems]: [string, any[]], groupIndex) => (
                             <motion.div
                                 key={title}
                                 initial={{ opacity: 0, y: 20 }}
