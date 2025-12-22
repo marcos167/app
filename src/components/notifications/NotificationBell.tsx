@@ -43,8 +43,15 @@ export default function NotificationBell() {
 
             if (res.ok) {
                 const data = await res.json();
-                setNotifications(data);
-                setUnreadCount(data.filter((n: Notification) => !n.is_read).length);
+                // Ensure data is an array before using array methods
+                if (Array.isArray(data)) {
+                    setNotifications(data);
+                    setUnreadCount(data.filter((n: Notification) => !n.is_read).length);
+                } else {
+                    console.warn('Notifications API returned non-array:', data);
+                    setNotifications([]);
+                    setUnreadCount(0);
+                }
             }
         } catch (err) {
             console.error('Failed to fetch notifications:', err);

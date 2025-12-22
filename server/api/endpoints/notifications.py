@@ -57,33 +57,40 @@ async def get_notifications(
     """Get user notifications"""
     user_id = current_user['id']
     
-    # Query notifications
-    query = f"""
-        SELECT id, user_id, type, title, message, link, is_read, created_at
-        FROM notifications
-        WHERE user_id = {user_id}
-        {' AND is_read = FALSE' if unread_only else ''}
-        ORDER BY created_at DESC
-        LIMIT {limit}
-    """
-    
-    from server.db import engine
-    with engine.connect() as conn:
-        result = conn.execute(query)
-        notifications = []
-        for row in result:
-            notifications.append(Notification(
-                id=row[0],
-                user_id=row[1],
-                type=row[2],
-                title=row[3],
-                message=row[4],
-                link=row[5],
-                is_read=row[6],
-                created_at=row[7]
-            ))
-    
-    return notifications
+    try:
+        # Query notifications using text() for SQLAlchemy 2.0 compatibility
+        from sqlalchemy import text
+        from server.db import engine
+        
+        query = text(f"""
+            SELECT id, user_id, type, title, message, link, is_read, created_at
+            FROM notifications
+            WHERE user_id = :user_id
+            {' AND is_read = FALSE' if unread_only else ''}
+            ORDER BY created_at DESC
+            LIMIT :limit
+        """)
+        
+        with engine.connect() as conn:
+            result = conn.execute(query, {"user_id": user_id, "limit": limit})
+            notifications = []
+            for row in result:
+                notifications.append(Notification(
+                    id=row[0],
+                    user_id=row[1],
+                    type=row[2],
+                    title=row[3],
+                    message=row[4],
+                    link=row[5],
+                    is_read=row[6],
+                    created_at=row[7]
+                ))
+        
+        return notifications
+    except Exception as e:
+        print(f"Error fetching notifications: {e}")
+        # Return empty list instead of crashing
+        return []
 
 @router.patch("/notifications/{notification_id}/read")
 async def mark_as_read(
@@ -94,16 +101,21 @@ async def mark_as_read(
     """Mark notification as read"""
     user_id = current_user['id']
     
-    from server.db import engine
-    with engine.connect() as conn:
-        conn.execute(f"""
-            UPDATE notifications
-            SET is_read = TRUE
-            WHERE id = {notification_id} AND user_id = {user_id}
-        """)
-        conn.commit()
-    
-    return {"success": True}
+    try:
+        from sqlalchemy import text
+        from server.db import engine
+        with engine.connect() as conn:
+            conn.execute(text("""
+                UPDATE notifications
+                SET is_read = TRUE
+                WHERE id = :notification_id AND user_id = :user_id
+            """), {"notification_id": notification_id, "user_id": user_id})
+            conn.commit()
+        
+        return {"success": True}
+    except Exception as e:
+        print(f"Error marking notification as read: {e}")
+        return {"success": False, "error": str(e)}
 
 @router.post("/notifications/create")
 async def create_notification(
@@ -112,26 +124,36 @@ async def create_notification(
 ):
     """Create a new notification (internal use)"""
     
-    from server.db import engine
-    with engine.connect() as conn:
-        result = conn.execute(f"""
-            INSERT INTO notifications (user_id, type, title, message, link)
-            VALUES ({notification.user_id}, '{notification.type}', '{notification.title}', 
-                    '{notification.message}', '{notification.link}')
-            RETURNING id
-        """)
-        conn.commit()
-        notification_id = result.fetchone()[0]
-    
-    # Send via WebSocket if user is connected
-    await manager.send_personal_message({
-        "type": notification.type,
-        "title": notification.title,
-        "message": notification.message,
-        "link": notification.link
-    }, notification.user_id)
-    
-    return {"id": notification_id, "success": True}
+    try:
+        from sqlalchemy import text
+        from server.db import engine
+        with engine.connect() as conn:
+            result = conn.execute(text("""
+                INSERT INTO notifications (user_id, type, title, message, link)
+                VALUES (:user_id, :type, :title, :message, :link)
+                RETURNING id
+            """), {
+                "user_id": notification.user_id,
+                "type": notification.type,
+                "title": notification.title,
+                "message": notification.message,
+                "link": notification.link
+            })
+            conn.commit()
+            notification_id = result.fetchone()[0]
+        
+        # Send via WebSocket if user is connected
+        await manager.send_personal_message({
+            "type": notification.type,
+            "title": notification.title,
+            "message": notification.message,
+            "link": notification.link
+        }, notification.user_id)
+        
+        return {"id": notification_id, "success": True}
+    except Exception as e:
+        print(f"Error creating notification: {e}")
+        return {"success": False, "error": str(e)}
 
 @router.websocket("/ws/notifications/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, user_id: int):
