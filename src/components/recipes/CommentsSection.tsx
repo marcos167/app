@@ -153,7 +153,7 @@ export default function CommentsSection({ recipeId, userId }: { recipeId: string
                         <FilterPill
                             key={star}
                             label={`${star} ★`}
-                            count={stats[star as keyof typeof stats]}
+                            count={stats[star as 1 | 2 | 3 | 4 | 5]}
                             active={activeFilter === String(star)}
                             onClick={() => setActiveFilter(String(star))}
                         />
