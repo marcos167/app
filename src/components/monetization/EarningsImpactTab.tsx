@@ -106,11 +106,19 @@ export function EarningsImpactTab() {
 
     return (
         <div className="space-y-6 pb-8">
-            {/* Disclaimer */}
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4">
-                <p className="text-xs text-amber-200 leading-relaxed">
-                    ⚠️ <strong>Pontos não garantem renda financeira.</strong> Eles representam sua contribuição para a comunidade.
-                    Monetização é excepcional e requer aprovação manual.
+            {/* Legal Disclaimer - Required */}
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 space-y-2">
+                <p className="text-xs text-amber-200 leading-relaxed font-bold">
+                    ⚠️ AVISO IMPORTANTE:
+                </p>
+                <ul className="text-xs text-amber-200/80 space-y-1 list-disc pl-4">
+                    <li>Pontos <strong>NÃO garantem renda financeira</strong>. São uma métrica de contribuição social.</li>
+                    <li>Monetização é <strong>excepcional</strong>, sujeita a critérios internos e aprovação manual.</li>
+                    <li>Valores exibidos são <strong>estimativas não vinculantes</strong>.</li>
+                    <li>Pagamentos <strong>condicionados à disponibilidade financeira da plataforma</strong>.</li>
+                </ul>
+                <p className="text-[10px] text-stone-500 mt-2">
+                    Consulte a <a href="/legal/monetization" className="underline">Política de Monetização</a> para termos completos.
                 </p>
             </div>
 
@@ -259,29 +267,36 @@ export function EarningsImpactTab() {
                     transition={{ delay: 0.4 }}
                     className="bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-transparent border border-green-500/20 rounded-3xl p-6"
                 >
-                    <h3 className="text-lg font-black text-white mb-4">Monetização Aprovada ✓</h3>
+                    <h3 className="text-lg font-black text-white mb-2">Monetização Aprovada ✓</h3>
+                    <p className="text-[10px] text-stone-500 mb-4">Programa sujeito a critérios internos • Valores estimados</p>
 
                     <div className="text-center mb-4">
                         <p className="text-4xl font-black text-white mb-1">
-                            R$ {earnings.financial.balance_brl.toFixed(2)}
+                            R$ {earnings.financial.balance_brl.toFixed(2)}*
                         </p>
-                        <p className="text-xs text-stone-400">Saldo Disponível</p>
+                        <p className="text-xs text-stone-400">Saldo Estimado</p>
                     </div>
 
                     <div className="text-center mb-4">
-                        <p className="text-sm text-stone-400">Ganhos Totais</p>
-                        <p className="text-xl font-bold text-white">R$ {earnings.financial.lifetime_earnings_brl.toFixed(2)}</p>
+                        <p className="text-sm text-stone-400">Estimativa de Ganhos</p>
+                        <p className="text-xl font-bold text-white">R$ {earnings.financial.lifetime_earnings_brl.toFixed(2)}*</p>
+                    </div>
+
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 mb-4">
+                        <p className="text-[10px] text-amber-200 text-center">
+                            *Valores estimados. Pagamentos condicionados à disponibilidade financeira da plataforma e verificação KYC.
+                        </p>
                     </div>
 
                     <button
-                        disabled={!earnings.financial.can_withdraw}
-                        className={`w-full py-3 rounded-xl font-bold transition-all ${earnings.financial.can_withdraw
-                                ? 'bg-green-500 hover:bg-green-400 text-white'
-                                : 'bg-white/5 text-stone-500 cursor-not-allowed'
-                            }`}
+                        disabled={true}
+                        className="w-full py-3 rounded-xl font-bold bg-white/5 text-stone-500 cursor-not-allowed"
                     >
-                        {earnings.financial.can_withdraw ? 'Solicitar Saque' : 'Saque Indisponível (mín. R$ 50)'}
+                        Saques Temporariamente Suspensos
                     </button>
+                    <p className="text-[10px] text-stone-500 text-center mt-2">
+                        Saques serão liberados quando a plataforma atingir sustentabilidade financeira.
+                    </p>
                 </motion.div>
             )}
         </div>

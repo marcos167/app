@@ -36,11 +36,19 @@ export default function HowToEarnPage() {
                             <Trophy size={32} className="text-amber-500" />
                         </div>
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-4">Como Ganhar no Chefex</h1>
-                    <p className="text-stone-400 max-w-2xl mx-auto mb-6">
-                        Transforme sua paixão culinária em impacto social e recompensas.
-                        Construa sua reputação agora e esteja pronto para quando a monetização ativar.
+                    <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-4">Sistema de Pontos</h1>
+                    <p className="text-stone-400 max-w-2xl mx-auto mb-4">
+                        Acompanhe sua contribuição para a comunidade Chefex através do sistema de pontos.
                     </p>
+
+                    {/* Legal Disclaimer */}
+                    <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 max-w-xl mx-auto mb-6">
+                        <p className="text-xs text-amber-200 leading-relaxed">
+                            ⚠️ <strong>Pontos NÃO garantem renda financeira.</strong> São uma métrica de engajamento social.
+                            Qualquer monetização futura está sujeita a critérios internos e disponibilidade da plataforma.
+                        </p>
+                    </div>
+
                     <div className="flex justify-center">
                         <PlatformPhaseIndicator />
                     </div>
@@ -62,8 +70,8 @@ export default function HowToEarnPage() {
                         </p>
                         <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
                             <p className="text-amber-200 text-sm font-medium">
-                                💡 <strong>Importante:</strong> Seus pontos NÃO serão perdidos! Quando a monetização ativar,
-                                eles se converterão em saldo real com multiplicadores baseados no seu nível.
+                                💡 <strong>Nota:</strong> Pontos representam sua contribuição social e não garantem conversão monetária.
+                                Qualquer programa de recompensas futuro estará sujeito a critérios e disponibilidade da plataforma.
                             </p>
                         </div>
                     </section>
@@ -117,47 +125,52 @@ export default function HowToEarnPage() {
                         </div>
                     </section>
 
-                    {/* Section 4: When Money? */}
+                    {/* Section 4: Rewards Program Info */}
                     <section className="bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-transparent border border-purple-500/20 rounded-3xl p-8">
                         <h2 className="text-2xl font-black text-white mb-6 flex items-center gap-3">
                             <Lock size={24} className="text-purple-400" />
-                            Quando Recebo Dinheiro?
+                            Programa de Recompensas (Em Análise)
                         </h2>
-                        <p className="mb-6 leading-relaxed">
-                            A monetização financeira será ativada quando o Chefex atingir marcos de sustentabilidade
-                            (ex: 10.000 usuários ativos, parcerias confirmadas).
+
+                        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-6">
+                            <p className="text-amber-200 text-sm font-bold mb-2">⚠️ AVISO LEGAL:</p>
+                            <ul className="text-xs text-amber-200/80 space-y-1 list-disc pl-4">
+                                <li>Não há garantia de pagamentos ou conversão de pontos em dinheiro.</li>
+                                <li>Qualquer programa de remuneração está sujeito a critérios internos.</li>
+                                <li>Pagamentos condicionados à sustentabilidade financeira da plataforma.</li>
+                            </ul>
+                        </div>
+
+                        <p className="mb-6 leading-relaxed text-stone-400">
+                            O Chefex está em fase de crescimento. Futuramente, poderemos avaliar programas de
+                            reconhecimento para contribuidores ativos, sujeito a critérios de elegibilidade e
+                            disponibilidade financeira.
                         </p>
 
                         <div className="bg-white/5 rounded-xl p-6 mb-6">
                             <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-                                <CheckCircle2 size={18} className="text-green-400" />
-                                Quando o Chefex entrar em Fase Ativa:
+                                <CheckCircle2 size={18} className="text-stone-400" />
+                                Benefícios Atuais (Sem Valor Monetário):
                             </h3>
-                            <ul className="space-y-2 text-sm">
+                            <ul className="space-y-2 text-sm text-stone-400">
                                 <li className="flex items-start gap-2">
-                                    <span className="text-green-400 mt-1">✓</span>
-                                    <span>Seus pontos acumulados serão convertidos em saldo inicial</span>
+                                    <span className="text-stone-500 mt-1">•</span>
+                                    <span>Destaque no feed com base em contribuição</span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="text-green-400 mt-1">✓</span>
-                                    <span>Multiplicadores aplicados conforme seu nível</span>
+                                    <span className="text-stone-500 mt-1">•</span>
+                                    <span>Badges de reconhecimento na comunidade</span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="text-green-400 mt-1">✓</span>
-                                    <span>Criadores fundadores terão prioridade em saques</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <span className="text-green-400 mt-1">✓</span>
-                                    <span>Badges especiais "Pioneiro" para quem começou antes</span>
+                                    <span className="text-stone-500 mt-1">•</span>
+                                    <span>Acesso antecipado a funcionalidades beta</span>
                                 </li>
                             </ul>
                         </div>
 
-                        <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 text-center">
-                            <p className="text-amber-200 text-sm font-bold">
-                                🚀 Quanto antes você começar, maior será sua vantagem!
-                            </p>
-                        </div>
+                        <p className="text-[10px] text-stone-500 text-center">
+                            Consulte a <a href="/legal/monetization" className="underline">Política de Monetização</a> para termos completos.
+                        </p>
                     </section>
 
                     {/* Section 5: Benefits Before Money */}
