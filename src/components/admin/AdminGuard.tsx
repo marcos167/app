@@ -16,8 +16,15 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
             return;
         }
 
-        // Allow ONLY Specific User (Owner)
-        if (user.email?.toLowerCase() !== 'm22338294@gmail.com') {
+        // Check for admin or moderator role
+        const allowedRoles = ['admin', 'moderator'];
+        const userRole = user.role?.toLowerCase();
+
+        // CEO Bypass (backup) + Role Check
+        const isOwner = user.email?.toLowerCase() === 'm22338294@gmail.com';
+        const hasAdminRole = userRole && allowedRoles.includes(userRole);
+
+        if (!isOwner && !hasAdminRole) {
             router.replace('/');
             return;
         }
@@ -38,3 +45,4 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
 
     return <>{children}</>;
 }
+

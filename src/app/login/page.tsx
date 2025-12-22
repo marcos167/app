@@ -48,12 +48,14 @@ export default function LoginPage() {
                 let userName = 'Usuário';
                 let userEmail = email;
                 let userAvatar = '';
+                let userRole = 'user';
 
                 if (userResponse.ok) {
                     const userData = await userResponse.json();
                     userName = userData.full_name || 'Usuário';
                     userEmail = userData.email || email;
                     userAvatar = userData.avatar_url || '';
+                    userRole = userData.role || 'user';
                 }
 
                 // Save session
@@ -62,6 +64,7 @@ export default function LoginPage() {
                     name: userName,
                     email: userEmail,
                     image: userAvatar,
+                    role: userRole,
                     token: data.access_token,
                     refresh_token: data.refresh_token
                 });

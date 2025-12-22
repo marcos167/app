@@ -40,12 +40,14 @@ export default function SocialButtons({ onStart, onError }: SocialButtonsProps) 
                 let userName = 'Usuário';
                 let userEmail = '';
                 let userAvatar = '';
+                let userRole = 'user';
 
                 if (userResponse.ok) {
                     const userData = await userResponse.json();
                     userName = userData.full_name || userData.name || 'Usuário';
                     userEmail = userData.email || '';
                     userAvatar = userData.avatar_url || '';
+                    userRole = userData.role || 'user';
                 }
 
                 // 3. Login in Frontend (Store Token with real data)
@@ -53,6 +55,7 @@ export default function SocialButtons({ onStart, onError }: SocialButtonsProps) 
                     name: userName,
                     email: userEmail,
                     image: userAvatar,
+                    role: userRole,
                     token: data.access_token,
                     refresh_token: data.refresh_token
                 });

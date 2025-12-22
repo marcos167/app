@@ -51,6 +51,7 @@ export default function SignupPage() {
                 auth.login({
                     name: formData.name,
                     email: formData.email,
+                    role: 'user', // New signups are always users
                     token: data.access_token,
                     refresh_token: data.refresh_token
                 });

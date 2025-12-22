@@ -127,6 +127,21 @@ export default function SideMenu({ isOpen, onClose }: SideMenuProps) {
                                     </Link>
                                 );
                             })}
+
+                            {/* Admin Link - Only visible for admin/moderator */}
+                            {user && ['admin', 'moderator'].includes(user.role?.toLowerCase() || '') && (
+                                <Link
+                                    href="/admin"
+                                    onClick={onClose}
+                                    className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl text-amber-400 hover:bg-amber-500/10 hover:text-amber-300 transition-all group border border-amber-500/20"
+                                >
+                                    <span className="text-lg">⚙️</span>
+                                    <span className="font-bold text-sm">Painel Admin</span>
+                                    <span className="ml-auto text-[10px] bg-amber-500/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                                        {user.role}
+                                    </span>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
