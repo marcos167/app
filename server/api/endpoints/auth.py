@@ -99,7 +99,7 @@ async def google_login(request: GoogleAuthRequest, session: Session = Depends(ge
         )
         
         # Generate Refresh Token (7 Days)
-        refresh_token_str = create_refresh_token()
+        refresh_token_str = create_refresh_token(data={"sub": user.email, "role": user.role})
         refresh_token_expires = datetime.utcnow() + timedelta(days=7)
         
         db_refresh_token = RefreshToken(
@@ -211,7 +211,7 @@ async def signup(request: SignupRequest, session: Session = Depends(get_session)
             expires_delta=access_token_expires
         )
         
-        refresh_token_str = create_refresh_token()
+        refresh_token_str = create_refresh_token(data={"sub": user.email, "role": user.role})
         refresh_token_expires = datetime.utcnow() + timedelta(days=7)
         
         db_refresh_token = RefreshToken(
@@ -277,7 +277,7 @@ async def login(request: LoginRequest, session: Session = Depends(get_session)):
             expires_delta=access_token_expires
         )
         
-        refresh_token_str = create_refresh_token()
+        refresh_token_str = create_refresh_token(data={"sub": user.email, "role": user.role})
         refresh_token_expires = datetime.utcnow() + timedelta(days=7)
         
         db_refresh_token = RefreshToken(
