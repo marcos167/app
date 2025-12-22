@@ -40,6 +40,30 @@ export default function TermsOfUsePage() {
                         </p>
                     </section>
 
+                    <section className="bg-[#1C1917] p-6 rounded-2xl border border-amber-500/20">
+                        <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                            <span className="bg-amber-500/20 w-8 h-8 rounded-lg flex items-center justify-center text-sm text-amber-400">
+                                <Users size={16} />
+                            </span>
+                            Idade Mínima e Menores de Idade
+                        </h2>
+                        <div className="bg-amber-500/10 p-4 rounded-xl border border-amber-500/20 mb-4">
+                            <p className="text-amber-200 font-bold mb-2">⚠️ Importante:</p>
+                            <p className="text-amber-100">
+                                O uso do Chefex é destinado a pessoas com <strong>13 anos ou mais</strong>.
+                            </p>
+                        </div>
+                        <ul className="space-y-3 leading-relaxed list-disc pl-5">
+                            <li><strong className="text-white">Menores de 13 anos:</strong> Não é permitido o cadastro ou uso da plataforma.</li>
+                            <li><strong className="text-white">Entre 13 e 18 anos:</strong> O uso é permitido apenas com consentimento verificável dos pais ou responsáveis legais.</li>
+                            <li><strong className="text-white">Responsabilidade:</strong> Pais ou responsáveis são responsáveis pelas atividades de menores sob sua supervisão.</li>
+                            <li><strong className="text-white">Monetização:</strong> Menores de 18 anos não podem participar do programa de monetização, exceto com representação legal documentada.</li>
+                        </ul>
+                        <p className="mt-4 text-sm text-stone-400">
+                            Ao criar uma conta, você declara ter pelo menos 13 anos de idade e, se menor de 18, possuir autorização dos responsáveis.
+                        </p>
+                    </section>
+
                     <section className="bg-[#1C1917] p-6 rounded-2xl border border-white/5">
                         <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                             <span className="bg-white/10 w-8 h-8 rounded-lg flex items-center justify-center text-sm">3</span>
